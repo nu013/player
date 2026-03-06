@@ -12,8 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
 
 <style>
-
-/* পুরো পেজ */
+/* পুরো পেজ শুধুমাত্র body black */
 html, body {
 margin:0;
 padding:0;
@@ -36,7 +35,7 @@ height:100%;
 object-fit:contain;
 }
 
-/* কন্ট্রোল clean রাখা */
+/* ভিডিও কন্ট্রোল clean রাখা */
 video::-webkit-media-controls-panel,
 video::-webkit-media-controls{
 background:transparent !important;
@@ -63,6 +62,13 @@ video::-webkit-media-controls-timeline{
 display:none !important;
 }
 
+/* iframe full size */
+iframe{
+width:100%;
+height:100%;
+border:none;
+display:none;
+}
 </style>
 </head>
 
@@ -73,53 +79,45 @@ display:none !important;
 <!-- ভিডিও প্লেয়ার -->
 <video id="video" controls autoplay playsinline></video>
 
-<!-- YouTube player container -->
+<!-- YouTube / External iframe container -->
 <div id="youtube"></div>
+<iframe id="iframePlayer"></iframe>
 
 </div>
 
-
 <script>
-
 /*
 ===============================
 URL PARAMETER SYSTEM
 ===============================
 
 m3u8 example
-
 player.html?url=https://site.com/video.m3u8
 
 mp4 example
-
 player.html?url=https://site.com/video.mp4
 
-php video example
+ts example
+player.html?url=https://site.com/video.ts
 
-player.html?url=https://site.com/video.php?id=123
+php / external iframe example
+player.html?url=https://site.com/video.php
 
 mpd without key
-
 player.html?mpd=https://site.com/video.mpd
 
 mpd with key
-
 player.html?mpd=https://site.com/video.mpd&keyid=XXXX&key=YYYY
 
 youtube example
-
 player.html?yt=VIDEOID
-
-example
-
-player.html?yt=dQw4w9WgXcQ
 
 ===============================
 */
 
 const params = new URLSearchParams(window.location.search);
 
-const url = params.get("url"); // m3u8 / mp4 / php
+const url = params.get("url"); // m3u8 / mp4 / ts / php / external
 const mpd = params.get("mpd"); // dash
 const keyid = params.get("keyid"); // dash key id
 const key = params.get("key"); // dash key
@@ -127,16 +125,14 @@ const yt = params.get("yt"); // youtube id
 
 const video = document.getElementById("video");
 const ytDiv = document.getElementById("youtube");
-
+const iframe = document.getElementById("iframePlayer");
 
 /* ================================
 YOUTUBE PLAYER
 ================================ */
-
 if(yt){
-
 video.style.display="none";
-
+iframe.style.display="none";
 ytDiv.innerHTML=`
 <iframe width="100%" height="100%"
 src="https://www.youtube.com/embed/${yt}?autoplay=1"
@@ -144,46 +140,41 @@ frameborder="0"
 allowfullscreen>
 </iframe>
 `;
-
 }
-
 
 /* ================================
 HLS m3u8 PLAYER
 ================================ */
-
 else if(url && url.includes(".m3u8")){
 
+ytDiv.style.display="none";
+iframe.style.display="none";
+video.style.display="block";
+
 if(Hls.isSupported()){
-
 const hls=new Hls();
-
 hls.loadSource(url);
-
 hls.attachMedia(video);
-
+video.play().catch(()=>{}); // auto play try
 }
-
 else if(video.canPlayType("application/vnd.apple.mpegurl")){
-
 video.src=url;
-
+video.play().catch(()=>{});
 }
-
 }
-
 
 /* ================================
 DASH MPD PLAYER
 ================================ */
-
 else if(mpd){
+ytDiv.style.display="none";
+iframe.style.display="none";
+video.style.display="block";
 
 const player=new shaka.Player(video);
 
 /* যদি key থাকে */
 if(keyid && key){
-
 player.configure({
 drm:{
 clearKeys:{
@@ -191,41 +182,45 @@ clearKeys:{
 }
 }
 });
-
 }
 
-/* mpd load */
-
-player.load(mpd);
-
+player.load(mpd).then(()=>{video.play().catch(()=>{});});
 }
-
 
 /* ================================
-NORMAL VIDEO (mp4 / php / other)
+NORMAL VIDEO (mp4 / ts / php / other)
 ================================ */
-
-else if(url){
+else if(url && (url.endsWith(".mp4") || url.endsWith(".ts"))){
+ytDiv.style.display="none";
+iframe.style.display="none";
+video.style.display="block";
 
 video.src=url;
+video.play().catch(()=>{});
+}
 
+/* ================================
+IFRAME / EXTERNAL EMBED SUPPORT
+যেমন .php / external embed / HTML page
+================================ */
+else if(url){
+ytDiv.style.display="none";
+video.style.display="none";
+iframe.style.display="block";
+iframe.src=url;
 }
 
 </script>
 
-
 <script>
-
 /*
 ========================================
 KEYBOARD SHORTCUT SYSTEM
 ========================================
-
 ArrowUp = Volume Up
 ArrowDown = Volume Down
 M = Mute / Unmute
 Space / Enter = Play Pause
-
 ========================================
 */
 
@@ -234,63 +229,38 @@ document.addEventListener("DOMContentLoaded", () => {
 const video=document.getElementById("video");
 
 /* keyboard listener */
-
 document.addEventListener("keydown",function(e){
-
 const tag=document.activeElement.tagName.toLowerCase();
-
 if(tag==="input"||tag==="textarea")return;
 
-
 /* volume up */
-
 if(e.key==="ArrowUp"){
-
 e.preventDefault();
-
 video.volume=Math.min(video.volume+0.1,1);
-
 }
-
 
 /* volume down */
-
 if(e.key==="ArrowDown"){
-
 e.preventDefault();
-
 video.volume=Math.max(video.volume-0.1,0);
-
 }
-
 
 /* mute toggle */
-
 if(e.key==="m"||e.key==="M"){
-
 e.preventDefault();
-
 video.muted=!video.muted;
-
 }
-
 
 /* play pause */
-
 if(e.code==="Space"||e.keyCode===32||e.key==="Enter"){
-
 e.preventDefault();
-
 if(video.paused)video.play();
-
 else video.pause();
-
 }
 
 });
 
 });
-
 </script>
 
 </body>
