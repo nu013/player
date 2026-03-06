@@ -1,0 +1,30 @@
+[
+  {
+    "id": "CH 1",
+    "img": "https://i.imgur.com/VM0a8Ny.png",
+    "link": "https://uddinsp.blogspot.com/p/embed-football-1.html",
+    "countdown": 5,
+    "categories": ["football"]
+  },
+  {
+    "id": "CH 2",
+    "img": "https://i.imgur.com/ilay5Jr.png",
+    "link": "https://uddinsp.blogspot.com/p/embed-football-2.html",
+    "countdown": 5,
+    "categories": ["football"]
+  },
+  {
+    "id": "CH 3",
+    "img": "https://i.imgur.com/nnqpYNm.png",
+    "link": "https://uddinsp.blogspot.com/p/embed-football-3.html",
+    "countdown": 5,
+    "categories": ["football"]
+  },
+  {
+    "id": "CH 46",
+    "img": "https://www.jagobd.com/wp-content/uploads/2015/12/atnmusic.jpg?x50681",
+    "link": "https://uddinsp.blogspot.com/p/embed-bangla-11.html",
+    "countdown": null,
+    "categories": ["bangla"]
+  }
+]
