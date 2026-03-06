@@ -1,466 +1,228 @@
-[
-  
-   {
-    "id": "CH 1",
-    "img": "png",
-    "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/willowcricket.php",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   {
-    "id": "CH 2",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   {
-    "id": "CH 3",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
+{
+  "channels": [
     {
-    "id": "CH 4",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
+      "id": 1,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSiggzH6CBXvkqWPl4UW7KIKmjb8D-BGF9vSH0ZpwWzyBpj_WrHGv7hPwGO2TrjV6uHgGgSMMmYDAFhyMRTiNeHYqPX0kuLxKoAJf3q5dxm_ExXcAn1EJ2LPj3dBCRq2Uyg_yQEflXuFHA1amlY89x8o14ZZHuWFbJ4C-UOViOdHInhoHBcfGvOpfgBtc/s60/SKY%20Footboll.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-1.html",
+      "countdown": "5",
+      "category": "football"
+    },
     {
-    "id": "CH 5",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 6",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 7",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 8",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 9",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 10",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 11",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 12",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 13",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 14",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 15",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 16",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 17",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 18",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 19",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 20",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 21",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 22",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 23",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 24",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 25",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 26",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 27",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 28",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 29",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 30",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 31",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 32",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 33",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 34",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 35",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 36",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 37",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 38",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 39",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //BANGLAVISON
-   {
-    "id": "CH 40",
-    "img": "png",
-    "link": "https://asmaakther.github.io/player/player.html?url=https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8",
-    "countdown": null,
-    "categories": [bingla]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 41",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 42",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 43",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 44",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 45",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-  
-  // CHANNEL
-  {
-    "id": "CH 46",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 47",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-  // CHANNEL
-  {
-    "id": "CH 48",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //  CHANNEL 
-   {
-    "id": "CH 49",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": ["football"]
-  },
-
-   //   CHANNEL
-   {
-    "id": "CH 50",
-    "img": "png",
-    "link": "https",
-    "countdown": null,
-    "categories": [football]
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-]
+      "id": 2,
+      "img": "https://i.imgur.com/ilay5Jr.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-2.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 3,
+      "img": "https://i.imgur.com/nnqpYNm.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-3.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 4,
+      "img": "https://i.imgur.com/l0rGLan.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-4.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 5,
+      "img": "https://i.imgur.com/mrZwamR.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-5.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 6,
+      "img": "https://i.imgur.com/0A6bP0g.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-6.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 7,
+      "img": "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_SPORTS_TEN_1/images/LOGO_HD/image.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-7.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 8,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlqIEw824sBdcgq47u-s4i6mOgvNZ_t4IQoMc8FDS729trAveoRXK4AArodw7AZHG_L2VS7vymdc2RpsMz_tTn-BiFAIXzqyvdTBSt0a4riLkNKajZVP2Pi7doW2kf7SpuFIQCNlpB1iHfXmn0-yQb3zAJbSE0ckNLrEdFxb4MdVxliDP-WFMOBnRPrfE/s1600/BEIN%20SP.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-8.html",
+      "countdown": "5",
+      "category": "football"
+    },
+    {
+      "id": 13,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhErQ9uKVHR0_Gh52xR_Jr0sz9F8h5oiNGxMQPSlawYAfv2PANzS16lna7BD9Qu9XrFLLn62oQocj5zlk9qcvQa5aPjeDiQXAV2bAqsTNYHnmEIUxddjNNJU2_-aj_VPmSdSq4Jqerp1ReT48a1jF-XsJYxKNt7UuMqV3rDJPAfxoNXJaCM0KXt0nJA1X4/s1600/MATCH%20LIST.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-football-13.html",
+      "countdown": "",
+      "category": "football"
+    },
+    {
+      "id": 14,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXUlYW5rv8dPZVfk4ziNhlpcOlhKxWug23qb7YJHTnoUmxAJD3cTCQTR1aO9NvHDjzVQxAVY14iONGDy8WAbUwwJ0DPQ9USjhwRWVRTfvJicbphHM-r0CbGktJjtXvTuvXl9ifXIY8ADyL202O2bxtc8bmBPMQ0OzeXwuvbyWfi2M2qRKiCNl2ExZCvhg/s1600/willow%20cricket.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-cricket-1.html",
+      "countdown": "6",
+      "category": "cricket"
+    },
+    {
+      "id": 15,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQr4ZCgIcMAiJQ0PH5Toh0aAWz3FcV4YQL8t1pdEVLoN04NxGa-8BrsjDYR4mCgs2eWqwxAEI0oBPz0MbRaqEoGQRfQVSgmx02cfSkeBTSg7IlnEG7L1pqnRyZLDC_6TFDshRxo2a_vqdVWZufwyzDCFZ5CeH0LyfL5TYgFqNJQS5_pYQVpxldVZrdQh0/s1600/PTV%20SPORTS.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-cricket-2.html",
+      "countdown": "6",
+      "category": "cricket"
+    },
+    {
+      "id": 17,
+      "img": "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_STAR_SPORTS_1_HINDI/images/LOGO_HD/image.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-cricket-4.html",
+      "countdown": "6",
+      "category": "cricket"
+    },
+    {
+      "id": 20,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmBEYjilAQJ466p2QLn-76J1VH1lMjqQlkKp5n7weDkjqtJSIk-7qqWFGAJAFpw7p1mgQ8NuVhZHXCi3vDTX6dmGKnEsNy4ZkRx5X2rEqEc8z5jYo38XHQGMDfhz1fUu1mdSyZD9U8fOseYouxFxGH2NmrUoG9JMw0t-htGHPuEap8PFOQng9HarH4uh8/s1600/AND%20pictures.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-1.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 21,
+      "img": "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_MOVIES_NOW/images/LOGO_HD/image.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-2.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 22,
+      "img": "https://dtil.tmsimg.com/assets/s142695_ld_h15_aa.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-3.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 24,
+      "img": "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_GOLDMINES/images/LOGO_HD/image.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-5.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 25,
+      "img": "https://www.lyngsat.com/logo/tv/gg/goldmines-2-in.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-6.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 27,
+      "img": "https://jiotvimages.cdn.jio.com/dare_images/images/YRF_Music.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-hindi-8.html",
+      "countdown": "",
+      "category": "hindi"
+    },
+    {
+      "id": 29,
+      "img": "https://i.imgur.com/1ENdbZn.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-english-1.html",
+      "countdown": "",
+      "category": "english"
+    },
+    {
+      "id": 31,
+      "img": "https://upload.wikimedia.org/wikipedia/fa/thumb/f/f2/IRIB_tamashaTV.svg/240px-IRIB_tamashaTV.svg.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-english-3.html",
+      "countdown": "",
+      "category": "english"
+    },
+    {
+      "id": 32,
+      "img": "https://images-2.rakuten.tv/storage/global-live-channel/translation/artwork/22c730ab-2e9f-47dc-b35a-ad8c081fec40-width200-quality90.jpeg",
+      "link": "https://uddinsp.blogspot.com/p/embed-english-4.html",
+      "countdown": "",
+      "category": "english"
+    },
+    {
+      "id": 36,
+      "img": "https://i.imgur.com/X0JJlOX.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-1.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 37,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVcYGAanYPzqhyphenhyphensi_3Xob1D5cH6rSis_e75Hfr7BtnlleuMntSw1R8F05UjuUXu55BSV60X_0MLEGpZgfP4o84L2xUGQ7tzOiUto5e7LH40s0AsHk2VQ38jEMO3N_CM6m74RHFx1Jw1c9T90UdEapYdJjm7RREv0f4Ip9TFJVZoR-1kRJgC5YvmhXQJuk/s1600/zee%20bangla.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-2.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 38,
+      "img": "https://i.imgur.com/i54AQic.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-3.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 39,
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjRowLkYHhWys7BjaSkd22U4Gn0ZU7iyRMU8bvNOyFc63Irkz4adbUMB1romnJ-DcUwyoSwQcW152GAPCbiWGhVy_I0d_iaCIs3ZWrbnd1RA9oVExAMI2R2IbXYRLQEiAeToKqMDZQOBz_K47eLlbbxOoGnTGeTk-9g4U0lAuLaHL2VXQiT2zLyXE2h6GQ/s1600/jamuna%20tv.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-4.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 40,
+      "img": "https://cdn.ekattorbd.com/contents/themes/public/style/images/logo.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-5.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 41,
+      "img": "https://i.imgur.com/nCWgp38.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-6.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 42,
+      "img": "https://europentv.ntvbd.com/sites/all/themes/sloth/logo.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-7.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 43,
+      "img": "https://i.imgur.com/vFpjggf.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-11.html",
+      "countdown": "",
+      "category": "bangla"
+    },
+    {
+      "id": 44,
+      "img": "https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-8.html",
+      "countdown": "3",
+      "category": "bangla"
+    },
+    {
+      "id": 45,
+      "img": "https://jiotvimages.cdn.jio.com/dare_images/images/Amaar_Bangla.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-9.html",
+      "countdown": "3",
+      "category": "bangla"
+    },
+    {
+      "id": 46,
+      "img": "https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Sangeet%20Bangla.png",
+      "link": "https://uddinsp.blogspot.com/p/embed-bangla-10.html",
+      "countdown": "5",
+      "category": "bangla"
+    }
+  ]
+}
