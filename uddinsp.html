@@ -1,0 +1,819 @@
+<html>
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Panel</title>
+
+<style>
+body{
+    margin:0;
+    background:#111;
+    font-family:Arial;
+    color:yellow;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+/* LOGO */
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    padding:10px;
+    letter-spacing: 2px;
+
+}
+
+/* PLAYER */
+.player-wrapper{
+    position:relative; /* aspect-ratio:16/9; */
+    width:768px;
+    margin:auto;
+}
+
+iframe{
+    width:768px; /* 100%; */
+    height:320px; /* 100%; */
+    border:3px solid yellow;
+    display:block;
+    position:relative; 
+    z-index:1;
+    background:transparent;
+}
+
+/* CONTROL BUTTONS */
+.control-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.6);
+    color:yellow;
+    border:2px solid yellow;
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:10;
+    font-size:22px;
+    transition: 0.3s;
+  
+}
+
+  
+.control-btn:hover {
+   font-size:26px;  /* transform:scale(1.3); */
+}
+  /* ২. মাউস যখন ভিডিওর ওপর (playerBox) থাকবে */
+#videoBox.mouse-active .control-btn{
+   font-size:26px;  /* transform:scale(1.3); */
+}
+  
+.control-left{ left:10px; }
+.control-right{ right:10px; }
+
+.full-btn{
+    position:absolute;
+    z-index:10;
+    bottom:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.9);
+    border:2px solid yellow;
+    font-size:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition: 0.3s;
+}
+.full-btn:hover  {
+    transform:scale(1.2); /* transform: translateY(-2px); *//* হালকা লিফট ইফেক্ট */
+}
+  /* ২. মাউস যখন ভিডিওর ওপর (playerBox) থাকবে */
+#videoBox.mouse-active .full-btn {
+    transform:scale(1.2); /* transform: translateY(-2px); *//* হালকা লিফট ইফেক্ট */
+}
+.refresh-btn{
+    position: absolute;
+    bottom: 16px;      /* নিচ থেকে ১৫ পিক্সেল উপরে */
+    left: 35%;         /* মাঝখানে নিতে */
+    transform: translateX(-50%); /* নিখুঁত সেন্টার করার জন্য */
+    background: rgba(0, 0, 0, 0.2); /* হালকা কালো ব্যাকগ্রাউন্ড */
+    color: yellow;
+    border: 1px solid rgba(255, 255, 0, 0.5);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    z-index: 1001;     /* যেন ভিডিওর উপরে থাকে */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* opacity: 0.1;      ডিফল্ট ভাবে হালকা থাকবে */
+    transition: opacity 0.3s;
+    pointer-events: auto;
+}
+
+/* CATEGORY */
+.categories button{
+    background:#222;
+    color:yellow;
+    border:1px solid yellow;
+    padding:6px 10px;
+    margin:3px;
+    cursor:pointer;
+}
+.categories button:hover {
+    background:#333;
+  transform: translateY(-1px); /* হালকা লিফট ইফেক্ট */
+}
+.categories button.active{
+    background:yellow;
+    color:black;
+ }
+
+/* VIDEO LIST */
+.video-wrapper{
+    width:768px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:20px;
+}
+
+.video-container{
+   /*(SHOW CH BUTTON ONE LINE)
+    display:flex;
+    overflow-x:auto;         
+    overflow-y:hidden;
+    width:80%;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch;  
+    scrollbar-width:none;    
+   */
+  
+   /*(SHOW CH BUTTON ALL WITH GRID) 
+    display:grid;
+    grid-template-columns: repeat(8, 1fr); 
+    gap:2px;
+    margin:auto;
+    */
+   /*(SHOW CH BUTTON ALL) */
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    overflow:visible;  
+}
+  
+.video-container::-webkit-scrollbar{
+    display:none;           /*..... Chrome scrollbar hide */
+}
+.video-btn{
+    text-align:center;
+    margin:6px;
+    cursor:pointer;
+    min-width:70px;
+    border-radius: 10px;
+border:1px solid #333;
+  }
+.video-btn:hover {
+  transform: translateY(-2px); /* হালকা লিফট ইফেক্ট */
+  background: #222;
+}
+.video-btn.active {
+    border:1px solid lime;
+    border-bottom: 3px solid lime;
+    border-top: 3px solid lime;
+    background: #333;
+    transform: translateY(-0px);
+}
+.video-btn img{
+    margin:auto;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    display:block;
+}
+
+.video-btn.active img{
+    border:0px solid lime;
+    border-bottom: 0px solid lime;
+}
+
+.video-btn span{
+    font-size:12px;
+}
+
+.arrow{
+    font-size:26px;
+    cursor:pointer;
+    padding:10px;
+    user-select:none;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.player-wrapper{
+    width:100%;
+   aspect-ratio: 16 / 9;  /*👈 IF THIS WONT ADD WITH CHING CHING iframe{height:100%;*/
+}
+.video-wrapper{
+    width:100%;
+}
+.player-wrapper iframe{
+    width:100%;
+    height: 100%;  /*height:220px;*/
+    border: 0px solid ;
+    border-top: 1px solid yellow;
+    border-bottom: 1px solid yellow;
+  
+}
+/* CONTROL BUTTONS */
+.control-btn{
+    background:rgba(0,0,0,0.0);
+    border:0px solid yellow;
+    border-radius:0;
+}
+.control-left{ left:5px; }
+.control-right{ right:5px; }
+
+.full-btn{border:0px solid yellow;
+  }
+  
+  
+}
+  
+  
+  
+/* FULLSCREEN FIX */
+#videoBox:fullscreen{
+    width:100vw;
+    height:100vh;
+}
+
+#videoBox:fullscreen iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+#videoBox:-webkit-full-screen{
+    width:100vw;
+    height:100vh;
+}
+
+#videoBox:-webkit-full-screen iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+/* ===============================
+   TEXT ANIMATION LOADER (WEB STYLE)
+   =============================== */
+
+.loading-text-anim {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    yellow 50%,
+    #000 100%
+  );
+  background-size: 300% 100%;
+  background-position: 0% center;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 3s linear infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+@keyframes shine {
+  0% {
+    background-position: 300% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="logo"id="logo">YELLOW STREAM</div>
+
+<div class="player-wrapper" id="videoBox">
+  
+  
+             <!-- 👇 এইটা নিচে থাকবে -->
+    <div class="loading-text-anim" 
+    style=" position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:yellow;font-size:26px; z-index:0;"> UDDINsp APP </div>
+  
+    <iframe allow="autoplay; fullscreen; encrypted-media" allowfullscreen="" id="player" playsinline="" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-presentation" scrolling="no">   </iframe>
+
+    <div class="control-btn control-left" onclick="prevVideo()">❮</div>
+    <div class="control-btn control-right" onclick="nextVideo()">❯</div>
+    <div class="full-btn" onclick="toggleFull()">⛶</div>
+  
+   <div class="refresh-btn" onclick="refreshVideo()" style="background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid yellow; color: #9aff00; cursor: pointer; font-size: 15px; padding: 1px 5px;">
+      <svg onclick="refreshVideo()" style="cursor: pointer; fill: #9aff00; height: 24px; width: 24px;" viewbox="0 0 24 24">
+  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z">
+</path></svg> 
+    Refresh
+  </div>
+  
+    <!-- Countdown overlay -->
+ <div id="countdownDiv" style="background: rgba(0,0,0,0.5); border-radius: 10px; color: white; display: none; font-size: 50px; left: 50%; padding: 20px; position: absolute; text-align: center; top: 50%; transform: translate(-50%,-50%); z-index: 9999;">5</div>
+</div>
+
+<div class="categories">
+    <button class="active" onclick="filterCategory('all',this)">ALL</button>
+    <button onclick="filterCategory('football',this)">FOOTBALL</button>
+    <button onclick="filterCategory('cricket',this)">CRICKET</button>
+    <button onclick="filterCategory('hindi',this)">HINDI</button>
+    <button onclick="filterCategory('english',this)">ENGLISH</button>
+    <button onclick="filterCategory('bangla',this)">BANGLA</button>
+</div>
+<!-- (SHOW CH BUTTON ONE LINE)...
+<div class="video-wrapper">
+    <div class="arrow" onclick="scrollPrev()">❮</div>
+    <div class="video-container" id="videoList"></div>
+    <div class="arrow" onclick="scrollNext()">❯</div>
+</div>
+-->
+<div class="video-wrapper">
+    <div class="video-container" id="videoList"></div>
+</div>
+  
+<script>
+var currentCategory = "all";
+var currentIndex = 0;
+var countdownInterval = null;
+var videoLinkData = {};
+
+var videos = [
+  {name:"CH 1", categories:[""], link:"", countdown: null},
+  {name:"CH 2", categories:[""], link:"", countdown: null},
+  {name:"CH 3", categories:[""], link:"", countdown: null},
+  {name:"CH 4", categories:[""], link:"", countdown: null},
+  {name:"CH 5", categories:[""], link:"", countdown: null},
+  {name:"CH 6", categories:[""], link:"", countdown: null},
+  {name:"CH 7", categories:[""], link:"", countdown: null},
+  {name:"CH 8", categories:[""], link:"", countdown: null},
+  {name:"CH 9", categories:[""], link:"", countdown: null},
+  {name:"CH 10", categories:[""], link:"", countdown: null},
+  {name:"CH 11", categories:[""], link:"", countdown: null},
+  {name:"CH 12", categories:[""], link:"", countdown: null},
+  {name:"CH 13", categories:[""], link:"", countdown: null},
+  {name:"CH 14", categories:[""], link:"", countdown: null},
+  {name:"CH 15", categories:[""], link:"", countdown: null},
+  {name:"CH 16", categories:[""], link:"", countdown: null},
+  {name:"CH 17", categories:[""], link:"", countdown: null},
+  {name:"CH 18", categories:[""], link:"", countdown: null},
+  {name:"CH 19", categories:[""], link:"", countdown: null},
+  {name:"CH 20", categories:[""], link:"", countdown: null},  
+  {name:"CH 21", categories:[""], link:"", countdown: null},
+  {name:"CH 22", categories:[""], link:"", countdown: null},
+  {name:"CH 23", categories:[""], link:"", countdown: null},
+  {name:"CH 24", categories:[""], link:"", countdown: null},
+  {name:"CH 25", categories:[""], link:"", countdown: null},
+  {name:"CH 26", categories:[""], link:"", countdown: null},
+  {name:"CH 27", categories:[""], link:"", countdown: null},
+  {name:"CH 28", categories:[""], link:"", countdown: null},
+  {name:"CH 29", categories:[""], link:"", countdown: null},
+  {name:"CH 30", categories:[""], link:"", countdown: null},
+  {name:"CH 31", categories:[""], link:"", countdown: null},
+  {name:"CH 32", categories:[""], link:"", countdown: null},
+  {name:"CH 33", categories:[""], link:"", countdown: null},
+  {name:"CH 34", categories:[""], link:"", countdown: null},
+  {name:"CH 35", categories:[""], link:"", countdown: null},
+  {name:"CH 36", categories:[""], link:"", countdown: null},
+  {name:"CH 37", categories:[""], link:"", countdown: null},
+  {name:"CH 38", categories:[""], link:"", countdown: null},
+  {name:"CH 39", categories:[""], link:"", countdown: null},
+  {name:"CH 40", categories:[""], link:"", countdown: null},
+  {name:"CH 41", categories:[""], link:"", countdown: null},
+  {name:"CH 42", categories:[""], link:"", countdown: null},
+  {name:"CH 43", categories:[""], link:"", countdown: null},
+  {name:"CH 44", categories:[""], link:"", countdown: null},
+  {name:"CH 45", categories:[""], link:"", countdown: null},
+  {name:"CH 46", categories:[""], link:"", countdown: null},
+  {name:"CH 47", categories:[""], link:"", countdown: null},
+  {name:"CH 48", categories:[""], link:"", countdown: null},
+  {name:"CH 49", categories:[""], link:"", countdown: null},
+  {name:"CH 50", categories:[""], link:"", countdown: null}, 
+  {name:"CH 51", categories:[""], link:"", countdown: null},
+  {name:"CH 52", categories:[""], link:"", countdown: null},
+  {name:"CH 53", categories:[""], link:"", countdown: null},
+  {name:"CH 54", categories:[""], link:"", countdown: null},
+  {name:"CH 55", categories:[""], link:"", countdown: null},
+  {name:"CH 56", categories:[""], link:"", countdown: null},
+  {name:"CH 57", categories:[""], link:"", countdown: null},
+  {name:"CH 58", categories:[""], link:"", countdown: null},
+  {name:"CH 59", categories:[""], link:"", countdown: null},
+  {name:"CH 60", categories:[""], link:"", countdown: null},
+  {name:"CH 61", categories:[""], link:"", countdown: null},
+  {name:"CH 62", categories:[""], link:"", countdown: null},
+  {name:"CH 63", categories:[""], link:"", countdown: null},
+  {name:"CH 64", categories:[""], link:"", countdown: null},
+  {name:"CH 65", categories:[""], link:"", countdown: null},
+  {name:"CH 66", categories:[""], link:"", countdown: null},
+  {name:"CH 67", categories:[""], link:"", countdown: null},
+  {name:"CH 68", categories:[""], link:"", countdown: null},
+  {name:"CH 69", categories:[""], link:"", countdown: null},
+  {name:"CH 70", categories:[""], link:"", countdown: null},
+  {name:"CH 71", categories:[""], link:"", countdown: null},
+  {name:"CH 72", categories:[""], link:"", countdown: null},
+  {name:"CH 73", categories:[""], link:"", countdown: null},
+  {name:"CH 74", categories:[""], link:"", countdown: null},
+  {name:"CH 75", categories:[""], link:"", countdown: null},
+  {name:"CH 76", categories:[""], link:"", countdown: null},
+  {name:"CH 77", categories:[""], link:"", countdown: null},
+  {name:"CH 78", categories:[""], link:"", countdown: null},
+  {name:"CH 79", categories:[""], link:"", countdown: null},
+  {name:"CH 80", categories:[""], link:"", countdown: null},
+];
+
+
+// ===== FETCH EXTERNAL DATA =====
+fetch("https://aman007power.blogspot.com/p/80-button-video-external-page-for.html")
+.then(res => res.text())
+// ===== AFTER FETCH EXTERNAL DATA =====
+.then(html => {
+
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(html, "text/html");
+    let pre = doc.querySelector("pre#dataBlock");
+
+    if(!pre){
+        console.log("❌ dataBlock not found!");
+        return;
+    }
+
+    let lines = pre.textContent.trim().split("\n");
+
+    // Keep only channels existing in external page
+    let externalChannels = [];
+
+    lines.forEach(line => {
+
+        line = line.trim();
+        if(!line || !line.includes("=")) return;
+
+        let [ch, rest] = line.split("=");
+        let parts = rest.split("|");
+
+        let chName = ch.trim();
+        externalChannels.push(chName);
+
+        let videoObj = videos.find(v => v.name === chName);
+        if(!videoObj) return;
+
+        videoObj.img = parts[0]?.trim() || "";
+        videoObj.link = parts[1]?.trim() || "";
+
+        let sec = parseInt(parts[2]);
+        videoObj.countdown = (!isNaN(sec) && sec > 0) ? sec : null;
+
+        videoObj.categories = parts[3]
+            ? parts[3].split(",").map(c => c.trim())
+            : [];
+    });
+
+    // 🔹 filter main videos array to only keep channels present in external page
+    videos = videos.filter(v => externalChannels.includes(v.name));
+
+    console.log("✅ External data loaded and filtered:", videos);
+
+    renderButtons();
+    loadVideo(0);
+});
+
+// ===== FILTER =====
+function getFiltered(){
+    return videos.filter(v =>
+        currentCategory==="all" ||
+        v.categories.includes(currentCategory)
+    );
+}
+
+
+// ===== LOAD VIDEO =====
+function loadVideo(index) {
+
+    var filtered = getFiltered();
+    if(filtered.length === 0) return;
+
+    // Safe loop index
+    if(index >= filtered.length) index = 0;
+    if(index < 0) index = filtered.length - 1;
+
+    currentIndex = index;
+
+    // Scroll to video section
+    document.getElementById("logo")
+        .scrollIntoView({behavior:"smooth", block:"start"});
+
+    // Stop previous video if function exists
+    if(typeof killEverything === "function"){
+        killEverything();
+    }
+
+    // Stop old countdown
+    if(countdownInterval){
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+
+    document.getElementById("countdownDiv").style.display = "none";
+
+    let videoData = filtered[index];
+    let videoUrl = videoLinkData?.[videoData.name.trim()] || videoData.link;
+
+    // ❌ যদি link না থাকে → কিছুই করবে না
+    if(!videoUrl || videoUrl.trim() === ""){
+        return;
+    }
+
+    // Countdown start (if exists)
+    if(videoData.countdown && videoData.countdown > 0){
+        startCountdown(videoData.countdown);
+    }
+
+    // Force reload iframe cleanly
+    let mainPlayer = document.getElementById("player");
+
+    mainPlayer.src = "";
+    setTimeout(() => {
+        mainPlayer.src = videoUrl;
+    }, 150);
+
+    updateActive();
+}
+
+// ===== RENDER BUTTONS =====
+function renderButtons(){
+    var list=document.getElementById("videoList");
+    list.innerHTML="";
+    var filtered=getFiltered();
+
+    filtered.forEach((v,index)=>{
+        let div=document.createElement("div");
+        div.className="video-btn";
+
+        div.innerHTML=`
+        <img src="${v.img || 'https://placehold.co/60x60/ddd/999?text=no%0Aposter'}" 
+             onerror="this.src='https://placehold.co/60x60/ddd/999?text=no%0Aposter'">
+        <span>${v.name}</span>`;
+
+        div.onclick=function(){
+            loadVideo(index);
+        };
+
+        list.appendChild(div);
+    });
+
+    updateActive();
+}
+
+
+// ===== UPDATE ACTIVE =====
+function updateActive(){
+    document.querySelectorAll(".video-btn")
+    .forEach(btn=>btn.classList.remove("active"));
+
+    var btns=document.querySelectorAll(".video-btn");
+    if(btns[currentIndex]) btns[currentIndex].classList.add("active");
+}
+
+
+// ===== CATEGORY BUTTON =====
+function filterCategory(cat,btn){
+    currentCategory=cat;
+    currentIndex=0;
+
+    document.querySelectorAll(".categories button")
+    .forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    renderButtons();
+    loadVideo(0);
+}
+
+
+// ===== COUNTDOWN =====
+function startCountdown(seconds){
+
+    const div=document.getElementById("countdownDiv");
+
+    div.style.display="block";
+    div.innerText=seconds;
+
+    countdownInterval=setInterval(()=>{
+        seconds--;
+        if(seconds>0){
+            div.innerText=seconds;
+        }else{
+            clearInterval(countdownInterval);
+            countdownInterval=null;
+            div.style.display="none";
+        }
+    },1000);
+}
+</script>
+  
+<script>
+/* ======================
+   SCROLL SYSTEM
+====================== */
+function scrollNext(){
+    document.getElementById("videoList").scrollBy({left:200, behavior:"smooth"});
+}
+
+function scrollPrev(){
+    document.getElementById("videoList").scrollBy({left:-200, behavior:"smooth"});
+}
+
+function nextVideo(){ loadVideo(currentIndex+1); }
+function prevVideo(){ loadVideo(currentIndex-1); }
+
+function filterCategory(cat, btn){
+    currentCategory = cat;
+    currentIndex = 0; // reset index
+    document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    renderButtons();
+
+    // page top এ নিয়ে যাবে
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    // নতুন category এর প্রথম ভিডিও auto load
+    loadVideo(0);
+}
+
+/* ===== REFRESH BUTTON ===== */
+function refreshVideo(){
+    var player = document.getElementById("player");
+    var src = player.src;
+    player.src = "";
+    setTimeout(()=>{ player.src = src; }, 100);
+}
+
+/* ===== FULLSCREEN BUTTON ===== */
+function toggleFull(){
+    var box = document.getElementById("videoBox");
+    if(!document.fullscreenElement){
+        box.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+/* ===== KEYBOARD + TV ===== */
+document.addEventListener("keydown", function(e){
+    if(e.key === "ArrowRight") nextVideo();
+    if(e.key === "ArrowLeft") prevVideo();
+
+    const player = document.getElementById("player");
+    if(e.key === "Enter" || e.key === " "){ // Enter or Space
+        e.preventDefault();
+        if(player.src && !player.paused){ 
+            player.contentWindow.postMessage('pause','*'); 
+        } else {
+            player.contentWindow.postMessage('play','*');
+        }
+    }
+});
+
+/* ===== STOP WHEN HIDE ===== */
+document.addEventListener("visibilitychange", function(){
+    if(document.hidden){
+        document.getElementById("player").src = "";
+    }
+});
+
+/* ===== PAGE LOAD FLAG ===== */
+let firstLoadDone = false;
+
+window.onload = function(){
+    if(firstLoadDone) return; // prevent double load
+    firstLoadDone = true;
+
+    currentCategory = "all";
+
+    // ALL button active
+    document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+    document.querySelector(".categories button").classList.add("active");
+
+   // renderButtons();
+    //loadVideo(0); // প্রথম ভিডিও auto play
+};
+
+/* ===== FIRST USER TOUCH ===== */
+document.addEventListener("touchstart", function firstTouch(){
+    if(firstLoadDone) return;
+    loadVideo(0);
+    firstLoadDone = true;
+    document.removeEventListener("touchstart", firstTouch);
+});
+</script>
+  
+  
+<script>
+  
+  
+/* ===== Overlay Opacity Logic ===== */
+const playerBox = document.getElementById("videoBox");
+let overlayTimer;
+
+function handleInteraction() {
+    // মাউস নড়লে playerBox এ active ক্লাস যোগ হবে (CSS এর মাধ্যমে Next/Full বাটন উজ্জ্বল হবে)
+    playerBox.classList.add("mouse-active");
+
+    // আগের টাইমার ক্লিয়ার করা
+    clearTimeout(overlayTimer);
+
+    // ৫ সেকেন্ড (৫০০০ms) পর বাটনগুলো আবার হালকা (০.১) হয়ে যাবে
+    overlayTimer = setTimeout(() => {
+        playerBox.classList.remove("mouse-active");
+    }, 5000);
+}
+
+// মাউস নড়লে এবং টাচ করলে ফাংশনটি চলবে
+playerBox.addEventListener("mousemove", handleInteraction);
+playerBox.addEventListener("touchstart", handleInteraction);
+
+// মাউস ভিডিওর বাইরে চলে গেলে সাথে সাথে হালকা করে দেওয়া (ঐচ্ছিক)
+playerBox.addEventListener("mouseleave", () => {
+    playerBox.classList.remove("mouse-active");
+});
+  
+  
+  </script>
+<script>
+function killEverything() {
+
+    console.log("Killing player...");
+
+    const f = document.getElementById("player"); // <-- iframe id
+
+    // 🔴 Iframe Kill
+    if (f) {
+        f.src = "about:blank";
+        f.removeAttribute("src");
+    }
+
+    // 🔴 Timer stop
+    if (window.currentTimer) {
+        clearInterval(window.currentTimer);
+    }
+
+    // 🔴 HLS destroy (if any)
+    if (window.hls) {
+        window.hls.destroy();
+    }
+}
+
+/* ============================
+   👉 Page leave detect
+============================ */
+window.addEventListener("pagehide", killEverything);
+window.addEventListener("beforeunload", killEverything);
+
+/* ============================
+   👉 Mobile back / minimize detect
+============================ */
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        killEverything();
+        sessionStorage.setItem("needReload", "yes");  // mark for reload
+    } else {
+        if (sessionStorage.getItem("needReload") === "yes") {
+            sessionStorage.removeItem("needReload");
+            location.reload();   // 🔥 one time fresh reload
+        }
+    }
+});
+
+/* ============================
+   👉 Media Session (Mobile / TV)
+============================ */
+if ("mediaSession" in navigator) {
+    navigator.mediaSession.setActionHandler("play", null);
+    navigator.mediaSession.setActionHandler("pause", null);
+}
+</script>
+  
+</body>
+</html>
