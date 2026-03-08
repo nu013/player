@@ -22,25 +22,19 @@
     },
     {
       "id": "CH 4",
-      "img": "https://i.imgur.com/l0rGLan.png",
-      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/hub1.php",
+      "img": "https://i.imgur.com/lKjXwtG.png",
+      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/premier.php",
       "countdown": "5",
       "categories": ["football"]
     },
     {
       "id": "CH 5",
-      "img": "https://i.imgur.com/mrZwamR.png",
-      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/hub2.php",
+      "img": "https://i.imgur.com/UQeXWd2.png",
+      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/ch2.php",
       "countdown": "5",
       "categories": ["football"]
     },
-    {
-      "id": "CH 6",
-      "img": "https://i.imgur.com/0A6bP0g.png",
-      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/hub3.php",
-      "countdown": "5",
-      "categories": ["football"]
-    },
+
     {
       "id": "CH 7",
       "img": "https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_SPORTS_TEN_1/images/LOGO_HD/image.png",
@@ -55,6 +49,22 @@
       "countdown": "5",
       "categories": ["football"]
     },
+
+    {
+      "id": "CH 10",
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjSM8a1sqyqHkxPyE62yVoDW4N7xDzQqkcNHmvd3bOpuEob5BQ0bTlvnrtK7-mh3ynTRYfMEirdW8xQPeu5QtSuhWW6Ln1vVpuBHOJXQSe36oUakrVhwEvOUn20zHmQKVjcXxO-MCuSKp6HoZ0SO_UWE7-jk9Bn7PAZ_W2gxQ5blfuVV49YWGZkLpuUc-4/s1600/tnt%201.png",
+      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/bt1.php",
+      "countdown": "5",
+      "categories": ["football"]
+    },
+    {
+      "id": "CH 11",
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnI2KIRVWBCGA-BPbP25BcCuFQn8apvR9ykUxHmJltX26Bl0E1uqHxn5rAkSRFdOutxzpn3qSCEkfQeJm8cFgFxASXHEeqyvDO3nZezFJjlml6h9_GSt8HkPfiFsJZP8ZNROnzWDPchRT8FqyHwtOalxyi8PeMqX57uJOe6qGxIsZSSxnb1r5zuWcjj3A/s1600/tnt%202.png",
+      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/bt2.php",
+      "countdown": "5",
+      "categories": ["football"]
+    },
+    
     {
       "id": "CH 13",
       "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhErQ9uKVHR0_Gh52xR_Jr0sz9F8h5oiNGxMQPSlawYAfv2PANzS16lna7BD9Qu9XrFLLn62oQocj5zlk9qcvQa5aPjeDiQXAV2bAqsTNYHnmEIUxddjNNJU2_-aj_VPmSdSq4Jqerp1ReT48a1jF-XsJYxKNt7UuMqV3rDJPAfxoNXJaCM0KXt0nJA1X4/s1600/MATCH%20LIST.png",
@@ -64,13 +74,20 @@
     },
     {
       "id": "CH 14",
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlpXJDcyHlGKjtTdrdBcyf4kSn5JdG6-jQ_qRQgDAVwDuG1_lkc9oWby0K5ORbFn3haQXSf8jNVB1vdM2G_HKQfEKprx2q-8Sdr3ywUin6xtMchuMTWLg9S_kVYPZ6ZFdXfxyot3N8IyBT2mXkMmN1L4OCNwynokMC4LVhnXF6QnN4PRl0MQnmSmlyPYI/s1600/sky%20cricket.png",
+      "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/skys2.php",
+      "countdown": "6",
+      "categories": ["cricket"]
+    },
+    {
+      "id": "CH 15",
       "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXUlYW5rv8dPZVfk4ziNhlpcOlhKxWug23qb7YJHTnoUmxAJD3cTCQTR1aO9NvHDjzVQxAVY14iONGDy8WAbUwwJ0DPQ9USjhwRWVRTfvJicbphHM-r0CbGktJjtXvTuvXl9ifXIY8ADyL202O2bxtc8bmBPMQ0OzeXwuvbyWfi2M2qRKiCNl2ExZCvhg/s1600/willow%20cricket.png",
       "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/willowcricket.php",
       "countdown": "6",
       "categories": ["cricket"]
     },
     {
-      "id": "CH 15",
+      "id": "CH 16",
       "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQr4ZCgIcMAiJQ0PH5Toh0aAWz3FcV4YQL8t1pdEVLoN04NxGa-8BrsjDYR4mCgs2eWqwxAEI0oBPz0MbRaqEoGQRfQVSgmx02cfSkeBTSg7IlnEG7L1pqnRyZLDC_6TFDshRxo2a_vqdVWZufwyzDCFZ5CeH0LyfL5TYgFqNJQS5_pYQVpxldVZrdQh0/s1600/PTV%20SPORTS.png",
       "link": "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/ptv.php",
       "countdown": "6",
@@ -134,14 +151,14 @@
     },
     {
       "id": "CH 30",
-      "img": "https://upload.wikimedia.org/wikipedia/fa/thumb/f/f2/IRIB_tamashaTV.svg/240px-IRIB_tamashaTV.svg.png",
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidLj4N7PASfPC7giYTOciX9FBfVnn_Rhyphenhyphen2mExvnQJpDK0X_Wxeqoh3NYnZh6lLELwciHVjMglF54E72DpQBWRbe5R9teTLpWa2DMl9CP_Bch-8GgoVOO_DsFgJsljQo7p1iNR3IyPDmSKcBNGiV1XUyM9gHEjex8e4adlTW9RHzpVYP0WtaUnroIXJuRE/s1600/rokuten%201.png",
       "link": "https://asmaakther.github.io/player/player.html?url=https://0145451975a64b35866170fd2e8fa486.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-5987/master.m3u8",
       "countdown": "",
       "categories": ["english"]
     },
     {
       "id": "CH 31",
-      "img": "https://upload.wikimedia.org/wikipedia/fa/thumb/f/f2/IRIB_tamashaTV.svg/240px-IRIB_tamashaTV.svg.png",
+      "img": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkWtC4kzzhVu7ZNwgjB8Ff2ygOPR9Bl_sjSA3u7dvIeYU1TlH8VO5FvzthLHhw9BPUqk55Clz6H7VPNyK_0QgyXZMyogZ_6s5gdBFWwkSmRng7hHuHmociZse3EgV24OeYTE4t9A-cxRvPZDtDMTm5zEsmyMWTH2Jo26CM1qIe_WfTibixGRL7KKwoab8/s1600/rokuten%202.png",
       "link": "https://asmaakther.github.io/player/player.html?url=https://54045f0c40fd442c8b06df076aaf1e85.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6065/master.m3u8",
       "countdown": "",
       "categories": ["english"]
