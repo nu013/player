@@ -36,7 +36,8 @@ body{
     padding:15px;
     letter-spacing: 2px;
     text-align: center;
-}
+    display: none;/* logo in pc not show */
+  }
 
 /* PLAYER */
 .player-wrapper{
@@ -61,8 +62,8 @@ iframe{
     top:50%;
     transform:translateY(-50%);
     background:rgba(0,0,0,0.6);
-    color:rgba(225,225,0,0.2); 
-    border:2px solid yellow;
+    color:rgba(225,225,0,0.7); 
+    border:2px solid rgba(225,225,0,0.7);
     width:45px;
     height:45px;
     border-radius:50%;
@@ -104,7 +105,7 @@ iframe{
     justify-content:center;
     cursor:pointer;
     transition: 0.3s;
-    color:rgba(225,225,0,0.2);
+    color:rgba(225,225,0,0.7);
 }
 .full-btn:hover  {
     transform:scale(1.2); /* transform: translateY(-2px); *//* হালকা লিফট ইফেক্ট */
@@ -191,42 +192,45 @@ iframe{
 }
 .video-btn{
     text-align:center;
-    margin:9px;
+    margin:9px ;
     cursor:pointer;
-    min-width:70px;
+    /* min-width:70px;  */
     border-radius: 10px;
-    border:1px solid #333;
-background: #222;
+    border:2px solid #333;
+    background: #222;
   }
 .video-btn:hover {
-  transform: translateY(-1px); /* হালকা লিফট ইফেক্ট */
+  transform: translateY(-1px); 
   background: #1e1e1e;
 }
 .video-btn.active {
-    border-bottom: 3px solid lime;
+    border:2px solid lime;
+    border-bottom: 3px solid yellow;
     transform: translateY(-0px);
-  background: #000;
+    background: #000;
   
 }
 .video-btn img{
     margin:auto;
-    width:60px;
-    height:60px;
+    width:65px;
+    height:65px;
     border-radius:50%;
     display:block;
-  border:1px solid YELLOW;
+    border:2px solid #333;
 }
 
 .video-btn.active img{
-    border:3px solid lime;
-    border-bottom: 3px solid lime;
+    border:2px solid lime;
+    border-bottom: 2px solid lime;
 }
 
-.video-btn span{
-    font-size:12px;
+.video-btn div{
+    font-size:11px;
+    margin-top: -14px;
+  color: yellow;
 }
-.video-btn.active span{
-    color: lime;
+.video-btn.active div{
+     margin-top: - ;
 }
 .arrow{
     font-size:26px;
@@ -261,17 +265,30 @@ background: #222;
 .control-left{ left:5px; }
 .control-right{ right:5px; }
 
-.full-btn{background:rgba(0,0,0,0.0);border:0px solid yellow;
+.full-btn{background:rgba(0,0,0,0.0);border:0px solid yellow; 
   }
+  #videoBox.mouse-active .full-btn {
+   color:rgba(225,225,0,1);  border:0px solid rgba(225,225,1);
+}
+.video-btn {
+    border:2px solid #555;
+    background: #333;
+}
   
 .video-btn img{
     margin:auto;
-    width:45px;
-    height:45px;
+    width:59px;
+    height:59px;
     border-radius:50%;
     display:block;
-  border:2px solid yellow;
+    border:2px solid #555;
 }
+  
+.logo{
+
+    display: block;/* logo in pc not show but in mobile show*/
+  }
+  
   
 }
   
@@ -595,7 +612,7 @@ function renderButtons(){
         div.innerHTML=`
         <img src="${v.img || 'https://placehold.co/60x60/ddd/999?text=no%0Aimage'}" 
              onerror="this.src='https://placehold.co/60x60/ddd/999?text=no%0Aimage'">
-        <span>${v.name}</span>`;
+        <div >${v.name}</div>`;
 
         div.onclick=function(){
             loadVideo(index);
