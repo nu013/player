@@ -1,0 +1,383 @@
+  /* =========================================================
+   🔹 ১১. Manual Links (Sandbox Option সহ) { url: "https://...", sandbox: "full" } or "lite" or "none" or   // sandbox property বাদ { url: "https://...." }
+   ========================================================= */
+const manualLinks = {
+  
+    "matchTime live": [
+    { url: "https://aman007power.blogspot.com/p/enbed-match-time.html" }, ],
+  
+     "music-song live": [
+     { url: "https://d3kdywbtdfbp9z.cloudfront.net/v1/manifest/93ce20f0f52760bf38be911ff4c91ed02aa2fd92/dff423e0-3c82-46d6-9ecb-3baa96b5694a/4598c408-0e38-488c-9b64-fc845d1ea2b6/0.m3u8",  },
+     { url: "https://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/9x-jalwa/47bdb49d-f6f3-4927-a9ea-12c4c5afc732/0.m3u8",  },
+     { url: "https://mumt05.tangotv.in/SANGEETBANGLA/index.m3u8",   },
+     { url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/atnmusic.stream/playlist.m3u8",  },
+     { url: "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8",  },
+     { url: "https://tplay.live/originals/bengali-beats/index.m3u8" }, 
+         ],  
+  
+     "Korean-Drama live": [
+      { url: "https://aman007power.blogspot.com/p/embed-korean-drama-active.html" }, 
+         ], 
+     "&pictures LIVE": [
+      { url: "https://aman007power.blogspot.com/p/embed-andpictures.html" }, 
+         ],  
+     "N2TV live": [
+      { url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8" }, 
+      { url: "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/ntvuk00332211.stream/playlist.m3u8" }, 
+         ],
+     "ekhon-tv live": [
+      { url: "https://aman007power.blogspot.com/p/embed-ekhon-tv-bangla.html" }, 
+         ],
+     "Bengali Beats": [ 
+       { url: "https://tplay.live/originals/bengali-beats/index.m3u8" }, 
+          ],
+     "ZeeBangla live": [ 
+       { url: "https://aman007power.blogspot.com/p/embed-zeebangla.html" }, 
+       { url: "https://ultrashort.info/QTSVF0" }, 
+          ],
+     "Z-one live": [ 
+       { url: "https://4bc5d2b3.wurl.com/v1/asia_tv_limited_zeeworld_1/ohlscdn_us/V00000001/7200/HLS/playlist.m3u8" }, 
+           ],
+     "western-movie live": [ 
+       { url: "https://aegis-cloudfront-1.tubi.video/72b8dd6b-391b-401c-a3e4-03f9c29555c8/playlist.m3u8" }, 
+           ],
+  
+  
+    "football_chennel": [
+     { url: "https://streamcrichd.com/update/laligauk.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/skysfotb.php", sandbox: "lite" },   
+     { url: "https://spstr.abntv.live/hls/psstream.m3u8", },    
+     { url: "https://pepsi.abntv.live/hls/4spstream.m3u8", }, 
+     { url: "https://pepsi3.abntv.live/hls/psp3.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPrime/HLSv3-FTA/SPSPrime.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPlay/HLS-FTA/SPSPlay.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPlus/HLS-FTA/SPSPlus.m3u8", },
+     { url: "https://aegis-cloudfront-1.tubi.video/651ee7d3-e75b-4748-be86-422d43ff24b6/playlist.m3u8", },
+     { url: "https://streamcrichd.com/update/premier.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/ch2.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub3.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub4.php", sandbox: "lite" },
+     { url: "https://aman007power.blogspot.com/p/enbed-match-time.html" }, 
+     { url: "https://streamcrichd.com/update/bt1.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/bt2.php", sandbox: "lite" },
+
+
+          ],
+  
+     "premier LIVE": [
+     { url: "https://streamcrichd.com/update/premier.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/ch2.php", sandbox: "lite" },     
+         ],  
+     "premier_hub LIVE": [
+     { url: "https://streamcrichd.com/update/hub1.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub2.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub3.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub4.php", sandbox: "lite" },
+         ],  
+  
+     "TNT ALL LIVE": [
+     { url: "https://streamcrichd.com/update/bt1.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/bt2.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/bteu.php", sandbox: "lite" },
+     { url: "https://cdn-live.tv/api/v1/channels/player/?name=tnt+sports+4&code=gb&user=cdnlivetv&plan=free", sandbox: "lite" },      
+         ],
+    "LALIGA1 LIVE": [
+     { url: "https://streamcrichd.com/update/laligauk.php", sandbox: "lite" },
+     { url: "https://dlhd.link/stream/stream-276.php",   },
+     { url: "https://dlhd.link/player/stream-276.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-276.php", sandbox: "lite" },
+     { url: "https://rmtv.akamaized.net/hls/live/2043153/rmtv-es-web/bitrate_3.m3u8", },
+         ], 
+     "SKY-primier LIVE": [
+     { url: "https://crichdplayer.xyz/embed2.php?id=skysp5&amp;q=Sky", sandbox: "lite" },
+         ], 
+    "SKY1 LIVE": [
+     { url: "https://streamcrichd.com/update/skys1.php", sandbox: "lite" },
+     { url: "https://dlhd.link/stream/stream-38.php", },     
+     { url: "https://dlhd.link/player/stream-38.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-38.php",  sandbox: "lite" },
+         ], 
+     "BeINxtra1 LIVE": [
+     { url: "https://bdtv-bd.blogspot.com/p/embed-bein-xtra.html", },
+     { url: "https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8", },
+     { url: "https://dlhd.link/stream/stream-100.php", },     
+     { url: "https://dlhd.link/player/stream-100.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-100.php", sandbox: "lite" },
+         ],
+     "BeINusa LIVE": [
+     { url: "https://dlhd.link/stream/stream-425.php", },     
+     { url: "https://dlhd.link/player/stream-425.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-425.php", sandbox: "lite" },
+         ],
+    "BeIN1 LIVE": [
+     { url: "https://dlhd.link/stream/stream-91.php", },     
+     { url: "https://dlhd.link/player/stream-91.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-91.php", sandbox: "lite" },
+         ],
+    "BeIN2 LIVE": [
+     { url: "https://dlhd.link/stream/stream-92.php", }, 
+     { url: "https://dlhd.link/player/stream-92.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-92.php", sandbox: "lite" },
+          ],
+    "BeIN3 LIVE": [
+     { url: "https://dlhd.link/stream/stream-93.php", },
+     { url: "https://dlhd.link/player/stream-93.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-93.php", sandbox: "lite" },
+         ],
+    "BeIN4 LIVE": [
+     { url: "https://dlhd.link/stream/stream-94.php",  },
+     { url: "https://dlhd.link/player/stream-94.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-94.php", sandbox: "lite" },
+         ],
+    "BeIN5 LIVE": [
+     { url: "https://dlhd.link/stream/stream-95.php",  },
+     { url: "https://dlhd.link/player/stream-95.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-95.php", sandbox: "lite" },
+        ],
+    "LFC1 LIVE": [
+     { url: "https://dlhd.link/stream/stream-826.php",  },
+     { url: "https://dlhd.link/player/stream-826.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-826.php", sandbox: "lite" },
+        ],
+    "TNT1 LIVE": [
+     { url: "https://streamcrichd.com/update/bt1.php", sandbox: "lite" },
+     { url: "https://dlhd.link/stream/stream-31.php",  },
+     { url: "https://dlhd.link/player/stream-31.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-31.php", sandbox: "lite" },
+        ],
+    "ISPORTS1 LIVE": [ 
+     { url: "https://dlhd.link/player/stream-140.php", sandbox: "lite" },
+     { url: "https://bein-esp-xumo.amagi.tv/playlistR1080p.m3u8", },
+         ],
+    "FS2USA LIVE": [
+     { url: "https://dlhd.link/stream/stream-758.php",  },
+     { url: "https://dlhd.link/player/stream-758.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-758.php", sandbox: "lite" },
+        ],
+    "NOVA1 LIVE": [
+     { url: "https://dlhd.link/stream/stream-631.php",  },
+     { url: "https://dlhd.link/player/stream-631.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-631.php", sandbox: "lite" },
+        ],
+    "NOVA2 LIVE": [
+     { url: "https://dlhd.link/stream/stream-632.php",  },
+     { url: "https://dlhd.link/player/stream-632.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-632.php", sandbox: "lite" },
+        ],  
+     "DAZNla LIVE": [
+     { url: "https://dlhd.link/stream/stream-538.php",  },
+     { url: "https://dlhd.link/player/stream-538.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-538.php", sandbox: "lite" },
+        ],    
+     "ESPNdepo LIVE": [
+     { url: "https://dlhd.link/stream/stream-375.php",  },
+     { url: "https://dlhd.link/player/stream-375.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-375.php",  sandbox: "lite" },
+        ],  
+     "CBSgolazo LIVE": [
+     { url: "https://dlhd.link/stream/stream-910.php",  },
+     { url: "https://dlhd.link/player/stream-910.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-910.php", sandbox: "lite" },
+        ],   
+     "DAZNsp1 LIVE": [
+     { url: "https://dlhd.link/stream/stream-445.php",  },
+     { url: "https://dlhd.link/player/stream-445.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-445.php",  sandbox: "lite" },
+        ],
+     "DAZNbarDe1 LIVE": [
+     { url: "https://dlhd.link/stream/stream-426.php",  },
+     { url: "https://dlhd.link/player/stream-426.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-426.php",  sandbox: "lite" },
+        ],
+     "DAZNbarDe2 LIVE": [
+     { url: "https://dlhd.link/stream/stream-427.php",  },
+     { url: "https://dlhd.link/player/stream-427.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-427.php",  sandbox: "lite" },
+        ],
+     "DAZNitaly LIVE": [
+     { url: "https://dlhd.link/stream/stream-877.php",  },
+     { url: "https://dlhd.link/player/stream-877.php", sandbox: "lite" },
+     { url: "https://dlhd.link/casting/stream-877.php",  sandbox: "lite" },
+        ],
+
+  
+    "cricket_chennel": [
+   { url: "https://streamcrichd.com/update/willowcricket.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-270.php",  },
+   { url: "https://streamcrichd.com/update/ptv.php", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=starsp3&amp;q=Star", sandbox: "lite" },
+   { url: "https://streamcrichd.com/update/skys2.php", sandbox: "lite" },
+   { url: "https://streamcrichd.com/update/asportshd.php", sandbox:  "lite" },
+   { url: "https://streamcrichd.com/update/tensp.php", sandbox: "lite" },
+      ],
+    "ASPORTS1 LIVE": [
+   { url: "https://streamcrichd.com/update/asportshd.php", sandbox:  "lite" },
+   { url: "https://dlhd.link/stream/stream-269.php",  },
+   { url: "https://dlhd.link/player/stream-269.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-269.php", sandbox: "lite" },
+      ], 
+    "WILLOW1 LIVE": [
+   { url: "https://streamcrichd.com/update/willowcricket.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-346.php",  },
+   { url: "https://dlhd.link/player/stream-346.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-346.php", sandbox: "lite" },
+      ], 
+    "STARSPORTS1 LIVE": [
+   { url: "https://streamcrichd.com/update/star1hi.php", sandbox: "lite" },
+   { url: "https://streamcrichd.com/update/star.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-268.php",  },
+   { url: "https://dlhd.link/player/stream-268.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-268.php", sandbox: "lite" },
+      ], 
+    "PTVSPORTS1 LIVE": [
+   { url: "https://streamcrichd.com/update/ptv.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-450.php",  },
+   { url: "https://dlhd.link/player/stream-450.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-450.php", sandbox: "lite" },
+      ], 
+    "SKYCRICKET1 LIVE": [
+   { url: "https://dlhd.link/stream/stream-65.php",  },
+   { url: "https://dlhd.link/player/stream-65.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-65.php", sandbox: "lite" },
+      ], 
+    "ASTRO1 LIVE": [
+   { url: "https://dlhd.link/stream/stream-370.php",  },
+   { url: "https://dlhd.link/casting/stream-370.php", sandbox: "lite" },
+    { url: "https://dlhd.link/player/stream-370.php", sandbox: "lite" },
+      ], 
+    "TENSPORTS1 LIVE": [
+   { url: "https://daddylive.sx/stream/stream-741.php",  }, // use OTHER DOMIN LIVE
+   { url: "https://dlhd.link/player/stream-741.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-741.php",  sandbox: "lite" },
+      ], 
+    "FOXCRICKET1 LIVE": [
+   { url: "https://daddyhd.com/stream/stream-369.php",  }, // use MAIN DOMIN
+   { url: "https://dlhd.link/player/stream-369.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-369.php", sandbox: "lite" }, 
+      ], 
+    "SSPORTS1 LIVE": [
+    { url: "https://dlhd.link/casting/stream-368.php", sandbox: "lite" },
+       ],
+    "TSPORTS1 LIVE": [
+   { url: "https://dlhd.link/stream/stream-270.php",  },
+   { url: "https://dlhd.link/player/stream-270.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-270.php", sandbox: "lite" },
+      ], 
+    "SONYTEN1 LIVE": [
+   { url: "https://streamcrichd.com/update/sonyten1.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-885.php",  },
+   { url: "https://dlhd.link/player/stream-885.php", sandbox: "lite" },
+   { url: "https://dlhd.link/casting/stream-885.php", sandbox: "lite" },
+   { url: "https://asmaakther.github.io/player/php.html?url=https://streamcrichd.com/update/sonyten1.php",  },
+      ], 
+  
+  
+  
+    "EXTRA SOME ": [
+   { url: "https://crichdplayer.xyz/embed2.php?id=btsp1&amp;q=BT TNT Sport 1 ", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=willow", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=skysp2&amp;q=Sky Sports Cricket", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=starsp&amp;q=Star Sports 1", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=starsp3&amp;q=Star Sports Hindi", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=skysp5&amp;q=Sky SKY Premier League", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=ptvsp", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=asports", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=premiersp&amp;q=DAZN LaLiga", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=supersp10&amp;q=SuperSport LaLiga", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=btsp1&amp;q=TSN  TNT 1", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=viaplaysp1&q=Viaplay Premier 1 ", sandbox: "lite" },
+      ], 
+  
+
+  
+  "Hindi-Movie live": [
+   { url: "The Movie Club" },
+   { url: "Hinde Dabbing Movies" },
+   { url: "B4U Kadak:2" },
+   { url: "B4U Movies:1" },
+   { url: "Goldmines:2" },
+   { url: "Goldmines Movies:2" },
+   { url: "https://aman007power.blogspot.com/p/embed-andpictures.html" }, 
+   { url: "Joo Music" },
+   { url: "https://aman007power.blogspot.com/p/embed-korean-drama-active.html" }, 
+      ], 
+  
+  "English-Movie live": [
+   { url: "https://aegis-cloudfront-1.tubi.video/72b8dd6b-391b-401c-a3e4-03f9c29555c8/playlist.m3u8" }, 
+   { url: "Grjngo Western Movies" },
+   { url: "Rakuten Top Movies UK" },
+   { url: "Rakuten TV Action Movies UK" },
+   { url: "https://4bc5d2b3.wurl.com/v1/asia_tv_limited_zeeworld_1/ohlscdn_us/V00000001/7200/HLS/playlist.m3u8" }, 
+   { url: "Mix Hollywood" },
+      ],    
+  
+  "Bangla-All-Channel live": [
+   { url: "Channel I:1" },
+   { url: "Deepto TV:1"  },
+   { url: "https://aman007power.blogspot.com/p/embed-zeebangla.html" }, 
+   { url: "Banglavision:1" },
+   { url: "Somoy TV:1" },
+   { url: "Ekattor TV:1" },
+   { url: "Jamuna TV:1" },
+   { url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8" },
+   { url: "https://aman007power.blogspot.com/p/embed-ekhon-tv-bangla.html" }, 
+   { url: "deshi tv:1" },
+   { url: "Bangla Movie:2" },
+   { url: "ATN bangla:1" },
+     ],   
+  
+    "all_chennel": [
+     { url: "https://streamcrichd.com/update/laligauk.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/skysfotb.php", sandbox: "lite" },   
+     { url: "https://spstr.abntv.live/hls/psstream.m3u8", },    
+     { url: "https://pepsi.abntv.live/hls/4spstream.m3u8", }, 
+     { url: "https://pepsi3.abntv.live/hls/psp3.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPrime/HLSv3-FTA/SPSPrime.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPlay/HLS-FTA/SPSPlay.m3u8", },
+     { url: "https://cdn4.skygo.mn/live/disk1/SPSPlus/HLS-FTA/SPSPlus.m3u8", },
+     { url: "https://aegis-cloudfront-1.tubi.video/651ee7d3-e75b-4748-be86-422d43ff24b6/playlist.m3u8", },
+     { url: "https://streamcrichd.com/update/hub1.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub2.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub3.php", sandbox: "lite" },
+     { url: "https://streamcrichd.com/update/hub4.php", sandbox: "lite" },
+     { url: "https://aman007power.blogspot.com/p/enbed-match-time.html" }, 
+   { url: "https://streamcrichd.com/update/willowcricket.php", sandbox: "lite" },
+   { url: "https://dlhd.link/stream/stream-270.php",  },
+   { url: "https://streamcrichd.com/update/ptv.php", sandbox: "lite" },
+   { url: "https://crichdplayer.xyz/embed2.php?id=starsp3&amp;q=Star", sandbox: "lite" },
+   { url: "https://streamcrichd.com/update/skys2.php", sandbox: "lite" },
+   { url: "https://streamcrichd.com/update/asportshd.php", sandbox:  "lite" },
+   { url: "https://streamcrichd.com/update/tensp.php", sandbox: "lite" },
+   { url: "The Movie Club" },
+   { url: "Hinde Dabbing Movies" },
+   { url: "B4U Kadak:2" },
+   { url: "B4U Movies:1" },
+   { url: "Goldmines:2" },
+   { url: "Goldmines Movies:2" },
+   { url: "https://aman007power.blogspot.com/p/embed-andpictures.html" }, 
+   { url: "Joo Music" },
+   { url: "https://aman007power.blogspot.com/p/embed-korean-drama-active.html" }, 
+   { url: "https://4bc5d2b3.wurl.com/v1/asia_tv_limited_zeeworld_1/ohlscdn_us/V00000001/7200/HLS/playlist.m3u8" }, 
+   { url: "Mix Hollywood" },
+   { url: "https://aegis-cloudfront-1.tubi.video/72b8dd6b-391b-401c-a3e4-03f9c29555c8/playlist.m3u8" }, 
+   { url: "Grjngo Western Movies" },
+   { url: "Rakuten Top Movies UK" },
+   { url: "Rakuten TV Action Movies UK" },
+   { url: "Channel I:1" },
+   { url: "Deepto TV:1"  },
+   { url: "Banglavision:1" },
+   { url: "https://aman007power.blogspot.com/p/embed-ekhon-tv-bangla.html" }, 
+   { url: "Somoy TV:1" },
+   { url: "Ekattor TV:1" },
+   { url: "Jamuna TV:1" },
+   { url: "https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8" }, 
+   { url: "https://aman007power.blogspot.com/p/embed-zeebangla.html" }, 
+   { url: "Colors Bangla HD:1" },
+   { url: "Bangla Movie:2" },
+   { url: "ATN bangla:1" },
+         ],  
+  
+  //daddyhd.com  (...main)
+  //daddylive.sx
+  //dlhd.link
+  
