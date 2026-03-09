@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UddinSP PWA</title>
+
+<!-- Black background -->
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #000000; /* Blank black screen */
+}
+</style>
+
+<!-- Dynamic manifest -->
+<script type="text/javascript">
+//<![CDATA[
+(function() {
+  // PWA manifest data
+  var myManifest = {
+    "name": "UDDINsp",
+    "short_name": "UDDINsp",
+    "start_url": window.location.origin + "/player/uddinspPWA.html",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#0f172a",
+    "icons": [
+      {
+        "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiWUowXYrP3H9wPUrYZDmwX0G2gQsu3SOrQdp3gXQF7cl2CEcc2s91-mWXoXuPAo5pzI2O_SwWweR7SeG_CLwk2_ya49Mw1cDDp597Dkzy674mph1mS6Cpl5vosPbdcypksYDDxNhRl7eBkS4qUIw1FSKBa-yiV7czZPMldEOREPBszzSBXCfxqDLZb15Q/s320/Power%20192X%20192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCMX5-VFsMXOwjuNIokjstLV1_F297p7cF-f5LVtOKx-DaZ19q3FlQfAEa6aPQfH7HeoCaWiirB-Tl_UdB9c7qkH2LGCCwJjOC40Rw4h0EvD8gszPSRSux29yHzEcH9SEcMRIWX3eO7UOPSHu1ka3oXhtdRNdaxvT5CiUG7Qu2O0eYCJIkCytSWM2KVP0/s320/Power%20512%20X%20512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiqAw7h2Cv5zc7zT3V6c1J6wqlgijpFcRtmkbvZzU0BiylXC3uipJwPv1xFzFXhwtgUchmXqlBWLMq2OjgFlZSVKC_plKHDzkGQm3ocVvTJQAs7RAzoE1YQsUm8SX669ama_tX9VlVtBBGJ409Hsh-VzFdx8utSizVbzDLlQ_DQQBRBxF2VoWckx4BIM7M/s320/Power%20500%20X%20500.png",
+        "sizes": "500x500",
+        "type": "image/png"
+      }
+    ]
+  };
+
+  // Create blob from manifest JSON
+  var stringManifest = JSON.stringify(myManifest);
+  var blob = new Blob([stringManifest], {type: 'application/manifest+json'});
+  var manifestURL = URL.createObjectURL(blob);
+
+  // Add link tag to head
+  var linkTag = document.createElement('link');
+  linkTag.rel = 'manifest';
+  linkTag.href = manifestURL;
+  document.head.appendChild(linkTag);
+})();
+//]]>
+</script>
+
+</head>
+<body>
+
+<script>
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log("Service Worker Registered"))
+    .catch(err => console.log(err));
+}
+
+/* ===== Optional Redirect =====
+   Uncomment below line when you want PWA to auto-redirect to Blogspot
+
+window.location.href = "https://uddinsp.blogspot.com";
+*/
+</script>
+
+</body>
+</html>
