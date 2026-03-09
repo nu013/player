@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
+<script>
+if (!sessionStorage.getItem("pwaReloaded")) {
+  sessionStorage.setItem("pwaReloaded", "yes");
+  location.reload();
+}
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UddinSP PWA</title>
 
+  
 <!-- Black background -->
 <style>
 html, body {
