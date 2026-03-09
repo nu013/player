@@ -29,13 +29,7 @@ border:none;
 </style>
 
 
-<script>
-/* One time instant reload */
-if(!sessionStorage.getItem("pwaReloaded")){
-sessionStorage.setItem("pwaReloaded","yes");
-location.reload();
-}
-</script>
+
 
 
 <script>
@@ -118,14 +112,12 @@ document.head.appendChild(link);
 
 <body onload="loadSite()">
 
-<iframe 
+<iframe id="app"
 allow="autoplay; fullscreen; encrypted-media" 
 controls 
 playsinline 
 referrerpolicy="no-referrer" 
 sandbox="allow-scripts allow-same-origin allow-presentation" 
-scrolling="no"
-id="app"
 style="width:100%;height:100%;border:none;"
 allowfullscreen
 webkitallowfullscreen
