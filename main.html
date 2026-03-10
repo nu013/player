@@ -392,15 +392,21 @@ bottom:15px;
 left:50%;
 transform:translateX(-50%);
 background:rgba(0,0,0,0.0);
-color:#999;
-font-size:28px;
-font-weight:;
-padding:6px 18px;
+color: yellow;
+font-size:22px;
+font-weight:bold;
+padding:0px;
 border-radius:6px;
 z-index:5;
 display:none;
 pointer-events:none;
-}  
+
+/* important */
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+max-width:90%;
+} 
   
   
 /* Responsive Ad */
@@ -418,11 +424,26 @@ pointer-events:none;
     display: block;
     border: 0;
 }
+
+
   
 </style>
 </head>
 <body>
-
+  
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : '08ac4af8ab2ee30ce078eabb3e29641b',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/08ac4af8ab2ee30ce078eabb3e29641b/invoke.js"></script></div>
+  
 <div class="main-wrapper">
   
 <div class="logo"id="logo">UDDiNsp APP</div>
@@ -451,7 +472,6 @@ pointer-events:none;
 </div>
   
   
-  
   <div class="control-btn control-left" onclick="prevVideo()">❮</div>
     <div class="control-btn control-right" onclick="nextVideo()">❯</div>
     <div class="full-btn" onclick="toggleFull()">⛶</div>
@@ -464,7 +484,7 @@ pointer-events:none;
   </div>
   
     <!-- Countdown overlay -->
- <div id="countdownDiv" style="background: rgba(0,0,0,0.0); border-radius: 10px; color: #fff; display: none; font-size: 60px; font-weight: bold; left: 50%; padding: 20px; position: absolute; text-align: center; top: 50%; transform: translate(-50%,-50%); z-index: 9999;">5</div>
+ <div id="countdownDiv" style="background: rgba(0,0,0,0.0); border-radius: 10px; color: #666; display: none; font-size: 60px; font-weight: bold; left: 50%; padding: 20px; position: absolute; text-align: center; top: 50%; transform: translate(-50%,-50%); z-index: 9999;">5</div>
 </div>
 
 <div class="categories" style="background:  ;margin-bottom: 20px;" >
@@ -487,7 +507,16 @@ pointer-events:none;
     <div class="video-container" id="videoList"></div>
 </div>
 
+  
+  
+  
 <script>
+  
+if(!sessionStorage.getItem("pageReloaded")){
+sessionStorage.setItem("pageReloaded","1");
+location.replace(location.href);
+}
+
 var currentCategory = "all";
 var currentIndex = 0;
 var countdownInterval = null;
@@ -503,56 +532,56 @@ var videos = [
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSiggzH6CBXvkqWPl4UW7KIKmjb8D-BGF9vSH0ZpwWzyBpj_WrHGv7hPwGO2TrjV6uHgGgSMMmYDAFhyMRTiNeHYqPX0kuLxKoAJf3q5dxm_ExXcAn1EJ2LPj3dBCRq2Uyg_yQEflXuFHA1amlY89x8o14ZZHuWFbJ4C-UOViOdHInhoHBcfGvOpfgBtc/s60/SKY%20Footboll.png",
    link:["https://streamcrichd.com/update/skysfotb.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Lalige Footboll", 
    img:"https://i.imgur.com/ilay5Jr.png",
    link:["https://streamcrichd.com/update/laligauk.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Ten Sports", 
    img:"https://i.imgur.com/nnqpYNm.png",
    link:["https://streamcrichd.com/update/tensp.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Premier Footboll 1", 
    img:"https://i.imgur.com/lKjXwtG.png",
    link:["https://streamcrichd.com/update/premier.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Premier Footboll  2", 
    img:"https://i.imgur.com/UQeXWd2.png",
    link:["https://streamcrichd.com/update/ch2.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
 
   {name:"Sony Ten 1", 
    img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_SPORTS_TEN_1/images/LOGO_HD/image.png",
    link:["https://streamcrichd.com/update/sonyten1.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Bein Sports USA", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlqIEw824sBdcgq47u-s4i6mOgvNZ_t4IQoMc8FDS729trAveoRXK4AArodw7AZHG_L2VS7vymdc2RpsMz_tTn-BiFAIXzqyvdTBSt0a4riLkNKajZVP2Pi7doW2kf7SpuFIQCNlpB1iHfXmn0-yQb3zAJbSE0ckNLrEdFxb4MdVxliDP-WFMOBnRPrfE/s1600/BEIN%20SP.png",
    link:["https://aegis-cloudfront-1.tubi.video/651ee7d3-e75b-4748-be86-422d43ff24b6/playlist.m3u8"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"TNT Sports 1", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjSM8a1sqyqHkxPyE62yVoDW4N7xDzQqkcNHmvd3bOpuEob5BQ0bTlvnrtK7-mh3ynTRYfMEirdW8xQPeu5QtSuhWW6Ln1vVpuBHOJXQSe36oUakrVhwEvOUn20zHmQKVjcXxO-MCuSKp6HoZ0SO_UWE7-jk9Bn7PAZ_W2gxQ5blfuVV49YWGZkLpuUc-4/s1600/tnt%201.png",
    link:["https://streamcrichd.com/update/bt1.php"], 
    categories:["football"], 
-   countdown:5  
+   countdown:7 
   },
   {name:"TNT Sports 2", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnI2KIRVWBCGA-BPbP25BcCuFQn8apvR9ykUxHmJltX26Bl0E1uqHxn5rAkSRFdOutxzpn3qSCEkfQeJm8cFgFxASXHEeqyvDO3nZezFJjlml6h9_GSt8HkPfiFsJZP8ZNROnzWDPchRT8FqyHwtOalxyi8PeMqX57uJOe6qGxIsZSSxnb1r5zuWcjj3A/s1600/tnt%202.png",
    link:["https://streamcrichd.com/update/bt2.php"], 
    categories:["football"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Today football match scjual", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhErQ9uKVHR0_Gh52xR_Jr0sz9F8h5oiNGxMQPSlawYAfv2PANzS16lna7BD9Qu9XrFLLn62oQocj5zlk9qcvQa5aPjeDiQXAV2bAqsTNYHnmEIUxddjNNJU2_-aj_VPmSdSq4Jqerp1ReT48a1jF-XsJYxKNt7UuMqV3rDJPAfxoNXJaCM0KXt0nJA1X4/s1600/MATCH%20LIST.png",
@@ -564,25 +593,25 @@ var videos = [
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlpXJDcyHlGKjtTdrdBcyf4kSn5JdG6-jQ_qRQgDAVwDuG1_lkc9oWby0K5ORbFn3haQXSf8jNVB1vdM2G_HKQfEKprx2q-8Sdr3ywUin6xtMchuMTWLg9S_kVYPZ6ZFdXfxyot3N8IyBT2mXkMmN1L4OCNwynokMC4LVhnXF6QnN4PRl0MQnmSmlyPYI/s1600/sky%20cricket.png",
    link:["https://streamcrichd.com/update/skys2.php"], 
    categories:["cricket"], 
-   countdown:5  
+   countdown:7 
   },
   {name:"Willow Cricket", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXUlYW5rv8dPZVfk4ziNhlpcOlhKxWug23qb7YJHTnoUmxAJD3cTCQTR1aO9NvHDjzVQxAVY14iONGDy8WAbUwwJ0DPQ9USjhwRWVRTfvJicbphHM-r0CbGktJjtXvTuvXl9ifXIY8ADyL202O2bxtc8bmBPMQ0OzeXwuvbyWfi2M2qRKiCNl2ExZCvhg/s1600/willow%20cricket.png",
    link:["https://streamcrichd.com/update/willowcricket.php"], 
    categories:["cricket"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"PTV Sports", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQr4ZCgIcMAiJQ0PH5Toh0aAWz3FcV4YQL8t1pdEVLoN04NxGa-8BrsjDYR4mCgs2eWqwxAEI0oBPz0MbRaqEoGQRfQVSgmx02cfSkeBTSg7IlnEG7L1pqnRyZLDC_6TFDshRxo2a_vqdVWZufwyzDCFZ5CeH0LyfL5TYgFqNJQS5_pYQVpxldVZrdQh0/s1600/PTV%20SPORTS.png",
    link:["https://streamcrichd.com/update/ptv.php"], 
    categories:["cricket"], 
-   countdown:5 
+   countdown:7 
   },
   {name:"Star Sports Hindi", 
    img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_STAR_SPORTS_1_HINDI/images/LOGO_HD/image.png",
    link:["https://streamcrichd.com/update/star1hi.php"], 
    categories:["cricket"], 
-   countdown:5  
+   countdown:7  
   },
   {name:"&Pictures", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmBEYjilAQJ466p2QLn-76J1VH1lMjqQlkKp5n7weDkjqtJSIk-7qqWFGAJAFpw7p1mgQ8NuVhZHXCi3vDTX6dmGKnEsNy4ZkRx5X2rEqEc8z5jYo38XHQGMDfhz1fUu1mdSyZD9U8fOseYouxFxGH2NmrUoG9JMw0t-htGHPuEap8PFOQng9HarH4uh8/s1600/AND%20pictures.png",
@@ -594,55 +623,55 @@ var videos = [
    img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_MOVIES_NOW/images/LOGO_HD/image.png",
    link:["https://cc-r5hupcym5oehh.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-r5hupcym5oehh/SBUM/RunnTV/BollyFlix_IN/BollyFlix_IN.m3u8"], 
    categories:["hindi"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"B4U Kadak", 
    img:"https://dtil.tmsimg.com/assets/s142695_ld_h15_aa.png",
    link:["https://cdn-2.pishow.tv/live/227/master.m3u8"], 
    categories:["hindi"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Goldmines 1", 
    img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_GOLDMINES/images/LOGO_HD/image.png",
    link:["https://cdn-2.pishow.tv/live/1459/master.m3u8"], 
    categories:["hindi"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Goldmines 2", 
    img:"https://www.lyngsat.com/logo/tv/gg/goldmines-2-in.png",
    link:["https://cdn-2.pishow.tv/live/1461/master.m3u8"], 
    categories:["hindi"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"YRF Music", 
    img:"https://jiotvimages.cdn.jio.com/dare_images/images/YRF_Music.png",
    link:["https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8"], 
    categories:["hindi"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Mix English Movie", 
    img:"https://i.imgur.com/1ENdbZn.png",
    link:["https://ml-pull-hwc.myco.io/MixTV/hls/index.m3u8"], 
    categories:["english"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Rokuten 1 Eng Movies", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidLj4N7PASfPC7giYTOciX9FBfVnn_Rhyphenhyphen2mExvnQJpDK0X_Wxeqoh3NYnZh6lLELwciHVjMglF54E72DpQBWRbe5R9teTLpWa2DMl9CP_Bch-8GgoVOO_DsFgJsljQo7p1iNR3IyPDmSKcBNGiV1XUyM9gHEjex8e4adlTW9RHzpVYP0WtaUnroIXJuRE/s1600/rokuten%201.png",
    link:["https://0145451975a64b35866170fd2e8fa486.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-5987/master.m3u8"], 
    categories:["english"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Rokuten 2 Eng Movies", 
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkWtC4kzzhVu7ZNwgjB8Ff2ygOPR9Bl_sjSA3u7dvIeYU1TlH8VO5FvzthLHhw9BPUqk55Clz6H7VPNyK_0QgyXZMyogZ_6s5gdBFWwkSmRng7hHuHmociZse3EgV24OeYTE4t9A-cxRvPZDtDMTm5zEsmyMWTH2Jo26CM1qIe_WfTibixGRL7KKwoab8/s1600/rokuten%202.png",
    link:["https://54045f0c40fd442c8b06df076aaf1e85.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6065/master.m3u8"], 
    categories:["english"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Western Eng Movies", 
    img:"https://images-2.rakuten.tv/storage/global-live-channel/translation/artwork/22c730ab-2e9f-47dc-b35a-ad8c081fec40-width200-quality90.jpeg",
    link:["https://amogonetworx-grjngo-3-dk.samsung.wurl.tv/playlist.m3u8"], 
    categories:["english"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Channel i", 
    img:"https://i.imgur.com/X0JJlOX.png",
@@ -654,7 +683,7 @@ var videos = [
    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVcYGAanYPzqhyphenhyphensi_3Xob1D5cH6rSis_e75Hfr7BtnlleuMntSw1R8F05UjuUXu55BSV60X_0MLEGpZgfP4o84L2xUGQ7tzOiUto5e7LH40s0AsHk2VQ38jEMO3N_CM6m74RHFx1Jw1c9T90UdEapYdJjm7RREv0f4Ip9TFJVZoR-1kRJgC5YvmhXQJuk/s1600/zee%20bangla.png",
    link:["https://uddinsp.blogspot.com/p/embed-bangla-2.html"], 
    categories:["bangla"], 
-   countdown:0 
+   countdown:3 
   },
   {name:"Somoy TV", 
    img:"https://i.imgur.com/i54AQic.png",
@@ -676,7 +705,7 @@ var videos = [
   },
   {name:"BanglaVison TV", 
    img:"https://i.imgur.com/nCWgp38.png",
-   link:["https://asmaakther.github.io/player/player.html?url=https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8"], 
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8"], 
    categories:["bangla"], 
    countdown:0 
   },
@@ -700,15 +729,15 @@ var videos = [
   },
   {name:"Bangla Movies", 
    img:"https://jiotvimages.cdn.jio.com/dare_images/images/Amaar_Bangla.png",
-   link:["https://asmaakther.github.io/player/player.html?url=https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/amarbanglatv.stream/playlist.m3u8"], 
+   link:["https://cloudfrontnet.vercel.app/tplay/playout/209627/master.m3u8"], 
    categories:["bangla"], 
-   countdown:0 
+   countdown:6 
   },
   {name:"Sangeet Bangla", 
    img:"https://ltsk-cdn.s3.eu-west-1.amazonaws.com/jumpstart/Temp_Live/cdn/HLS/Channel/transparentImages/Sangeet%20Bangla.png",
    link:["https://mumt05.tangotv.in/SANGEETBANGLA/index.m3u8"], 
    categories:["bangla"], 
-   countdown:0 
+   countdown:6 
   },
   
   
@@ -802,13 +831,11 @@ if(!links || links.length === 0) return;
 // 🔹 random link choose
 let videoUrl = links[Math.floor(Math.random()*links.length)];
   
-// 🔹 voliom inside video show onle if php
-let volumeIcon = document.getElementById("volumeIcon");
+// 🔹 voliom inside video show only link if .php
+let volumeIcon = document.getElementById("volumeIcon"); 
 if(videoUrl.includes(".php")){
-volumeIcon.style.display="block";
-}else{
-volumeIcon.style.display="none";
-}
+  volumeIcon.style.display="block"; 
+}else{ volumeIcon.style.display="none"; }
   
 
 let iframe = document.getElementById("player");
@@ -1171,10 +1198,22 @@ if ("mediaSession" in navigator) {
     navigator.mediaSession.setActionHandler("pause", null);
 }
 </script>
-  
+
+
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : '08ac4af8ab2ee30ce078eabb3e29641b',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/08ac4af8ab2ee30ce078eabb3e29641b/invoke.js"></script></div>
 <!-- অ্যাড কন্টেইনার -->
 <div class="ad-container">
-  
 <script>
   atOptions = {
     'key' : '81b2354248e505929f150936d8b5a662',
@@ -1186,6 +1225,18 @@ if ("mediaSession" in navigator) {
 </script>
 <script src="https://www.highperformanceformat.com/81b2354248e505929f150936d8b5a662/invoke.js"></script>
 </div>
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : '08ac4af8ab2ee30ce078eabb3e29641b',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/08ac4af8ab2ee30ce078eabb3e29641b/invoke.js"></script></div>
   
 </body>
 </html>
