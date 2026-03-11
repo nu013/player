@@ -111,11 +111,11 @@ document.head.appendChild(link);
 
 
 <body onload="loadSite()">
-<div id="loadingText" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;font-weight:bold;">
+<div  style="z-index:1; position:fixed; pointer-events:none; top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;font-weight:bold;">
 UDDINsp App
 </div>
 <iframe id="app"
-onload="document.getElementById('loadingText').style.display='none'"
+style=" position:fixed; z-index:2; "
 allow="autoplay; fullscreen; encrypted-media" 
 controls 
 playsinline 
