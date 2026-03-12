@@ -13,7 +13,7 @@ if (!sessionStorage.getItem("pwaReloaded")) {
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UDDiNsp APP</title>
+<title>UddinSp App</title>
 <style>
 html,body{
 margin:0;
@@ -67,8 +67,8 @@ document.getElementById("app").src=site2;
 (function(){
 
 var myManifest={
-"name":"UDDiNsp APP",
-"short_name":"UDDiNsp",
+"name":"UddinSp App",
+"short_name":"UddinSp",
 "start_url":window.location.origin+"/player/uddinspPWA.html",
 "display":"standalone",
 "background_color":"#000000",
@@ -158,7 +158,7 @@ navigator.serviceWorker.register('service-worker.js')
   </div>
 
   <!-- Message Text -->
-  <p id="popupMessage">Install UDDiNsp APP for better experience</p>
+  <p id="popupMessage">Install UddinSp App for Better Experience</p>
 
   <!-- Install Button -->
   <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
@@ -167,29 +167,25 @@ navigator.serviceWorker.register('service-worker.js')
 </div>
 
 <script>
-// ===================== PWA & Popup Logic =====================
 let deferredPrompt;
 
 // ------------------- PWA Installed Check -------------------
 function isPWAInstalled() {
-  // Chrome / Edge
-  if (window.matchMedia('(display-mode: standalone)').matches) return true;
-  // iOS Safari
-  if (window.navigator.standalone === true) return true;
-  return false;
+  return window.matchMedia('(display-mode: standalone)').matches ||
+         window.navigator.standalone === true;
 }
 
-// ------------------- Detect Browser / Device ----------------
+// ------------------- Device / Browser Detection -------------------
 function isMobileOrTablet() {
   return /Android|iPhone|iPad|iPod|Tablet|PlayBook/i.test(navigator.userAgent);
 }
 
-// Detect in-app Messenger / FB browser
+// ------------------- Messenger / FB Browser Detection -------------------
 function isMessengerBrowser() {
   return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
 }
 
-// Detect browser name (for redirect)
+// ------------------- Browser Detection -------------------
 function getBrowserName() {
   const ua = navigator.userAgent;
   if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
@@ -197,29 +193,6 @@ function getBrowserName() {
   if(/Safari/i.test(ua) && !/Chrome/i.test(ua)) return "Safari";
   if(/Firefox/i.test(ua)) return "Firefox";
   return "Other";
-}
-
-// ------------------- Check if PHP App Installed -------------------
-async function isPHPAppAvailable() {
-  try {
-    const res = await fetch("https://uddinsp.com/checkApp.php", { method: "HEAD" });
-    return res.ok; // true → PHP app exists
-  } catch (e) {
-    return false; // error → app not exists
-  }
-}
-
-// ------------------- Show Popup -------------------
-async function showInstallPopup() {
-  // 1️⃣ Check PWA installed
-  if(isPWAInstalled()) return; // Already installed → do not show
-
-  // 2️⃣ Check PHP app exists
-  const phpExists = await isPHPAppAvailable();
-  if(phpExists) return; // PHP app installed → do not show
-
-  // 3️⃣ Show popup
-  document.getElementById('appPopup').style.display = 'block';
 }
 
 // ------------------- Close Popup -------------------
@@ -231,42 +204,57 @@ function closePopup() {
 function handleInstallClick() {
   const popup = document.getElementById('appPopup');
   popup.style.display = 'none';
+  const siteURL = window.location.href;
 
-  const browser = getBrowserName();
-  const siteURL = window.location.href; // Current site URL
-
-  // Browser supports PWA install
+  // PWA install prompt
   if(deferredPrompt){
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    deferredPrompt.userChoice.then(()=>{ deferredPrompt = null; });
     return;
   }
 
-  // Messenger / FB → redirect to Chrome intent
+  // Messenger / FB in-app → redirect to Chrome intent
   if(isMessengerBrowser()){
-    window.location = "intent://" + siteURL.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+    window.location = "intent://" + siteURL.replace(/^https?:\/\//,"") + "#Intent;scheme=https;package=com.android.chrome;end";
     return;
   }
 
-  // Other browsers → open in new tab for shortcut / install
+  // Other browsers → open in new tab (shortcut / install)
   window.open(siteURL, "_blank");
 }
 
 // ------------------- Capture beforeinstallprompt -------------------
-window.addEventListener('beforeinstallprompt', function(e){
-  e.preventDefault(); // Prevent automatic popup
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
   deferredPrompt = e;
 });
 
-// ------------------- On Page Load -------------------
-window.addEventListener('load', () => {
-  showInstallPopup(); // Will not show if PWA or PHP app exists
-});
-
-// ------------------- Change Message Text Dynamically -------------------
-function setPopupMessage(text){
-  document.getElementById('popupMessage').innerText = text;
+// ------------------- Check External PHP App Endpoint -------------------
+async function isPHPAppAvailable() {
+  try {
+    const res = await fetch("https://nu013.github.io/player/checkPwaApp.php", { method: "GET" });
+    const data = await res.json();
+    return data.installed; // true → app exists, hide popup
+  } catch(e) {
+    return false; // error → assume app not installed
+  }
 }
+
+// ------------------- Show Popup Logic -------------------
+async function initPopup() {
+  // 1️⃣ PWA already installed → hide popup
+  if(isPWAInstalled()) return;
+
+  // 2️⃣ Check external PHP app → hide popup if installed
+  const phpExists = await isPHPAppAvailable();
+  if(phpExists) return;
+
+  // 3️⃣ Show popup
+  document.getElementById('appPopup').style.display = 'block';
+}
+
+// ------------------- On Page Load -------------------
+window.addEventListener('load', ()=>{ initPopup(); });
 </script>
 
   
