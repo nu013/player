@@ -151,7 +151,11 @@ navigator.serviceWorker.register('service-worker.js')
 
 
 <!-- PWA Install Popup -->
-<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+<!-- PWA Install Popup -->
+<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+  <div style="text-align:right">
+    <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
+  </div>
   <p>Install UDDiNsp PWA for faster experience</p>
   <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
     Install App
@@ -161,23 +165,33 @@ navigator.serviceWorker.register('service-worker.js')
 <script>
 let deferredPrompt;
 
-// Detect if PWA is already installed
+// Detect if PWA is installed
 function isPWAInstalled() {
-  return (window.matchMedia('(display-mode: standalone)').matches) || // Android / Desktop Chrome
-         (window.navigator.standalone === true); // iOS Safari
+  return (window.matchMedia('(display-mode: standalone)').matches) || 
+         (window.navigator.standalone === true); 
 }
 
-// Detect mobile or tablet
+// Detect mobile / tablet
 function isMobileOrTablet() {
   return /Android|iPhone|iPad|iPod|Tablet|PlayBook/i.test(navigator.userAgent);
 }
 
-// Detect unsupported browser (Messenger / FB)
-function isUnsupportedBrowser() {
+// Detect browser name
+function getBrowserName() {
+  const ua = navigator.userAgent;
+  if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
+  if(/Edg/i.test(ua)) return "Edge";
+  if(/Safari/i.test(ua) && !/Chrome/i.test(ua)) return "Safari";
+  if(/Firefox/i.test(ua)) return "Firefox";
+  return "Other";
+}
+
+// Detect in-app Messenger / FB browser
+function isMessengerBrowser() {
   return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
 }
 
-// Show popup only if PWA not installed
+// Show popup if needed
 function showInstallPopup() {
   if(!isMobileOrTablet()) return;
   if(isPWAInstalled()) return;
@@ -185,36 +199,47 @@ function showInstallPopup() {
   document.getElementById('appPopup').style.display = 'block';
 }
 
-// Handle popup click
+// Close popup
+function closePopup() {
+  document.getElementById('appPopup').style.display = 'none';
+}
+
+// Handle Install Click
 function handleInstallClick() {
   const popup = document.getElementById('appPopup');
   popup.style.display = 'none';
-
+  
+  const browser = getBrowserName();
+  
   if(deferredPrompt){
     // Browser supports PWA install
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+  } else if(isMessengerBrowser()){
+    // Messenger / FB browser → redirect to Chrome if installed
+    // Use intent URL to open Chrome or Edge
+    // Replace your HTTPS site URL
+    const siteURL = "https://uddinsp.blogspot.com"; 
+
+    // Android Chrome intent
+    window.location = "intent://"+siteURL.replace(/^https?:\/\//, "")+"#Intent;scheme=https;package=com.android.chrome;end";
+    
+    // iOS fallback → open site URL (user manually Add to Home Screen)
   } else {
-    // Unsupported browser → redirect to default browser URL
-    // Replace with your website URL (https)
-    window.open(window.location.href, '_system'); 
+    // Other unsupported browser → just open site in new tab
+    window.open(window.location.href, "_blank");
   }
 }
 
 // Capture beforeinstallprompt event
-window.addEventListener('beforeinstallprompt', (e) => {
+window.addEventListener('beforeinstallprompt', function(e){
   e.preventDefault();
   deferredPrompt = e;
 });
 
 // On page load
 window.addEventListener('load', () => {
-  // If PWA installed → open directly in PWA
-  if(isPWAInstalled()){
-    return; // do nothing, already PWA
-  }
-  
-  // Show install popup if mobile/tablet
+  if(isPWAInstalled()) return; // already installed
   showInstallPopup();
 });
 </script>
