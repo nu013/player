@@ -167,86 +167,122 @@ navigator.serviceWorker.register('service-worker.js')
 </div>
 
 <script>
+
+// ===================== PWA & Popup Logic =====================
+
+// Store beforeinstallprompt event
 let deferredPrompt;
 
-// ------------------- PWA detection -------------------
+// ------------------- Check PWA Installed -------------------
 function isPWAInstalled() {
-  return window.matchMedia('(display-mode: standalone)').matches ||
-         window.navigator.standalone === true;
+
+  // Chrome / Edge
+  if (window.matchMedia('(display-mode: standalone)').matches) return true;
+
+  // iOS Safari
+  if (window.navigator.standalone === true) return true;
+
+  return false;
 }
 
-// ------------------- Messenger / FB detection -------------------
+// ------------------- Detect Mobile / Tablet ----------------
+function isMobileOrTablet() {
+  return /Android|iPhone|iPad|iPod|Tablet|Mobile/i.test(navigator.userAgent);
+}
+
+// ------------------- Detect Messenger Browser ----------------
 function isMessengerBrowser() {
   return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
 }
 
-// ------------------- Browser detection -------------------
+// ------------------- Detect Browser ----------------
 function getBrowserName() {
+
   const ua = navigator.userAgent;
+
   if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
   if(/Edg/i.test(ua)) return "Edge";
   if(/Safari/i.test(ua) && !/Chrome/i.test(ua)) return "Safari";
   if(/Firefox/i.test(ua)) return "Firefox";
+
   return "Other";
 }
 
-// ------------------- Close popup -------------------
+// ------------------- Show Popup -------------------
+function showInstallPopup() {
+
+  // Only Mobile / Tablet
+  if(!isMobileOrTablet()) return;
+
+  // Already Installed
+  if(isPWAInstalled()) return;
+
+  document.getElementById('appPopup').style.display = 'block';
+}
+
+// ------------------- Close Popup -------------------
 function closePopup() {
   document.getElementById('appPopup').style.display = 'none';
 }
 
-// ------------------- Install click -------------------
+// ------------------- Install Button Click -------------------
 function handleInstallClick() {
+
   const popup = document.getElementById('appPopup');
   popup.style.display = 'none';
+
   const siteURL = window.location.href;
 
+  // Supported browser install
   if(deferredPrompt){
+
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(()=>{ deferredPrompt = null; });
+
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+    });
+
     return;
   }
 
+  // Messenger / Facebook browser
   if(isMessengerBrowser()){
-    window.location = "intent://" + siteURL.replace(/^https?:\/\//,"") + "#Intent;scheme=https;package=com.android.chrome;end";
+
+    window.location =
+    "intent://" +
+    siteURL.replace(/^https?:\/\//, "") +
+    "#Intent;scheme=https;package=com.android.chrome;end";
+
     return;
   }
 
-  window.open(siteURL,"_blank");
+  // Other browsers
+  window.open(siteURL, "_blank");
 }
 
-// ------------------- Capture beforeinstallprompt -------------------
-window.addEventListener('beforeinstallprompt', (e)=>{
+// ------------------- Capture install event -------------------
+window.addEventListener('beforeinstallprompt', function(e){
+
   e.preventDefault();
+
   deferredPrompt = e;
 });
 
-// ------------------- Server-side check for app installed -------------------
-async function isAppInstalledServer() {
-  try {
-    const res = await fetch("https://nu013.github.io/player/checkPwaApp.php", { method: "GET", credentials: "include" });
-    const data = await res.json();
-    return data.installed;
-  } catch(e){
-    return false;
-  }
+// ------------------- Page Load -------------------
+window.addEventListener('load', () => {
+
+  showInstallPopup();
+
+});
+
+// ------------------- Change Popup Text -------------------
+function setPopupMessage(text){
+  document.getElementById('popupMessage').innerText = text;
 }
 
-// ------------------- Show popup logic -------------------
-async function initPopup() {
-  // 1️⃣ PWA installed check
-  if(isPWAInstalled()) return;
+// Example
+// setPopupMessage("Install UDDiNsp now for best experience");
 
-  // 2️⃣ Server-side app installed check
-  const serverInstalled = await isAppInstalledServer();
-  if(serverInstalled) return;
-
-  // 3️⃣ Show popup if nothing installed
-  document.getElementById('appPopup').style.display = 'block';
-}
-
-// ------------------- On page load -------------------
-window.addEventListener('load', ()=>{ initPopup(); });
 </script>
 
   
