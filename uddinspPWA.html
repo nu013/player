@@ -6,6 +6,8 @@
 if (!sessionStorage.getItem("pwaReloaded")) {
   sessionStorage.setItem("pwaReloaded", "yes");
   location.reload();
+} else {
+  sessionStorage.removeItem("pwaReloaded");
 }
 </script>
 
