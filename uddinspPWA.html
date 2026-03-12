@@ -170,118 +170,184 @@ navigator.serviceWorker.register('service-worker.js')
 
 // ===================== PWA & Popup Logic =====================
 
-// Store beforeinstallprompt event
 let deferredPrompt;
 
-// ------------------- Check PWA Installed -------------------
-function isPWAInstalled() {
 
-  // Chrome / Edge
-  if (window.matchMedia('(display-mode: standalone)').matches) return true;
+// ------------------- Check Installed -------------------
 
-  // iOS Safari
-  if (window.navigator.standalone === true) return true;
+function isPWAInstalled(){
 
-  return false;
+if(window.matchMedia('(display-mode: standalone)').matches) return true;
+
+if(window.navigator.standalone === true) return true;
+
+return false;
+
 }
 
-// ------------------- Detect Mobile / Tablet ----------------
-function isMobileOrTablet() {
-  return /Android|iPhone|iPad|iPod|Tablet|Mobile/i.test(navigator.userAgent);
+
+// ------------------- Device Detect -------------------
+
+function isAndroid(){
+
+return /Android/i.test(navigator.userAgent);
+
 }
 
-// ------------------- Detect Messenger Browser ----------------
-function isMessengerBrowser() {
-  return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+function isIOS(){
+
+return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 }
 
-// ------------------- Detect Browser ----------------
-function getBrowserName() {
 
-  const ua = navigator.userAgent;
+// ------------------- Messenger Detect -------------------
 
-  if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
-  if(/Edg/i.test(ua)) return "Edge";
-  if(/Safari/i.test(ua) && !/Chrome/i.test(ua)) return "Safari";
-  if(/Firefox/i.test(ua)) return "Firefox";
+function isMessengerBrowser(){
 
-  return "Other";
+return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+
 }
+
 
 // ------------------- Show Popup -------------------
-function showInstallPopup() {
 
-  // Only Mobile / Tablet
-  if(!isMobileOrTablet()) return;
+function showInstallPopup(){
 
-  // Already Installed
-  if(isPWAInstalled()) return;
+if(localStorage.getItem("pwaHideForever")) return;
 
-  document.getElementById('appPopup').style.display = 'block';
+if(isIOS()) return;
+
+if(!isAndroid()) return;
+
+if(isPWAInstalled()) return;
+
+document.getElementById('appPopup').style.display='block';
+
 }
+
 
 // ------------------- Close Popup -------------------
-function closePopup() {
-  document.getElementById('appPopup').style.display = 'none';
+
+function closePopup(){
+
+document.getElementById('appPopup').style.display='none';
+
 }
 
-// ------------------- Install Button Click -------------------
-function handleInstallClick() {
 
-  const popup = document.getElementById('appPopup');
-  popup.style.display = 'none';
+// ------------------- Open Supported Browser -------------------
 
-  const siteURL = window.location.href;
+function openSupportedBrowser(){
 
-  // Supported browser install
-  if(deferredPrompt){
+const url = window.location.href.replace(/^https?:\/\//,"");
 
-    deferredPrompt.prompt();
+const browsers=[
 
-    deferredPrompt.userChoice.then(() => {
-      deferredPrompt = null;
-    });
+"intent://"+url+"#Intent;scheme=https;package=com.android.chrome;end",
 
-    return;
-  }
+"intent://"+url+"#Intent;scheme=https;package=com.microsoft.emmx;end",
 
-  // Messenger / Facebook browser
-  if(isMessengerBrowser()){
+"intent://"+url+"#Intent;scheme=https;package=org.mozilla.firefox;end",
 
-    window.location =
-    "intent://" +
-    siteURL.replace(/^https?:\/\//, "") +
-    "#Intent;scheme=https;package=com.android.chrome;end";
+"intent://"+url+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end"
 
-    return;
-  }
+];
 
-  // Other browsers
-  window.open(siteURL, "_blank");
+let opened=false;
+
+browsers.forEach(function(link){
+
+if(!opened){
+
+opened=true;
+
+window.location.href=link;
+
 }
 
-// ------------------- Capture install event -------------------
-window.addEventListener('beforeinstallprompt', function(e){
-
-  e.preventDefault();
-
-  deferredPrompt = e;
 });
+
+
+setTimeout(function(){
+
+localStorage.setItem("pwaHideForever","true");
+
+},2000);
+
+}
+
+
+// ------------------- Install Button -------------------
+
+function handleInstallClick(){
+
+const popup=document.getElementById('appPopup');
+
+popup.style.display='none';
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+deferredPrompt.userChoice.then(function(choice){
+
+if(choice.outcome!=="accepted"){
+
+openSupportedBrowser();
+
+}
+
+deferredPrompt=null;
+
+});
+
+return;
+
+}
+
+
+openSupportedBrowser();
+
+}
+
+
+// ------------------- Install Success Detect -------------------
+
+window.addEventListener('appinstalled',function(){
+
+localStorage.setItem("pwaHideForever","true");
+
+});
+
+
+// ------------------- Capture Install Event -------------------
+
+window.addEventListener('beforeinstallprompt',function(e){
+
+e.preventDefault();
+
+deferredPrompt=e;
+
+});
+
 
 // ------------------- Page Load -------------------
-window.addEventListener('load', () => {
 
-  showInstallPopup();
+window.addEventListener('load',function(){
+
+showInstallPopup();
 
 });
 
-// ------------------- Change Popup Text -------------------
-function setPopupMessage(text){
-  document.getElementById('popupMessage').innerText = text;
-}
 
-// Example
-// setPopupMessage("Install UDDiNsp now for best experience");
+// ------------------- Change Popup Text -------------------
+
+function setPopupMessage(text){
+
+document.getElementById("popupMessage").innerText=text;
+
+}
 
 </script>
 
