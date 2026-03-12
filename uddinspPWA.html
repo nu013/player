@@ -168,8 +168,6 @@ navigator.serviceWorker.register('service-worker.js')
 
 <script>
 // ===================== PWA & Popup Logic =====================
-
-// Store beforeinstallprompt event for supported browsers
 let deferredPrompt;
 
 // ------------------- PWA Installed Check -------------------
@@ -201,9 +199,26 @@ function getBrowserName() {
   return "Other";
 }
 
+// ------------------- Check if PHP App Installed -------------------
+async function isPHPAppAvailable() {
+  try {
+    const res = await fetch("https://uddinsp.com/checkApp.php", { method: "HEAD" });
+    return res.ok; // true → PHP app exists
+  } catch (e) {
+    return false; // error → app not exists
+  }
+}
+
 // ------------------- Show Popup -------------------
-function showInstallPopup() {
+async function showInstallPopup() {
+  // 1️⃣ Check PWA installed
   if(isPWAInstalled()) return; // Already installed → do not show
+
+  // 2️⃣ Check PHP app exists
+  const phpExists = await isPHPAppAvailable();
+  if(phpExists) return; // PHP app installed → do not show
+
+  // 3️⃣ Show popup
   document.getElementById('appPopup').style.display = 'block';
 }
 
@@ -220,21 +235,20 @@ function handleInstallClick() {
   const browser = getBrowserName();
   const siteURL = window.location.href; // Current site URL
 
-  // If browser supports PWA install
+  // Browser supports PWA install
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
     return;
   }
 
-  // If Messenger / FB browser → redirect to Chrome / Edge
+  // Messenger / FB → redirect to Chrome intent
   if(isMessengerBrowser()){
-    // Android Chrome intent
     window.location = "intent://" + siteURL.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
     return;
   }
 
-  // Other browsers → open in new tab for shortcut or install
+  // Other browsers → open in new tab for shortcut / install
   window.open(siteURL, "_blank");
 }
 
@@ -246,16 +260,13 @@ window.addEventListener('beforeinstallprompt', function(e){
 
 // ------------------- On Page Load -------------------
 window.addEventListener('load', () => {
-  showInstallPopup(); // Show popup every time page reload unless PWA installed
+  showInstallPopup(); // Will not show if PWA or PHP app exists
 });
 
 // ------------------- Change Message Text Dynamically -------------------
 function setPopupMessage(text){
   document.getElementById('popupMessage').innerText = text;
 }
-
-// Example: Change message dynamically
-// setPopupMessage("Get the best experience! Install UDDiNsp now.");
 </script>
 
   
