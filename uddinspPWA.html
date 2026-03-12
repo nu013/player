@@ -114,7 +114,7 @@ document.head.appendChild(link);
 
 <body onload="loadSite()">
 <div  style="z-index:1; text-align: center; position:fixed; pointer-events:none; top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;">
-⚽</br>UddinSp App </br> 
+⚽</br>UddinSp APP </br> 
   <strong style="color:#fff;">loading ...</strong>
 
   
@@ -158,7 +158,7 @@ navigator.serviceWorker.register('service-worker.js')
   </div>
 
   <!-- Message Text -->
-  <p id="popupMessage">Install UddinSp App for Better Experience</p>
+  <p id="popupMessage">Install UddinSp APP for Better Experience</p>
 
   <!-- Install Button -->
   <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
@@ -169,23 +169,18 @@ navigator.serviceWorker.register('service-worker.js')
 <script>
 let deferredPrompt;
 
-// ------------------- PWA Installed Check -------------------
+// ------------------- PWA detection -------------------
 function isPWAInstalled() {
   return window.matchMedia('(display-mode: standalone)').matches ||
          window.navigator.standalone === true;
 }
 
-// ------------------- Device / Browser Detection -------------------
-function isMobileOrTablet() {
-  return /Android|iPhone|iPad|iPod|Tablet|PlayBook/i.test(navigator.userAgent);
-}
-
-// ------------------- Messenger / FB Browser Detection -------------------
+// ------------------- Messenger / FB detection -------------------
 function isMessengerBrowser() {
   return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
 }
 
-// ------------------- Browser Detection -------------------
+// ------------------- Browser detection -------------------
 function getBrowserName() {
   const ua = navigator.userAgent;
   if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
@@ -195,32 +190,29 @@ function getBrowserName() {
   return "Other";
 }
 
-// ------------------- Close Popup -------------------
+// ------------------- Close popup -------------------
 function closePopup() {
   document.getElementById('appPopup').style.display = 'none';
 }
 
-// ------------------- Handle Install Click -------------------
+// ------------------- Install click -------------------
 function handleInstallClick() {
   const popup = document.getElementById('appPopup');
   popup.style.display = 'none';
   const siteURL = window.location.href;
 
-  // PWA install prompt
   if(deferredPrompt){
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(()=>{ deferredPrompt = null; });
     return;
   }
 
-  // Messenger / FB in-app → redirect to Chrome intent
   if(isMessengerBrowser()){
     window.location = "intent://" + siteURL.replace(/^https?:\/\//,"") + "#Intent;scheme=https;package=com.android.chrome;end";
     return;
   }
 
-  // Other browsers → open in new tab (shortcut / install)
-  window.open(siteURL, "_blank");
+  window.open(siteURL,"_blank");
 }
 
 // ------------------- Capture beforeinstallprompt -------------------
@@ -229,31 +221,31 @@ window.addEventListener('beforeinstallprompt', (e)=>{
   deferredPrompt = e;
 });
 
-// ------------------- Check External PHP App Endpoint -------------------
-async function isPHPAppAvailable() {
+// ------------------- Server-side check for app installed -------------------
+async function isAppInstalledServer() {
   try {
-    const res = await fetch("https://nu013.github.io/player/checkPwaApp.php", { method: "GET" });
+    const res = await fetch("https://yourdomain.com/checkAppInstalled.php", { method: "GET", credentials: "include" });
     const data = await res.json();
-    return data.installed; // true → app exists, hide popup
-  } catch(e) {
-    return false; // error → assume app not installed
+    return data.installed;
+  } catch(e){
+    return false;
   }
 }
 
-// ------------------- Show Popup Logic -------------------
+// ------------------- Show popup logic -------------------
 async function initPopup() {
-  // 1️⃣ PWA already installed → hide popup
+  // 1️⃣ PWA installed check
   if(isPWAInstalled()) return;
 
-  // 2️⃣ Check external PHP app → hide popup if installed
-  const phpExists = await isPHPAppAvailable();
-  if(phpExists) return;
+  // 2️⃣ Server-side app installed check
+  const serverInstalled = await isAppInstalledServer();
+  if(serverInstalled) return;
 
-  // 3️⃣ Show popup
+  // 3️⃣ Show popup if nothing installed
   document.getElementById('appPopup').style.display = 'block';
 }
 
-// ------------------- On Page Load -------------------
+// ------------------- On page load -------------------
 window.addEventListener('load', ()=>{ initPopup(); });
 </script>
 
