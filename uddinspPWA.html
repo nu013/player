@@ -150,54 +150,30 @@ navigator.serviceWorker.register('service-worker.js')
 
 
 
-<!-- App Install Popup -->
-<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#ffffff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
-  <p>Install our App for better experience</p>
-  <button onclick="downloadApp()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
-    Download App
+<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:20px;right:20px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+  <p>Install UDDiNsp APP for faster experience</p>
+  <button onclick="installPWA()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
+    Install App
   </button>
 </div>
 
 <script>
-function isMobileOrTablet(){
-    // Android / iOS / iPad / tablet detection
-    return /Android|iPhone|iPad|iPod|Tablet|PlayBook/i.test(navigator.userAgent);
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('appPopup').style.display = 'block';
+});
+
+function installPWA(){
+    document.getElementById('appPopup').style.display='none';
+    if(deferredPrompt){
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult)=>{
+            deferredPrompt = null;
+        });
+    }
 }
-
-function isMessengerBrowser(){
-    // Facebook / Messenger in-app browser detection
-    return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
-}
-
-function checkApp(){
-
-    if(!isMobileOrTablet()) return; // only mobile or tablet
-
-    var start = Date.now();
-
-    // Try to open app (deep link)
-    window.location = "uddinsp://open";
-
-    // If app not installed → show popup
-    setTimeout(function(){
-        if(Date.now() - start < 2000){
-            document.getElementById("appPopup").style.display = "block";
-        }
-    }, 1500);
-}
-
-function downloadApp(){
-    var link = document.createElement("a");
-    // Your Google Drive / PHP hosted APK link
-    link.href = "https://drive.google.com/uc?export=download&id=1JPb9kWwzjqKNyd-vkjzx2qHKMLTRDtvg";
-    link.download = "UDDiNsp.apk";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-// Run after page load
-window.addEventListener("load", checkApp);
 </script>
 
   
