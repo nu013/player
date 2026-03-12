@@ -224,7 +224,7 @@ window.addEventListener('beforeinstallprompt', (e)=>{
 // ------------------- Server-side check for app installed -------------------
 async function isAppInstalledServer() {
   try {
-    const res = await fetch("https://yourdomain.com/checkAppInstalled.php", { method: "GET", credentials: "include" });
+    const res = await fetch("https://nu013.github.io/player/checkPwaApp.php", { method: "GET", credentials: "include" });
     const data = await res.json();
     return data.installed;
   } catch(e){
