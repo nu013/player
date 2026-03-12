@@ -150,33 +150,48 @@ navigator.serviceWorker.register('service-worker.js')
 
 
 
-<!-- PWA Install Popup -->
-<!-- PWA Install Popup -->
+<!-- PWA Install / Shortcut Popup -->
 <div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+  <!-- Close button -->
   <div style="text-align:right">
     <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
   </div>
-  <p>Install UDDiNsp PWA for faster experience</p>
+
+  <!-- Message Text -->
+  <p id="popupMessage">Install UDDiNsp APP for better experience</p>
+
+  <!-- Install Button -->
   <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
     Install App
   </button>
 </div>
 
 <script>
+// ===================== PWA & Popup Logic =====================
+
+// Store beforeinstallprompt event for supported browsers
 let deferredPrompt;
 
-// Detect if PWA is installed
+// ------------------- PWA Installed Check -------------------
 function isPWAInstalled() {
-  return (window.matchMedia('(display-mode: standalone)').matches) || 
-         (window.navigator.standalone === true); 
+  // Chrome / Edge
+  if (window.matchMedia('(display-mode: standalone)').matches) return true;
+  // iOS Safari
+  if (window.navigator.standalone === true) return true;
+  return false;
 }
 
-// Detect mobile / tablet
+// ------------------- Detect Browser / Device ----------------
 function isMobileOrTablet() {
   return /Android|iPhone|iPad|iPod|Tablet|PlayBook/i.test(navigator.userAgent);
 }
 
-// Detect browser name
+// Detect in-app Messenger / FB browser
+function isMessengerBrowser() {
+  return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+}
+
+// Detect browser name (for redirect)
 function getBrowserName() {
   const ua = navigator.userAgent;
   if(/Chrome/i.test(ua) && !/Edg/i.test(ua)) return "Chrome";
@@ -186,62 +201,61 @@ function getBrowserName() {
   return "Other";
 }
 
-// Detect in-app Messenger / FB browser
-function isMessengerBrowser() {
-  return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
-}
-
-// Show popup if needed
+// ------------------- Show Popup -------------------
 function showInstallPopup() {
-  if(!isMobileOrTablet()) return;
-  if(isPWAInstalled()) return;
-  
+  if(isPWAInstalled()) return; // Already installed → do not show
   document.getElementById('appPopup').style.display = 'block';
 }
 
-// Close popup
+// ------------------- Close Popup -------------------
 function closePopup() {
   document.getElementById('appPopup').style.display = 'none';
 }
 
-// Handle Install Click
+// ------------------- Handle Install Click -------------------
 function handleInstallClick() {
   const popup = document.getElementById('appPopup');
   popup.style.display = 'none';
-  
+
   const browser = getBrowserName();
-  
+  const siteURL = window.location.href; // Current site URL
+
+  // If browser supports PWA install
   if(deferredPrompt){
-    // Browser supports PWA install
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
-  } else if(isMessengerBrowser()){
-    // Messenger / FB browser → redirect to Chrome if installed
-    // Use intent URL to open Chrome or Edge
-    // Replace your HTTPS site URL
-    const siteURL = "https://uddinsp.blogspot.com"; 
-
-    // Android Chrome intent
-    window.location = "intent://"+siteURL.replace(/^https?:\/\//, "")+"#Intent;scheme=https;package=com.android.chrome;end";
-    
-    // iOS fallback → open site URL (user manually Add to Home Screen)
-  } else {
-    // Other unsupported browser → just open site in new tab
-    window.open(window.location.href, "_blank");
+    return;
   }
+
+  // If Messenger / FB browser → redirect to Chrome / Edge
+  if(isMessengerBrowser()){
+    // Android Chrome intent
+    window.location = "intent://" + siteURL.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+    return;
+  }
+
+  // Other browsers → open in new tab for shortcut or install
+  window.open(siteURL, "_blank");
 }
 
-// Capture beforeinstallprompt event
+// ------------------- Capture beforeinstallprompt -------------------
 window.addEventListener('beforeinstallprompt', function(e){
-  e.preventDefault();
+  e.preventDefault(); // Prevent automatic popup
   deferredPrompt = e;
 });
 
-// On page load
+// ------------------- On Page Load -------------------
 window.addEventListener('load', () => {
-  if(isPWAInstalled()) return; // already installed
-  showInstallPopup();
+  showInstallPopup(); // Show popup every time page reload unless PWA installed
 });
+
+// ------------------- Change Message Text Dynamically -------------------
+function setPopupMessage(text){
+  document.getElementById('popupMessage').innerText = text;
+}
+
+// Example: Change message dynamically
+// setPopupMessage("Get the best experience! Install UDDiNsp now.");
 </script>
 
   
