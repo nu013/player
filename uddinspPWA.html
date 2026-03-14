@@ -135,18 +135,36 @@ mozallowfullscreen
 
 <script>
 
-/* SERVICE WORKER */
-
+/* SERVICE WORKER old */
+/* 
 if('serviceWorker' in navigator){
-
 navigator.serviceWorker.register('service-worker.js')
-
 .then(()=>console.log("SW Registered"))
-
 .catch(e=>console.log(e));
-
 }
+ */  
+/* SERVICE WORKER new*/
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(reg => {
+      console.log("SW Registered");
 
+      // detect updates
+      reg.onupdatefound = () => {
+        const newWorker = reg.installing;
+
+        newWorker.onstatechange = () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            // new update found, reload silently
+            console.log("New SW update, reloading silently...");
+            location.reload();
+          }
+        };
+      };
+
+    })
+    .catch(e => console.log(e));
+}
 </script>
 
 
