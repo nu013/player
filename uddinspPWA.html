@@ -473,7 +473,21 @@ max-width:90%;
 <body>
   
 <!-- অ্যাড কন্টেইনার -->
+<!-- =================== PWA Install / Popup =================== -->
+<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+  <!-- Close button -->
+  <div style="text-align:right">
+    <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
+  </div>
 
+  <!-- Message Text -->
+  <p id="popupMessage">Install UddinSp APP for Better Experience</p>
+
+  <!-- Install Button -->
+  <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
+    Install App
+  </button>
+</div>
   
 <div class="main-wrapper">
   <a href="https://nu013.github.io/player/uddinspPWA.html" style="text-decoration: none;">
@@ -1389,21 +1403,7 @@ if ('serviceWorker' in navigator) {
 
 
 
-<!-- =================== PWA Install / Popup =================== -->
-<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
-  <!-- Close button -->
-  <div style="text-align:right">
-    <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
-  </div>
 
-  <!-- Message Text -->
-  <p id="popupMessage">Install UddinSp APP for Better Experience</p>
-
-  <!-- Install Button -->
-  <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
-    Install App
-  </button>
-</div>
 
 <script>
 // ===================== PWA & Popup Logic =====================
