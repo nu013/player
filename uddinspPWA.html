@@ -193,7 +193,7 @@ return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
 
 function showInstallPopup(){
 
-if(localStorage.getItem("pwaHideForever")) return;
+//if(localStorage.getItem("pwaHideForever")) return;
 
 if(isIOS()) return;
 
@@ -250,7 +250,7 @@ window.location.href=link;
 
 setTimeout(function(){
 
-localStorage.setItem("pwaHideForever","true");
+//localStorage.setItem("pwaHideForever","true");
 
 },2000);
 
