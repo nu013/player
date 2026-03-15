@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+<script>
+if (!sessionStorage.getItem("pwaReloaded")) {
+  sessionStorage.setItem("pwaReloaded", "yes");
+  location.reload();
+} else {
+  sessionStorage.removeItem("pwaReloaded");
+}
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>UddinSp App</title>
+<style>
+html,body{
+margin:0;
+padding:0;
+height:100%;
+background:#000;
+overflow:hidden;
+}
+
+#app{
+width:100%;
+height:100%;
+border:none;
+}
+</style>
+
+
+
+
+
+<script>
+
+/* MAIN WEBSITE */
+var site1="https://uddinsp.blogspot.com";
+
+/* BACKUP WEBSITE */
+var site2="https://example.com";
+
+/* CHECK WEBSITE AND LOAD */
+async function loadSite(){
+
+try{
+
+let r=await fetch(site1,{mode:"no-cors"});
+document.getElementById("app").src=site1;
+
+}catch(e){
+
+document.getElementById("app").src=site2;
+
+}
+
+}
+
+</script>
+
+
+<!-- Dynamic PWA Manifest -->
+<script>
+
+(function(){
+
+var myManifest={
+"name":"UddinSp App",
+"short_name":"UddinSp",
+"start_url":window.location.origin+"/player/uddinspPWA.html",
+"display":"standalone",
+"background_color":"#000000",
+"theme_color":"#000000",
+
+"icons":[
+{
+"src":"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiWUowXYrP3H9wPUrYZDmwX0G2gQsu3SOrQdp3gXQF7cl2CEcc2s91-mWXoXuPAo5pzI2O_SwWweR7SeG_CLwk2_ya49Mw1cDDp597Dkzy674mph1mS6Cpl5vosPbdcypksYDDxNhRl7eBkS4qUIw1FSKBa-yiV7czZPMldEOREPBszzSBXCfxqDLZb15Q/s320/Power%20192X%20192.png",
+"sizes":"192x192",
+"type":"image/png"
+},
+
+{
+"src":"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCMX5-VFsMXOwjuNIokjstLV1_F297p7cF-f5LVtOKx-DaZ19q3FlQfAEa6aPQfH7HeoCaWiirB-Tl_UdB9c7qkH2LGCCwJjOC40Rw4h0EvD8gszPSRSux29yHzEcH9SEcMRIWX3eO7UOPSHu1ka3oXhtdRNdaxvT5CiUG7Qu2O0eYCJIkCytSWM2KVP0/s320/Power%20512%20X%20512.png",
+"sizes":"512x512",
+"type":"image/png"
+}
+
+]
+
+};
+
+var stringManifest=JSON.stringify(myManifest);
+
+var blob=new Blob([stringManifest],{type:"application/manifest+json"});
+
+var manifestURL=URL.createObjectURL(blob);
+
+var link=document.createElement("link");
+
+link.rel="manifest";
+
+link.href=manifestURL;
+
+document.head.appendChild(link);
+
+})();
+
+</script>
+</head>
+
+
+<body onload="loadSite()">
+
+<!-- 2️⃣ Loading Text -->
+<div  style="z-index:1; text-align: center; position:fixed; pointer-events:none; top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;">
+⚽</br>UddinSp APP </br> 
+  <strong style="color:#fff;">loading ...</strong>
+  
+</div>
+
+  
+<iframe id="app"
+allow="autoplay; fullscreen; encrypted-media" 
+controls 
+playsinline 
+referrerpolicy="no-referrer" 
+style=" width:100%; height:100%; border:none; position:fixed; z-index:2; "
+allowfullscreen
+webkitallowfullscreen
+mozallowfullscreen
+ >
+</iframe>
+
+
+<script>
+
+/* SERVICE WORKER old */
+/* 
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('service-worker.js')
+.then(()=>console.log("SW Registered"))
+.catch(e=>console.log(e));
+}
+ */  
+/* SERVICE WORKER new*/
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(reg => {
+      console.log("SW Registered");
+
+      // detect updates
+      reg.onupdatefound = () => {
+        const newWorker = reg.installing;
+
+        newWorker.onstatechange = () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            // new update found, reload silently
+            console.log("New SW update, reloading silently...");
+            location.reload();
+          }
+        };
+      };
+
+    })
+    .catch(e => console.log(e));
+}
+</script>
+
+
+
+<!-- PWA Install / Shortcut Popup -->
+<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+  <!-- Close button -->
+  <div style="text-align:right">
+    <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
+  </div>
+
+  <!-- Message Text -->
+  <p id="popupMessage">Install UddinSp APP for Better Experience</p>
+
+  <!-- Install Button -->
+  <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
+    Install App
+  </button>
+</div>
+
+<script>
+
+// ===================== PWA & Popup Logic =====================
+
+let deferredPrompt;
+
+
+// ------------------- Check Installed -------------------
+
+function isPWAInstalled(){
+
+if(window.matchMedia('(display-mode: standalone)').matches) return true;
+
+if(window.navigator.standalone === true) return true;
+
+return false;
+
+}
+
+
+// ------------------- Device Detect -------------------
+
+function isAndroid(){
+
+return /Android/i.test(navigator.userAgent);
+
+}
+
+function isIOS(){
+
+return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+}
+
+
+// ------------------- Messenger Detect -------------------
+
+function isMessengerBrowser(){
+
+return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+
+}
+
+
+// ------------------- Show Popup -------------------
+
+function showInstallPopup(){
+
+if(localStorage.getItem("pwaHideForever")) return;
+
+if(isIOS()) return;
+
+if(!isAndroid()) return;
+
+if(isPWAInstalled()) return;
+
+document.getElementById('appPopup').style.display='block';
+
+}
+
+
+// ------------------- Close Popup -------------------
+
+function closePopup(){
+
+document.getElementById('appPopup').style.display='none';
+
+}
+
+
+// ------------------- Open Supported Browser -------------------
+
+function openSupportedBrowser(){
+
+const url = window.location.href.replace(/^https?:\/\//,"");
+
+const browsers=[
+
+"intent://"+url+"#Intent;scheme=https;package=com.android.chrome;end",
+
+"intent://"+url+"#Intent;scheme=https;package=com.microsoft.emmx;end",
+
+"intent://"+url+"#Intent;scheme=https;package=org.mozilla.firefox;end",
+
+"intent://"+url+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end"
+
+];
+
+let opened=false;
+
+browsers.forEach(function(link){
+
+if(!opened){
+
+opened=true;
+
+window.location.href=link;
+
+}
+
+});
+
+
+setTimeout(function(){
+
+localStorage.setItem("pwaHideForever","true");
+
+},2000);
+
+}
+
+
+// ------------------- Install Button -------------------
+
+function handleInstallClick(){
+
+const popup=document.getElementById('appPopup');
+
+popup.style.display='none';
+
+if(deferredPrompt){
+
+deferredPrompt.prompt();
+
+deferredPrompt.userChoice.then(function(choice){
+
+if(choice.outcome!=="accepted"){
+
+openSupportedBrowser();
+
+}
+
+deferredPrompt=null;
+
+});
+
+return;
+
+}
+
+
+openSupportedBrowser();
+
+}
+
+
+// ------------------- Install Success Detect -------------------
+
+window.addEventListener('appinstalled',function(){
+
+localStorage.setItem("pwaHideForever","true");
+
+});
+
+
+// ------------------- Capture Install Event -------------------
+
+window.addEventListener('beforeinstallprompt',function(e){
+
+e.preventDefault();
+
+deferredPrompt=e;
+
+});
+
+
+// ------------------- Page Load -------------------
+
+window.addEventListener('load',function(){
+
+showInstallPopup();
+
+});
+
+
+// ------------------- Change Popup Text -------------------
+
+function setPopupMessage(text){
+
+document.getElementById("popupMessage").innerText=text;
+
+}
+
+</script>
+
+  
+</body>
+</html>
