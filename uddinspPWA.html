@@ -18,83 +18,1333 @@ if (!sessionStorage.getItem("pwaReloaded")) {
   
   <title>UddinSp App</title>
   
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  
 <style>
-html,body{
-margin:0;
-padding:0;
-height:100%;
-background:#000;
+body{
+    margin:0;
+    background:#000;
+    font-family:Arial;
+    color:yellow;
+    text-align:center;
+    overflow-x:hidden;
+    align-items: center;
+}
+
+.main-wrapper { 
+    max-width: 775px; 
+    background: #111; 
+    border: 1px solid #222; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.9); 
+    text-align:center;
+    overflow-x:hidden;
+    align-items: center;
+    margin: 0 auto; /* ব্লগস্পটে সেন্টারের জন্য জরুরি */
+        }
+  
+/* LOGO */
+.logo{
+    font-family: sans-serif;
+    font-size:0px;
+    color: #000;
+    font-weight:bold;
+    padding:3px;
+    letter-spacing: 2px;
+    text-align: center;
+    /*display: none;  .... logo in pc not show */
+  }
+@media (max-width: 520px) {
+   .logo{
+    font-size:26px;
+    font-weight:bold;
+    color: yellow ;
+    padding:8px 0px 5px 0px ;
+    letter-spacing: 2px;
+    text-align: center;
+    /* display: block;  ...logo in pc not show but in mobile show*/
+     }
+   #countdownDiv{
+        display: none !important;
+    }
+}
+  
+/* PLAYER */
+.player-wrapper{
+    position:relative; /* aspect-ratio:16/9; */
+    width:768px;
+    margin:auto 1px;
+}
+
+video, iframe{
+    width:768px; /* 100%; */
+    height:320px; /* 100%; */
+    border:3px solid yellow;
+    display:block;
+    position:relative; 
+    z-index:1;
+    background:transparent;
+}
+
+/* CONTROL BUTTONS */
+.control-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.6);
+    color:rgba(225,225,0,0.7); 
+    border:2px solid rgba(225,225,0,0.7);
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:10;
+    font-size:22px;
+    transition: 0.3s;
+  
+}
+
+  
+.control-btn:hover {
+   font-size:26px;  color:rgba(225,225,0,1);
+}
+  /* ২. মাউস যখন ভিডিওর ওপর (playerBox) থাকবে */
+#videoBox.mouse-active .control-btn{
+   font-size:26px;    color:rgba(225,225,0,1);  
+}
+  
+.control-left{ left:10px; }
+.control-right{ right:10px; }
+
+.full-btn{
+    position:absolute;
+    z-index:10;
+    bottom:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.9);
+    border:0px solid rgba(225,225,0,0.2);
+    font-size:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition: 0.3s;
+    color:rgba(225,225,0,0.9);
+}
+.full-btn:hover  {
+    transform:scale(1.3); /* transform: translateY(-2px); *//* হালকা লিফট ইফেক্ট */
+}
+  /* ২. মাউস যখন ভিডিওর ওপর (playerBox) থাকবে */
+#videoBox.mouse-active .full-btn {
+   color:rgba(225,225,0,1);  border:0px solid rgba(225,225,1);
+}
+.refresh-btn{
+    position: absolute;
+    top: 10px;      /* নিচ থেকে ১৫ পিক্সেল উপরে */
+    left: 70%;         /* মাঝখানে নিতে  35%;*/
+    transform: translateX(-50%); /* নিখুঁত সেন্টার করার জন্য */
+    background: rgba(0, 0, 0, 0.2); /* হালকা কালো ব্যাকগ্রাউন্ড */
+    color: yellow;
+    border: 1px solid rgba(255, 255, 0, 0.5);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    z-index: 1001;     /* যেন ভিডিওর উপরে থাকে */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* opacity: 0.1;      ডিফল্ট ভাবে হালকা থাকবে */
+    transition: opacity 0.3s;
+    pointer-events: auto;
+}
+
+/* CATEGORY */
+.categories button{
+    background:#222;
+    color:yellow;
+    border:1px solid yellow;
+    padding:6px 10px;
+    margin:3px;
+    cursor:pointer;
+}
+.categories button:hover {
+    background:#1e1e1e;
+  transform: translateY(-1px); /* হালকা লিফট ইফেক্ট */
+}
+.categories button.active{
+    background:yellow;
+    color:black;
+ }
+
+/* VIDEO LIST */
+.video-wrapper{
+    width:768px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:20px;
+}
+
+.video-container{
+   /*(SHOW CH BUTTON ONE LINE)
+    display:flex;
+    overflow-x:auto;         
+    overflow-y:hidden;
+    width:80%;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch;  
+    scrollbar-width:none;    
+   */
+  
+   /*(SHOW CH BUTTON ALL WITH GRID) 
+    display:grid;
+    grid-template-columns: repeat(8, 1fr); 
+    gap:2px;
+    margin:auto;
+    */
+   /*(SHOW CH BUTTON ALL) */
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    overflow:visible;  
+}
+  
+.video-container::-webkit-scrollbar{
+    display:none;           /*..... Chrome scrollbar hide */
+}
+.video-btn{
+    text-align:center;
+    margin:9px ;
+    cursor:pointer;
+    /* min-width:70px;  */
+    border-radius: 10px;
+    border:2px solid #333;
+    background: #222;
+  }
+.video-btn:hover {
+  transform: translateY(-1px); 
+  background: #1e1e1e;
+}
+.video-btn.active {
+    border:2px solid lime;
+    border-bottom: 3px solid yellow;
+    transform: translateY(-0px);
+    background: #000;
+  
+}
+.video-btn img{
+    margin:auto;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    display:block;
+    border:2px solid #333;
+}
+
+.video-btn.active img{
+    border:2px solid lime;
+    border-bottom: 2px solid lime;
+}
+
+.video-btn div{
+    font-size:11px;
+    margin-top: -14px;
+  color: yellow;
+}
+.video-btn.active div{
+     margin-top: - ;
+}
+.arrow{
+    font-size:26px;
+    cursor:pointer;
+    padding:10px;
+    user-select:none;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.player-wrapper{
+    width:100%;
+   aspect-ratio: 16 / 9;  /*👈 IF THIS WONT ADD WITH CHING CHING iframe{height:100%;*/
+}
+.video-wrapper{
+    width:100%;
+}
+  /* iframe + video same style in mobile */
+.player-wrapper video,
+.player-wrapper iframe {
+    width:100%;
+    height: 100%;  /*height:220px;*/
+    border: 0px solid ;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid yellow;
+  
+}
+/* CONTROL BUTTONS */
+.control-btn{
+    background:rgba(0,0,0,0.0);
+    border:0px solid yellow;
+    border-radius:0;
+}
+.control-left{ left:5px; }
+.control-right{ right:5px; }
+
+.full-btn{background:rgba(0,0,0,0.9);border:0px solid yellow; 
+  }
+  #videoBox.mouse-active .full-btn {
+   color:rgba(225,225,0,1);  border:0px solid rgba(225,225,1);
+}
+.video-btn {
+    border:2px solid #555;
+    background: #333;
+}
+  
+.video-btn img{
+    margin:auto;
+    width:59px;
+    height:59px;
+    border-radius:50%;
+    display:block;
+    border:2px solid #555;
+}
+  
+
+  
+  
+}
+  
+  
+  
+/* FULLSCREEN FIX */
+#videoBox:fullscreen{
+    width:100vw;
+    height:100vh;
+}
+
+#videoBox:fullscreen iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+#videoBox:-webkit-full-screen{
+    width:100vw;
+    height:100vh;
+}
+#videoBox:fullscreen video,
+#videoBox:-webkit-full-screen iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+  
+/*  ভিডিওর নিচের সাদা / dummy bar বন্ধ */
+/* buffering / loading spinner এর সময়ও clean থাকবে */
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls {
+  background: transparent !important;
+}
+/* তিন ডট বা অপশন মেনু লুকানো */
+video::-webkit-media-controls-overflow-button {
+  display: none !important;
+    }
+/* ১. ডিফল্ট ফুলস্ক্রিন বাটন হাইড করা.... ,,,*/
+video::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}  
+/* ৩. কারেন্ট টাইম এবং বাকি সময়ের ডিসপ্লে হাইড করা */
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display {
+    display: none !important;
+}
+/* প্রগ্রেস বা সিক বার লুকানো */
+video::-webkit-media-controls-timeline {
+  display: none !important;
+}
+/* Firefox / অন্যান্য ব্রাউজারের জন্য */
+video {
+  background-color: transparent !important;
+}
+   
+
+/* ===============================
+   TEXT ANIMATION LOADER (WEB STYLE)
+   =============================== */
+
+.loading-text-anim {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    yellow 50%,
+    #000 100%
+  );
+  background-size: 300% 100%;
+  background-position: 0% center;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 3s linear infinite;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+@keyframes shine {
+  0% {
+    background-position: 300% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+  
+/* ===============================bold
+  channel name show 3 sec inside video
+   =============================== */
+#channelNameOverlay{
+position:absolute;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(0,0,0,0.0);
+color: #fff;
+font-size:20px;
+font-weight:bold;
+padding:0px;
+border-radius:6px;
+z-index:5;
+display:none;
+pointer-events:none;
+
+/* important */
+white-space:nowrap;
 overflow:hidden;
+text-overflow:ellipsis;
+max-width:90%;
+} 
+  
+  
+/* Responsive Ad */
+.ad-container {
+    width: 100%;           /* মোবাইল স্ক্রিনের পুরো width */
+    max-width: 728px;      /* desktop এর max width */
+    margin: 0 auto;        /* centered */
+    height: 50px;         /* height fixed */
+    overflow: hidden;      /* যাতে iframe overflow না করে */
 }
 
-#app{
-width:100%;
-height:100%;
-border:none;
+.ad-container iframe {
+    width: 100% !important;   /* container width অনুযায়ী */
+    height: 50px !important;  /* container height অনুযায়ী */
+    display: block;
+    border: 0;
 }
+
+
+  
+  
 </style>
+</head>
+<body>
+  
+<!-- অ্যাড কন্টেইনার -->
 
+  
+<div class="main-wrapper">
+  <a href="https://uddinsp.blogspot.com/" style="text-decoration: none;">
+<div class="logo" id="logo">
+<span style="color: #fff;">U</span>ddinSp <span style="color: #fff;">app</span>
+</div>
+</a>
+  
+  
+<span   style="color: #999; font-size: 17px; font-weight: bold; letter-spacing: 0px;"> 🔵 PLAY or Unmute Click 4/5 Times</span>
+  
+  
+<div class="player-wrapper" id="videoBox" style="background: #000; ">
+  
+  
+             <!-- 👇 videor নিচে uddinsp name anim -->
+    <div class="loading-text-anim" 
+    style=" position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:yellow;font-size:28px; z-index:0;"> UddinSp </div>
 
+  
+<video id="videoPlayer" controls playsinline style="display:none;"></video>
+  
+<iframe id="player" allow="autoplay; fullscreen; encrypted-media" allowfullscreen="" playsinline="" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-presentation  allow-forms" scrolling="no">   </iframe>
+  
+  
+   <!-- 👇 inside video channel name show 3 sec -->
+<div id="channelNameOverlay"></div>
 
+             <!-- 🔊 PHP volume hint icon fill: #9aff00;-->
+<div id="volumeIcon" style="bottom: 14px; right: 100px; cursor: pointer;  pointer-events: none; position: absolute;  z-index: 1500;">
+ <svg style="fill: #88ff2b; height: 32px; pointer-events: none; width: 32px;" viewbox="0 0 24 24">
+  <path d="M11 5L6 9H2V15H6L11 19V5Z" fill="#88ff2b" stroke="#88ff2b" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M15.5 8.5C16.8333 9.66667 17.5 11.1667 17.5 13C17.5 14.8333 16.8333 16.3333 15.5 17.5" stroke="red" stroke-width="2" stroke-linecap="round"/>
+ </svg>
+</div>
+  
+  
+     <div class="control-btn control-left" onclick="prevVideo()">❮</div>
+     <div class="control-btn control-right" onclick="nextVideo()">❯</div>
+     <div class="full-btn" onclick="toggleFull()">⛶</div>
 
+<!-- refresh inside video-->
+   <div class="refresh-btn" onclick="refreshVideo()" style="background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid yellow; color: #9aff00; cursor: pointer; font-size: 15px; padding: 1px 5px;">
+      <svg onclick="refreshVideo()" style="cursor: pointer; fill: #9aff00; height: 24px; width: 24px;" viewbox="0 0 24 24">
+  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z">
+</path></svg> 
+    
+  </div>
 
+  
+    <!-- Countdown overlay -->
+ <div id="countdownDiv" style="background: rgba(0,0,0,0.0); border-radius: 10px; color: #666; display: none; font-size: 60px; font-weight: bold; left: 50%; padding: 20px; position: absolute; text-align: center; top: 62%; transform: translate(-50%,-50%); z-index: 9999;">5</div>
+</div>
+  
+ 
+  
+<div class="categories" style="background:  ;margin-bottom: 20px;" >
+    <button class="active" onclick="filterCategory('all',this)">ALL</button>
+    <button onclick="filterCategory('football',this)">FOOTBALL</button>
+    <button onclick="filterCategory('cricket',this)">CRICKET</button>
+    <button onclick="filterCategory('bangla',this)">BANGLA</button>
+    <button onclick="filterCategory('hindi',this)">HINDI</button>
+    <button onclick="filterCategory('english',this)">ENGLISH</button>
+</div>
+</div>
+<!-- (SHOW CH BUTTON ONE LINE)...
+<div class="video-wrapper">
+    <div class="arrow" onclick="scrollPrev()">❮</div>
+    <div class="video-container" id="videoList"></div>
+    <div class="arrow" onclick="scrollNext()">❯</div>
+</div>
+-->
+
+  
+  
+<div class="video-wrapper"style="background: #0a0a0a;border: 4px solid #222;border-top: 0px solid #222;margin-top: 0;max-width: 775px;">
+    <div class="video-container" id="videoList"></div>
+</div>
+
+  
+<div style="text-align:center; left:50%; transform:translateX(-50%); position:absolute; width:260px; padding:10px;">
+
+  <!-- Reload -->
+  <div style="margin-bottom:10px; color:#9aff00; font-size:35px; cursor:pointer;background:rgba(0,0,0,0.8); border-radius:15px; border:1px solid yellow; ">
+    <a href="https://uddinsp.blogspot.com/" style="text-decoration:none; color:#9aff00;">
+      <svg onclick="refreshVideo()" style="cursor:pointer; fill:#9aff00; height:24px; width:24px;" viewBox="0 0 24 24">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path>
+      </svg>
+      Reload  
+      <span style="color:#;font-size:26px;font-weight:bold;">app</span>
+    </a>
+  </div>
+
+  <!-- Logo Text -->
+  <div>
+    <a href="https://uddinsp.blogspot.com/" style="text-decoration:none;">
+      <span style="color:yellow; font-size:26px; font-weight:bold;">
+        <span style="color:#fff;">U</span>ddinSp <span style="color:#fff;">app</span>
+      </span>
+    </a>
+  </div>
+
+</div>
+  
+
+  
+  
 <script>
+  
+var currentCategory = "all";
+var currentIndex = 0;
+var countdownInterval = null;
+var videoLinkData = {};
+  
+  
+var videos = [
 
-/* MAIN WEBSITE */
-var site1="https://uddinsp.blogspot.com";
+/*  */
+  {name:"Bein Sports USA", 
+   img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlqIEw824sBdcgq47u-s4i6mOgvNZ_t4IQoMc8FDS729trAveoRXK4AArodw7AZHG_L2VS7vymdc2RpsMz_tTn-BiFAIXzqyvdTBSt0a4riLkNKajZVP2Pi7doW2kf7SpuFIQCNlpB1iHfXmn0-yQb3zAJbSE0ckNLrEdFxb4MdVxliDP-WFMOBnRPrfE/s1600/BEIN%20SP.png",
+   link:["https://uddinsp.blogspot.com/p/embed-football-8.html"], 
+   categories:["football"], 
+   countdown:5 
+  }, 
 
-/* BACKUP WEBSITE */
-var site2="https://example.com";
 
-/* CHECK WEBSITE AND LOAD */
-async function loadSite(){
+  {name:"PTV Sports", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQr4ZCgIcMAiJQ0PH5Toh0aAWz3FcV4YQL8t1pdEVLoN04NxGa-8BrsjDYR4mCgs2eWqwxAEI0oBPz0MbRaqEoGQRfQVSgmx02cfSkeBTSg7IlnEG7L1pqnRyZLDC_6TFDshRxo2a_vqdVWZufwyzDCFZ5CeH0LyfL5TYgFqNJQS5_pYQVpxldVZrdQh0/s1600/PTV%20SPORTS.png",
+   link:["https://streamcrichd.com/update/ptv.php"], 
+   categories:["cricket"], 
+   countdown:5 
+  },
+  {name:"Willow Cricket", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhXUlYW5rv8dPZVfk4ziNhlpcOlhKxWug23qb7YJHTnoUmxAJD3cTCQTR1aO9NvHDjzVQxAVY14iONGDy8WAbUwwJ0DPQ9USjhwRWVRTfvJicbphHM-r0CbGktJjtXvTuvXl9ifXIY8ADyL202O2bxtc8bmBPMQ0OzeXwuvbyWfi2M2qRKiCNl2ExZCvhg/s1600/willow%20cricket.png",
+   link:["https://streamcrichd.com/update/willowcricket.php"], 
+   categories:["cricket"], 
+   countdown:6 
+  },
 
-try{
+    {name:"Sky Football", 
+   img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhSiggzH6CBXvkqWPl4UW7KIKmjb8D-BGF9vSH0ZpwWzyBpj_WrHGv7hPwGO2TrjV6uHgGgSMMmYDAFhyMRTiNeHYqPX0kuLxKoAJf3q5dxm_ExXcAn1EJ2LPj3dBCRq2Uyg_yQEflXuFHA1amlY89x8o14ZZHuWFbJ4C-UOViOdHInhoHBcfGvOpfgBtc/s60/SKY%20Footboll.png",
+   link:["https://streamcrichd.com/update/skysfotb.php"], 
+   categories:["football"], 
+   countdown:6 
+  },
+  {name:"Lalige Footboll", 
+   img:"https://i.imgur.com/ilay5Jr.png",
+   link:["https://streamcrichd.com/update/laligauk.php"], 
+   categories:["football"], 
+   countdown:6 
+  },
+  {name:"Premier Footboll 1", 
+   img:"https://i.imgur.com/lKjXwtG.png",
+   link:["https://streamcrichd.com/update/premier.php"], 
+   categories:["football"], 
+   countdown:5 
+  },
+  {name:"Premier Footboll  2", 
+   img:"https://i.imgur.com/UQeXWd2.png",
+   link:["https://streamcrichd.com/update/ch2.php"], 
+   categories:["football"], 
+   countdown:5 
+  },
+  
+  {name:"Channel i", 
+   img:"https://i.imgur.com/X0JJlOX.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1723/output/index.m3u8", "https://edge2.roarzone.info:8447/roarzone/edge3/channel-i/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  
+  {name:"TNT Sports 1",      img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjSM8a1sqyqHkxPyE62yVoDW4N7xDzQqkcNHmvd3bOpuEob5BQ0bTlvnrtK7-mh3ynTRYfMEirdW8xQPeu5QtSuhWW6Ln1vVpuBHOJXQSe36oUakrVhwEvOUn20zHmQKVjcXxO-MCuSKp6HoZ0SO_UWE7-jk9Bn7PAZ_W2gxQ5blfuVV49YWGZkLpuUc-4/s1600/tnt%201.png",
+   link:["https://streamcrichd.com/update/bt1.php"], 
+   categories:["football"], 
+   countdown:5 
+  },
+  {name:"TNT Sports 2", 
+   img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnI2KIRVWBCGA-BPbP25BcCuFQn8apvR9ykUxHmJltX26Bl0E1uqHxn5rAkSRFdOutxzpn3qSCEkfQeJm8cFgFxASXHEeqyvDO3nZezFJjlml6h9_GSt8HkPfiFsJZP8ZNROnzWDPchRT8FqyHwtOalxyi8PeMqX57uJOe6qGxIsZSSxnb1r5zuWcjj3A/s1600/tnt%202.png",
+   link:["https://streamcrichd.com/update/bt2.php"], 
+   categories:["football"], 
+   countdown:5 
+  },
+  {name:"Sony Ten 1", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SONY_SPORTS_TEN_1/images/LOGO_HD/image.png",
+   link:["https://streamcrichd.com/update/sonyten1.php"], 
+   categories:["football"], 
+   countdown:5 
+  },
+ 
+  
+  {name:"Zee Bangla", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVcYGAanYPzqhyphenhyphensi_3Xob1D5cH6rSis_e75Hfr7BtnlleuMntSw1R8F05UjuUXu55BSV60X_0MLEGpZgfP4o84L2xUGQ7tzOiUto5e7LH40s0AsHk2VQ38jEMO3N_CM6m74RHFx1Jw1c9T90UdEapYdJjm7RREv0f4Ip9TFJVZoR-1kRJgC5YvmhXQJuk/s1600/zee%20bangla.png",
+   link:["https://edge2.roarzone.info:8447/roarzone/edge3/zee-bangla/index.m3u8", "https://uddinsp.blogspot.com/p/embed-bangla-2.html"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  
+  
+ {name:"Hindi flix", 
+   img:"https://i.imgur.com/5CtiQ45.png",
+   link:["https://cc-r5hupcym5oehh.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-r5hupcym5oehh/SBUM/RunnTV/BollyFlix_IN/BollyFlix_IN.m3u8"], 
+   categories:["hindi"], 
+   countdown:0 
+  },
+  {name:"&Pictures", 
+   img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmBEYjilAQJ466p2QLn-76J1VH1lMjqQlkKp5n7weDkjqtJSIk-7qqWFGAJAFpw7p1mgQ8NuVhZHXCi3vDTX6dmGKnEsNy4ZkRx5X2rEqEc8z5jYo38XHQGMDfhz1fUu1mdSyZD9U8fOseYouxFxGH2NmrUoG9JMw0t-htGHPuEap8PFOQng9HarH4uh8/s1600/AND%20pictures.png",
+   link:["https://uddinsp.blogspot.com/p/embed-hindi-1.html"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
+  {name:"Hindi dubbid", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_MOVIES_NOW/images/LOGO_HD/image.png",
+   link:["https://cloudfrontnet.vercel.app/tplay/playout/209593/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
+  {name:"B4U Kadak", 
+   img:"https://dtil.tmsimg.com/assets/s142695_ld_h15_aa.png",
+   link:["https://cdn-2.pishow.tv/live/227/master.m3u8", "https://mumt02.tangotv.in/B4UKADAK/index.m3u8"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
+  {name:"Goldmines 1", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_GOLDMINES/images/LOGO_HD/image.png",
+   link:["https://cdn-2.pishow.tv/live/1459/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
+  {name:"Goldmines 2", 
+   img:"https://www.lyngsat.com/logo/tv/gg/goldmines-2-in.png",
+   link:["https://cdn-2.pishow.tv/live/1460/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
+    {name:"Goldmines 3", 
+   img:"https://www.lyngsat.com/logo/tv/gg/goldmines-bollywood-in.png",
+   link:["https://cdn-2.pishow.tv/live/1461/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:3 
+  },
 
-let r=await fetch(site1,{mode:"no-cors"});
-document.getElementById("app").src=site1;
+  {name:"Mix", 
+   img:"https://i.imgur.com/1ENdbZn.png",
+   link:["https://ml-pull-hwc.myco.io/MixTV/hls/index.m3u8"], 
+   categories:["english"], 
+   countdown:3 
+  },
+  {name:"Rokuten 1", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidLj4N7PASfPC7giYTOciX9FBfVnn_Rhyphenhyphen2mExvnQJpDK0X_Wxeqoh3NYnZh6lLELwciHVjMglF54E72DpQBWRbe5R9teTLpWa2DMl9CP_Bch-8GgoVOO_DsFgJsljQo7p1iNR3IyPDmSKcBNGiV1XUyM9gHEjex8e4adlTW9RHzpVYP0WtaUnroIXJuRE/s1600/rokuten%201.png",
+   link:["https://0145451975a64b35866170fd2e8fa486.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-5987/master.m3u8"], 
+   categories:["english"], 
+   countdown:3 
+  },
+  {name:"Rokuten 2", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkWtC4kzzhVu7ZNwgjB8Ff2ygOPR9Bl_sjSA3u7dvIeYU1TlH8VO5FvzthLHhw9BPUqk55Clz6H7VPNyK_0QgyXZMyogZ_6s5gdBFWwkSmRng7hHuHmociZse3EgV24OeYTE4t9A-cxRvPZDtDMTm5zEsmyMWTH2Jo26CM1qIe_WfTibixGRL7KKwoab8/s1600/rokuten%202.png",
+   link:["https://54045f0c40fd442c8b06df076aaf1e85.mediatailor.eu-west-1.amazonaws.com/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6065/master.m3u8"], 
+   categories:["english"], 
+   countdown:3 
+  },
+  {name:"Western", 
+   img:"https://images-2.rakuten.tv/storage/global-live-channel/translation/artwork/22c730ab-2e9f-47dc-b35a-ad8c081fec40-width200-quality90.jpeg",
+   link:["https://amogonetworx-grjngo-3-dk.samsung.wurl.tv/playlist.m3u8"], 
+   categories:["english"], 
+   countdown:3 
+  },
 
-}catch(e){
+  
+  {name:"Somoy TV", 
+   img:"https://i.imgur.com/i54AQic.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1702/output/index.m3u8", "https://edge2.roarzone.info:8447/roarzone/edge3/somoy-tv/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Jamuna", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjRowLkYHhWys7BjaSkd22U4Gn0ZU7iyRMU8bvNOyFc63Irkz4adbUMB1romnJ-DcUwyoSwQcW152GAPCbiWGhVy_I0d_iaCIs3ZWrbnd1RA9oVExAMI2R2IbXYRLQEiAeToKqMDZQOBz_K47eLlbbxOoGnTGeTk-9g4U0lAuLaHL2VXQiT2zLyXE2h6GQ/s1600/jamuna%20tv.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1701/output/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Ekattor TV", 
+   img:"https://cdn.ekattorbd.com/contents/themes/public/style/images/logo.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1705/output/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"BanglaVison TV", 
+   img:"https://i.imgur.com/nCWgp38.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1715/output/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Ntv", 
+   img:"https://europentv.ntvbd.com/sites/all/themes/sloth/logo.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1716/output/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Atn Bangla", 
+   img:"https://i.imgur.com/vFpjggf.png",
+   link:["https://owrcovcrpy.gpcdn.net/bpk-tv/1722/output/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Bangla Movie+", 
+   img:"https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681",
+   link:["https://live-stream.utkalbongo.com/hls/livebanglatvstream.m3u8"], 
+   categories:["bangla"], 
+   countdown:0 
+  },
+  {name:"Bangla Movies", 
+   img:"https://jiotvimages.cdn.jio.com/dare_images/images/Amaar_Bangla.png",
+   link:["https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI/amarbanglatv.stream/playlist.m3u8"], 
+   categories:["bangla"], 
+   countdown:4 
+  },
+  {name:"Sangeet Bangla", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SANGEET_BANGLA/images/LOGO_HD/LOGO_HD_image.png",
+   link:["https://mumt05.tangotv.in/SANGEETBANGLA/index.m3u8"], 
+   categories:["bangla"], 
+   countdown:4 
+  },
+  
+  
+  {name:"9x Music", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_9XM/images/LOGO_HD/image.png",
+   link:["https://9xjio.wiseplayout.com/9XM/master.m3u8", "https://b.jsrdn.com/strm/channels/9xm/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:0 
+  },
+  {name:"b4u Music", 
+   img:"https://jiotvimages.cdn.jio.com/dare_images/images/B4U_Music.png",
+   link:["https://edge2.roarzone.info:8447/roarzone/edge3/b4u-music/index.m3u8", "https://cdn-2.pishow.tv/live/415/master.m3u8"], 
+   categories:["hindi"], 
+   countdown:0 
+  },
+  {name:"YRF Music", 
+   img:"https://jiotvimages.cdn.jio.com/dare_images/images/YRF_Music.png",
+   link:["https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8"], 
+   categories:["hindi"], 
+   countdown:0 
+  },
+  
 
-document.getElementById("app").src=site2;
+/*  */
+  {name:"Sky Cricket", 
+   img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlpXJDcyHlGKjtTdrdBcyf4kSn5JdG6-jQ_qRQgDAVwDuG1_lkc9oWby0K5ORbFn3haQXSf8jNVB1vdM2G_HKQfEKprx2q-8Sdr3ywUin6xtMchuMTWLg9S_kVYPZ6ZFdXfxyot3N8IyBT2mXkMmN1L4OCNwynokMC4LVhnXF6QnN4PRl0MQnmSmlyPYI/s1600/sky%20cricket.png",
+   link:["https://streamcrichd.com/update/skys2.php"], 
+   categories:["cricket"], 
+   countdown:6 
+  },
+
+  {name:"Star Sports Hindi", 
+   img:"https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_STAR_SPORTS_1_HINDI/images/LOGO_HD/image.png",
+   link:["https://streamcrichd.com/update/star1hi.php"], 
+   categories:["cricket"], 
+   countdown:6 
+  },
+  
+
+  {name:"Today football match scjual", 
+img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhErQ9uKVHR0_Gh52xR_Jr0sz9F8h5oiNGxMQPSlawYAfv2PANzS16lna7BD9Qu9XrFLLn62oQocj5zlk9qcvQa5aPjeDiQXAV2bAqsTNYHnmEIUxddjNNJU2_-aj_VPmSdSq4Jqerp1ReT48a1jF-XsJYxKNt7UuMqV3rDJPAfxoNXJaCM0KXt0nJA1X4/s1600/MATCH%20LIST.png",
+   link:["https://uddinsp.blogspot.com/p/embed-football-13.html"], 
+   categories:["football"], 
+   countdown:0 
+  },
+  
+/*  */
+  {name:"Ten Sports", 
+   img:"https://i.imgur.com/nnqpYNm.png",
+   link:["https://streamcrichd.com/update/tensp.php"], 
+   categories:["football"], 
+   countdown:6 
+  },
+  
+
+
+];
+
+/*
+// ================================
+// ===== GitHub JSON থেকে ভিডিও ডাটা লোড =====
+// ================================
+
+// এখানে তোমার GitHub Raw JSON URL বসাও raw.githubusercontent.com
+const jsonURL = "https://raw.githubusercontent.com/asmaakther/player/main/uddinsp.json"; // 🔹 এখানে পরিবর্তন করো
+
+// ===== FETCH EXTERNAL DATA =====
+fetch(jsonURL)
+.then(res => res.json()) // JSON হিসেবে parse করা হচ্ছে
+.then(data => {
+
+    // data হলো array [{id,img,link,countdown,categories}, ...]
+    data.forEach(channel => {
+
+        // videos array থেকে channel.id এর সাথে মিলে এমন object খুঁজে নেওয়া
+        let videoObj = videos.find(v => v.name === channel.id);
+        if(!videoObj) return; // যদি না মিলে, skip করা
+
+        // 🔹 ভিডিও ডাটা আপডেট
+        videoObj.img = channel.img || ""; // ছবি লিংক
+        videoObj.link = channel.link || ""; // ভিডিও লিংক
+        videoObj.countdown = channel.countdown || null; // কাউন্টডাউন সেকেন্ড
+        videoObj.categories = channel.categories || []; // ক্যাটেগরি
+    });
+
+    // 🔹 শুধু সেই ভিডিও রাখো যা GitHub JSON-এ আছে
+    let externalChannelIds = data.map(c => c.id);
+    videos = videos.filter(v => externalChannelIds.includes(v.name));
+
+    console.log("✅ External JSON data loaded:", videos);
+
+    // 🔹 ভিডিও বাটন রেন্ডার করা
+    renderButtons();
+
+    // 🔹 প্রথম ভিডিও লোড
+    loadVideo(0);
+
+})
+.catch(err => {
+    console.error("❌ JSON load error:", err);
+});
+*/
+
+// ===============================
+// ===== FILTER FUNCTION =====
+// ===============================
+// নির্বাচিত ক্যাটেগরির ভিডিও filter করা
+function getFiltered(){
+return videos.filter(v =>
+currentCategory === "all" ||
+!v.categories ||
+v.categories.length === 0 ||
+v.categories.includes(currentCategory)
+);
+}
+
+// ===============================
+// ===== LOAD VIDEO =====
+// ===============================
+function loadVideo(index){
+
+var filtered = getFiltered();
+if(filtered.length === 0) return;
+
+if(index >= filtered.length) index = 0;
+if(index < 0) index = filtered.length - 1;
+
+currentIndex = index;
+
+document.getElementById("logo")
+.scrollIntoView({behavior:"smooth",block:"start"});
+
+// আগের countdown stop
+if(countdownInterval){
+clearInterval(countdownInterval);
+countdownInterval = null;
+}
+
+document.getElementById("countdownDiv").style.display="none";
+
+let videoData = filtered[index];
+showChannelName(videoData.name);
+let links = videoData.link;
+
+if(!links || links.length === 0) return;
+
+// 🔹 random link choose in if have mutipol link video
+//let videoUrl = links[Math.floor(Math.random()*links.length)];
+  
+// 🔹 play First Link in if have mutipol link video
+let videoUrl = links[0];
+  
+// 🔹 voliom inside video show only link if .php
+let volumeIcon = document.getElementById("volumeIcon"); 
+if(videoUrl.includes(".php")){
+  volumeIcon.style.display="block"; 
+}else{ volumeIcon.style.display="none"; }
+  
+
+let iframe = document.getElementById("player");
+let video  = document.getElementById("videoPlayer");
+
+// 🔹 reset player
+iframe.style.display="none";
+video.style.display="none";
+
+   // use 2 of 1...iframe.src... stop iframe
+iframe.src="about:blank";  //iframe.src=""; 
+video.pause();  
+video.removeAttribute("src");  
+
+  // destroy HLS
+if(window.hls){
+window.hls.destroy();
+window.hls = null;
+}
+
+// VIDEO FORMAT DETECT
+let videoFormats = [
+".m3u8",
+".mp4",
+".ts",
+".mp3",
+".webm",
+".mkv"
+];
+
+let isVideo = videoFormats.some(ext =>
+videoUrl.toLowerCase().includes(ext)
+);
+
+// VIDEO PLAYER
+if(isVideo){
+
+video.style.display="block";
+
+// 🔹 HLS stream
+if(videoUrl.includes(".m3u8") && Hls.isSupported()){
+
+window.hls = new Hls(); //old code replase below 
+ /* new code....
+    window.hls = new Hls({
+        maxBufferLength: 15,       // সেকেন্ডে কত portion buffer হবে, এখানে 120, 2 মিনিট
+        maxMaxBufferLength: 30,    // max buffer limit, extreme case 180, 3 মিনিট
+        liveSyncDurationCount: 3,   // live stream latency কমানোর জন্য
+        enableWorker: true           // performance improve
+    });
+   */ 
+
+hls.loadSource(videoUrl);
+hls.attachMedia(video);
+
+hls.on(Hls.Events.MANIFEST_PARSED,function(){
+video.play();
+});
+
+}
+
+// 🔹 normal video
+else{
+
+video.src = videoUrl;
+video.play();
 
 }
 
 }
 
+// IFRAME PLAYER
+else{
+
+iframe.style.display="block";
+  
+//iframe.src = videoUrl;  //old code replase below code
+  
+     // new code with work firefox
+let newIframe = document.createElement("iframe");
+
+newIframe.id = "player";
+newIframe.allow = "autoplay; fullscreen; encrypted-media";
+newIframe.allowFullscreen = true;
+newIframe.playsInline = true;
+newIframe.referrerPolicy = "no-referrer";
+newIframe.sandbox = "allow-scripts allow-same-origin allow-presentation";
+newIframe.scrolling = "no";
+
+newIframe.src = videoUrl + "?v=" + Date.now();
+
+let oldIframe = document.getElementById("player");
+oldIframe.parentNode.replaceChild(newIframe, oldIframe);
+
+}
+
+// COUNTDOWN
+if(videoData.countdown && videoData.countdown > 0){
+startCountdown(videoData.countdown);
+}
+
+updateActive();
+
+}
+  
+
+  
+// ===== RENDER BUTTONS =====
+function renderButtons(){
+    var list=document.getElementById("videoList");
+    list.innerHTML="";
+    var filtered=getFiltered();
+
+let fragment = document.createDocumentFragment(); //new add for not siour
+  
+    filtered.forEach((v,index)=>{
+        let div=document.createElement("div");
+        div.className="video-btn";
+
+        div.innerHTML=`
+        <img loading="lazy" src="${v.img || 'https://placehold.co/60x60/ddd/999?text=no%0Aimage'}" 
+             onerror="this.src='https://placehold.co/60x60/ddd/999?text=no%0Aimage'">
+       <!-- <div>${v.name}</div> -->
+             `;
+
+        div.onclick=function(){
+            loadVideo(index);
+        };
+
+        list.appendChild(div);
+    });
+
+    updateActive();
+}
+
+
+// ===== UPDATE ACTIVE =====
+function updateActive(){
+    document.querySelectorAll(".video-btn")
+    .forEach(btn=>btn.classList.remove("active"));
+
+    var btns=document.querySelectorAll(".video-btn");
+    if(btns[currentIndex]) btns[currentIndex].classList.add("active");
+}
+
+
+
+
+// ===== COUNTDOWN =====
+function startCountdown(seconds){
+
+    const div=document.getElementById("countdownDiv");
+
+    div.style.display="block";
+    div.innerText=seconds;
+
+    countdownInterval=setInterval(()=>{
+        seconds--;
+        if(seconds>0){
+            div.innerText=seconds;
+        }else{
+            clearInterval(countdownInterval);
+            countdownInterval=null;
+            div.style.display="none";
+        }
+    },1000);
+}
+  
+/* ======================
+  show channel name inside video
+====================== */
+function showChannelName(name){
+
+let overlay=document.getElementById("channelNameOverlay");
+
+overlay.innerText=name;
+overlay.style.display="block";
+
+setTimeout(()=>{
+overlay.style.display="none";
+},3000); // 3 sec
+}
+ 
+</script>
+  
+<script>
+/* ======================
+   SCROLL SYSTEM
+====================== */
+function scrollNext(){
+    document.getElementById("videoList").scrollBy({left:200, behavior:"smooth"});
+}
+
+function scrollPrev(){
+    document.getElementById("videoList").scrollBy({left:-200, behavior:"smooth"});
+}
+
+function nextVideo(){ loadVideo(currentIndex+1); }
+function prevVideo(){ loadVideo(currentIndex-1); }
+
+  
+// ===== CATEGORY BUTTON =====
+function filterCategory(cat, btn){
+    currentCategory = cat;
+    currentIndex = 0; // reset index
+    document.querySelectorAll(".categories button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    renderButtons();
+
+    // page top এ নিয়ে যাবে
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    // নতুন category এর প্রথম ভিডিও auto load
+    loadVideo(0);
+}
+
+  
+  
+/* ===== REFRESH BUTTON ===== */
+function refreshVideo(){
+   loadVideo(currentIndex);
+}
+  
+  
+/* ===== FULLSCREEN BUTTON ===== */
+function toggleFull(){
+    var box = document.getElementById("videoBox");
+    if(!document.fullscreenElement){
+        box.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+/* ===== KEYBOARD + TV ===== */
+document.addEventListener("keydown", function(e){
+    if(e.key === "ArrowRight") nextVideo();
+    if(e.key === "ArrowLeft") prevVideo();
+
+    const player = document.getElementById("player");
+    if(e.key === "Enter" || e.key === " "){ // Enter or Space
+        e.preventDefault();
+        if(player.src && !player.paused){ 
+            player.contentWindow.postMessage('pause','*'); 
+        } else {
+            player.contentWindow.postMessage('play','*');
+        }
+    }
+});
+
+/* ===== STOP WHEN HIDE ===== */
+document.addEventListener("visibilitychange", function(){
+    if(document.hidden){
+        document.getElementById("player").src = "";
+    }
+});
+
+/* ===== PAGE LOAD FLAG ===== */
+let firstLoadDone = false;
+
+window.onload = function(){
+    if(firstLoadDone) return;
+    firstLoadDone = true;
+
+    currentCategory = "all";
+
+    document.querySelectorAll(".categories button")
+    .forEach(b=>b.classList.remove("active"));
+
+    document.querySelector(".categories button")
+    .classList.add("active");
+
+    renderButtons();   // 🔥 button তৈরি হবে
+    loadVideo(0);      // 🔥 first video load
+};
+
+/* ===== FIRST USER TOUCH ===== */
+document.addEventListener("touchstart", function firstTouch(){
+    if(firstLoadDone) return;
+    loadVideo(0);
+    firstLoadDone = true;
+    document.removeEventListener("touchstart", firstTouch);
+});
+</script>
+  
+  
+<script>
+  
+  
+/* ===== Overlay Opacity Logic ===== */
+const playerBox = document.getElementById("videoBox");
+let overlayTimer;
+
+function handleInteraction() {
+    // মাউস নড়লে playerBox এ active ক্লাস যোগ হবে (CSS এর মাধ্যমে Next/Full বাটন উজ্জ্বল হবে)
+    playerBox.classList.add("mouse-active");
+
+    // আগের টাইমার ক্লিয়ার করা
+    clearTimeout(overlayTimer);
+
+    // ৫ সেকেন্ড (৫০০০ms) পর বাটনগুলো আবার হালকা (০.১) হয়ে যাবে
+    overlayTimer = setTimeout(() => {
+        playerBox.classList.remove("mouse-active");
+    }, 5000);
+}
+
+// মাউস নড়লে এবং টাচ করলে ফাংশনটি চলবে
+playerBox.addEventListener("mousemove", handleInteraction);
+playerBox.addEventListener("touchstart", handleInteraction);
+playerBox.addEventListener("touchend", handleInteraction);
+  
+  
+// মাউস ভিডিওর বাইরে চলে গেলে সাথে সাথে হালকা করে দেওয়া (ঐচ্ছিক)
+playerBox.addEventListener("mouseleave", () => {
+    playerBox.classList.remove("mouse-active");
+});
+  
+  
+  </script>
+<script>
+  /* ============================
+   👉 killEverything
+==================
+  
+function killEverything(){
+
+ const iframe=document.getElementById("player");  
+  const video=document.getElementById("videoPlayer");
+  
+  // stop iframe
+ if(iframe){iframe.src="about:blank";}  
+    
+  
+  // stop video
+if(video){
+video.pause();
+video.removeAttribute("src");
+}
+  // destroy HLS
+if(window.hls){
+window.hls.destroy();
+window.hls = null;
+}
+
+}
+========== */
+
+  
+/* ============================
+   👉 Page leave detect
+==================
+
+window.addEventListener("pagehide", killEverything);
+window.addEventListener("beforeunload", killEverything);
+
+========== */
+  
+  
+/* ============================
+   👉 Mobile back / minimize detect
+==================
+document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+        killEverything();
+        sessionStorage.setItem("needReload", "yes");  // mark for reload
+    } else {
+        if (sessionStorage.getItem("needReload") === "yes") {
+            sessionStorage.removeItem("needReload");
+           //  location.reload();   //reload বন্ধ NOW IF UNCOMENT ... 🔥 one time fresh reload
+        }
+    }
+});  ========== */
+
+
+/* ============================
+   👉 Page hide হলে player stop 
+   👉 come back in page this video reload
+============================  */
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        videoPlayer.pause();
+    } else {
+        if (!document.hidden) {
+     loadVideo(currentIndex);
+        }
+    }
+});
+  
+/* ============================
+   👉 মোবাইলের notification bar এ 
+   Play / Pause control not show
+============================ */
+if ("mediaSession" in navigator) {
+    navigator.mediaSession.setActionHandler("play", null);
+    navigator.mediaSession.setActionHandler("pause", null);
+}
+  
 </script>
 
 
 
-</head>
-
-
-<body onload="loadSite()">
-
-<!-- 2️⃣ Loading Text -->
-<div  style="z-index:1; text-align: center; position:fixed; pointer-events:none; top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;">
-⚽</br>UddinSp APP </br> 
-  <strong style="color:#fff;">loading ...</strong>
-  
-</div>
-
-  
-<iframe id="app"
-allow="autoplay; fullscreen; encrypted-media" 
-controls 
-playsinline 
-referrerpolicy="no-referrer" 
-style=" width:100%; height:100%; border:none; position:fixed; z-index:2; "
-allowfullscreen
-webkitallowfullscreen
-mozallowfullscreen
- >
-</iframe>
-
 
 <script>
-
-/* SERVICE WORKER old */
+/*=================== SERVICE WORKER old ===================*/
 /* 
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('service-worker.js')
@@ -102,7 +1352,7 @@ navigator.serviceWorker.register('service-worker.js')
 .catch(e=>console.log(e));
 }
  */  
-/* SERVICE WORKER new*/
+/*=================== SERVICE WORKER new ===================*/
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js')
     .then(reg => {
@@ -128,7 +1378,7 @@ if ('serviceWorker' in navigator) {
 
 
 
-<!-- PWA Install / Shortcut Popup -->
+<!-- =================== PWA Install / Popup =================== -->
 <div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
   <!-- Close button -->
   <div style="text-align:right">
@@ -145,189 +1395,112 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-
 // ===================== PWA & Popup Logic =====================
-
 let deferredPrompt;
-
-
 // ------------------- Check Installed -------------------
-
 function isPWAInstalled(){
-
 if(window.matchMedia('(display-mode: standalone)').matches) return true;
-
 if(window.navigator.standalone === true) return true;
-
 return false;
-
 }
-
-
 // ------------------- Device Detect -------------------
-
 function isAndroid(){
-
 return /Android/i.test(navigator.userAgent);
-
 }
-
 function isIOS(){
-
 return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
 }
-
-
 // ------------------- Messenger Detect -------------------
-
 function isMessengerBrowser(){
-
 return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
-
 }
-
-
 // ------------------- Show Popup -------------------
-
 function showInstallPopup(){
-
 if(localStorage.getItem("pwaHideForever")) return;
-
 if(isIOS()) return;
-
 if(!isAndroid()) return;
-
 if(isPWAInstalled()) return;
-
 document.getElementById('appPopup').style.display='block';
-
 }
-
-
 // ------------------- Close Popup -------------------
-
 function closePopup(){
-
 document.getElementById('appPopup').style.display='none';
-
 }
-
-
 // ------------------- Open Supported Browser -------------------
-
 function openSupportedBrowser(){
-
 const url = window.location.href.replace(/^https?:\/\//,"");
-
 const browsers=[
-
 "intent://"+url+"#Intent;scheme=https;package=com.android.chrome;end",
-
 "intent://"+url+"#Intent;scheme=https;package=com.microsoft.emmx;end",
-
 "intent://"+url+"#Intent;scheme=https;package=org.mozilla.firefox;end",
-
 "intent://"+url+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end"
-
 ];
-
 let opened=false;
-
 browsers.forEach(function(link){
-
 if(!opened){
-
 opened=true;
-
 window.location.href=link;
-
 }
-
 });
-
-
 setTimeout(function(){
-
 localStorage.setItem("pwaHideForever","true");
-
 },2000);
-
 }
-
-
 // ------------------- Install Button -------------------
-
 function handleInstallClick(){
-
 const popup=document.getElementById('appPopup');
-
 popup.style.display='none';
-
 if(deferredPrompt){
-
 deferredPrompt.prompt();
-
 deferredPrompt.userChoice.then(function(choice){
-
 if(choice.outcome!=="accepted"){
-
 openSupportedBrowser();
-
 }
-
 deferredPrompt=null;
-
 });
-
 return;
-
 }
-
-
 openSupportedBrowser();
-
 }
-
-
 // ------------------- Install Success Detect -------------------
-
 window.addEventListener('appinstalled',function(){
-
 localStorage.setItem("pwaHideForever","true");
-
 });
-
-
 // ------------------- Capture Install Event -------------------
-
 window.addEventListener('beforeinstallprompt',function(e){
-
 e.preventDefault();
-
 deferredPrompt=e;
-
 });
-
-
 // ------------------- Page Load -------------------
-
 window.addEventListener('load',function(){
-
 showInstallPopup();
-
 });
-
-
 // ------------------- Change Popup Text -------------------
-
 function setPopupMessage(text){
-
 document.getElementById("popupMessage").innerText=text;
-
 }
 
 </script>
+
+
+
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<iframe src="https://uddinsp.blogspot.com/p/ad1.html"
+style="border:0;width:100%;height:50px;"></iframe>
+</div>
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<iframe src="https://uddinsp.blogspot.com/p/ad1.html"
+style="border:0;width:100%;height:50px;"></iframe>
+</div>
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<iframe src="https://uddinsp.blogspot.com/p/ad1.html"
+style="border:0;width:100%;height:50px;"></iframe>
+</div>
+
+
 
   
 </body>
