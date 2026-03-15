@@ -472,9 +472,8 @@ max-width:90%;
 </head>
 <body>
   
-<!-- অ্যাড কন্টেইনার -->
-<!-- =================== PWA Install / Popup =================== -->
-<div id="appPopup" style="display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
+ <!-- =================== PWA Install / Popup =================== -->
+<div id="appPopup" style="z-index:999999999; display:none;position:fixed;bottom:20px;left:10px;right:10px;background:#fff;padding:20px;text-align:center;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.3);z-index:9999;">
   <!-- Close button -->
   <div style="text-align:right">
     <span onclick="closePopup()" style="cursor:pointer;font-weight:bold;font-size:18px;">&times;</span>
@@ -488,6 +487,8 @@ max-width:90%;
     Install App
   </button>
 </div>
+
+
   
 <div class="main-wrapper">
   <a href="https://nu013.github.io/player/uddinspPWA.html" style="text-decoration: none;">
@@ -1406,89 +1407,186 @@ if ('serviceWorker' in navigator) {
 
 
 <script>
+
 // ===================== PWA & Popup Logic =====================
+
 let deferredPrompt;
+
+
 // ------------------- Check Installed -------------------
+
 function isPWAInstalled(){
+
 if(window.matchMedia('(display-mode: standalone)').matches) return true;
+
 if(window.navigator.standalone === true) return true;
+
 return false;
+
 }
+
+
 // ------------------- Device Detect -------------------
+
 function isAndroid(){
+
 return /Android/i.test(navigator.userAgent);
+
 }
+
 function isIOS(){
+
 return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 }
+
+
 // ------------------- Messenger Detect -------------------
+
 function isMessengerBrowser(){
+
 return /FBAN|FBAV|Messenger/i.test(navigator.userAgent);
+
 }
+
+
 // ------------------- Show Popup -------------------
+
 function showInstallPopup(){
+
 if(localStorage.getItem("pwaHideForever")) return;
+
 if(isIOS()) return;
+
 if(!isAndroid()) return;
+
 if(isPWAInstalled()) return;
+
 document.getElementById('appPopup').style.display='block';
+
 }
+
+
 // ------------------- Close Popup -------------------
+
 function closePopup(){
+
 document.getElementById('appPopup').style.display='none';
+
 }
+
+
 // ------------------- Open Supported Browser -------------------
+
 function openSupportedBrowser(){
+
 const url = window.location.href.replace(/^https?:\/\//,"");
+
 const browsers=[
+
 "intent://"+url+"#Intent;scheme=https;package=com.android.chrome;end",
+
 "intent://"+url+"#Intent;scheme=https;package=com.microsoft.emmx;end",
+
 "intent://"+url+"#Intent;scheme=https;package=org.mozilla.firefox;end",
+
 "intent://"+url+"#Intent;scheme=https;package=com.sec.android.app.sbrowser;end"
+
 ];
+
 let opened=false;
+
 browsers.forEach(function(link){
+
 if(!opened){
+
 opened=true;
+
 window.location.href=link;
+
 }
+
 });
+
+
 setTimeout(function(){
+
 localStorage.setItem("pwaHideForever","true");
+
 },2000);
+
 }
+
+
 // ------------------- Install Button -------------------
+
 function handleInstallClick(){
+
 const popup=document.getElementById('appPopup');
+
 popup.style.display='none';
+
 if(deferredPrompt){
+
 deferredPrompt.prompt();
+
 deferredPrompt.userChoice.then(function(choice){
+
 if(choice.outcome!=="accepted"){
+
 openSupportedBrowser();
+
 }
+
 deferredPrompt=null;
+
 });
+
 return;
+
 }
+
+
 openSupportedBrowser();
+
 }
+
+
 // ------------------- Install Success Detect -------------------
+
 window.addEventListener('appinstalled',function(){
+
 localStorage.setItem("pwaHideForever","true");
+
 });
+
+
 // ------------------- Capture Install Event -------------------
+
 window.addEventListener('beforeinstallprompt',function(e){
+
 e.preventDefault();
+
 deferredPrompt=e;
+
 });
+
+
 // ------------------- Page Load -------------------
+
 window.addEventListener('load',function(){
+
 showInstallPopup();
+
 });
+
+
 // ------------------- Change Popup Text -------------------
+
 function setPopupMessage(text){
+
 document.getElementById("popupMessage").innerText=text;
+
 }
 
 </script>
