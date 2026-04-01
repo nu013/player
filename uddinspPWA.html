@@ -33,6 +33,16 @@ width:100%;
 height:100%;
 border:none;
 }
+
+
+#centerText {
+    position: absolute;
+    color:#fff;   /* white;  */
+  /*transition: all 0.4s ease;  */
+  animation: blink 1s infinite;
+}
+@keyframes blink { 0% {opacity:1;} 50% {opacity:0.3;} 100% {opacity:1;} }
+  
 </style>
 
 
@@ -75,7 +85,7 @@ document.getElementById("app").src=site2;
 <!-- 2️⃣ Loading Text -->
 <div  style="z-index:1; text-align: center; position:fixed; pointer-events:none; top:50%;left:50%;transform:translate(-50%,-50%);font-size:26px;font-weight:bold;color:yellow;">
 ⚽</br>UddinSp APP </br> 
-  <strong style="color:#fff;">loading ...</strong>
+  <strong style="color:#fff;"id="centerText">loading ...</strong>
   
 </div>
 
@@ -94,7 +104,15 @@ mozallowfullscreen
 
 
 <script>
+    // ===== কত সেকেন্ড পরে লেখা হাইড হবে =====
+    setTimeout(function() {
+        document.getElementById("centerText").style.display = "none";
+    }, 9000);
 
+
+
+
+  
 /* SERVICE WORKER old */
 /* 
 if('serviceWorker' in navigator){
