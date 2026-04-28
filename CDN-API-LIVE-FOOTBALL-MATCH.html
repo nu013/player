@@ -1,0 +1,235 @@
+<div id="sport-app">
+  <style>
+    #sport-app { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: auto; padding: 15px; color: #333; }
+    
+    .player-section { 
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; 
+      background: #000; border-radius: 12px; margin-bottom: 25px;border:1px solid #222;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+    .player-section iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;  }
+
+    .event-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+    
+    .event-card { 
+      background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 12px;
+      transition: 0.3s; position: relative; border-bottom: 3px solid #ccc;
+    }
+    .event-card:hover { border-color: #d9534f; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .event-card.active { border-color: #d9534f; background: #fff5f5; }
+
+    .match-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .team { text-align: center; flex: 1; font-size: 13px; font-weight: bold; }
+    .team img { width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 5px; }
+    .vs { font-weight: bold; color: #d9534f; padding: 0 10px; }
+
+    .meta { font-size: 11px; color: #666; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 8px; margin-bottom: 10px; }
+    .status-live { color: #fff; background: #d9534f; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+    
+    .ch-btn {
+      display: inline-block; background: ; color: SlateBlue; padding: 2px 3px;
+      margin: 1px; border-radius: 4px; text-decoration: none; font-size: 13px;
+      font-weight: bold; text-transform: capitalize; border: none; cursor: pointer;
+      transition: 0.2s;text-decoration: underline; border: 1px solid #ccc;
+    }
+    .ch-btn:hover {color:  #d9534f;  }
+
+    #loader { text-align: center; padding: 20px; font-weight: bold; color: #d9534f; }
+    
+    .header-box { display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #d9534f; padding-left: 15px; margin-bottom: 20px; }
+    .header-box h3 { margin: 0; font-size: 20px; }
+    
+    /* নতুন ক্লক স্টাইল */
+    .live-clock { font-size: 16px; color: #666; font-weight: bold; }
+  
+    
+    
+    
+.overlay-text {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 2px;
+  border-radius: 8px;
+  z-index: 10;
+  pointer-events: none;
+}
+.overlay-text #hend { font-size:  ; animation: blink 1s infinite; }
+@keyframes blink { 0% {opacity:1;} 50% {opacity:0.3;} 100% {opacity:1;} }
+
+    
+  </style>
+
+  <div class="player-section">
+    <iframe id="mainPlayer" src="" allowfullscreen referrerpolicy="no-referrer" allow="encrypted-media"></iframe>
+    
+    <div id="overlayMessage" class="overlay-text">
+      <span style="font-size:22px;color:#e00000; background:#fff; padding:10px 15px 10px 20px; border-radius:25px; "> ▶ </span>
+      <br><br>
+      Select match<br> 
+      <span id="hend"> 👇 </span>
+      and watch
+     </div>
+    
+  </div>
+
+  <div class="header-box">
+    <div>
+        <h3>Live & Upcoming Matches</h3>
+        <div id="currentDateTime" class="live-clock">Loading Date...</div>
+    </div>
+    <button onclick="loadSports()" style="background:#fff; border:1px solid #ddd; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:12px;">Refresh</button>
+  </div>
+  
+  <div id="loader">Loading...</div>
+  <div id="eventList" class="event-grid"></div>
+</div>
+
+<script>
+// রিয়েল-টাইম ঘড়ি ফাংশন
+function updateClock() {
+    const now = new Date();
+    const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    document.getElementById('currentDateTime').innerText = now.toLocaleDateString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+async function loadSports() {
+  const container = document.getElementById('eventList');
+  const loader = document.getElementById('loader');
+
+  try {
+    loader.style.display = 'block';
+    container.innerHTML = '';
+
+    const response = await fetch('https://api.cdnlivetv.tv/api/v1/events/sports/?user=cdnlivetv&plan=free&t=' + new Date().getTime());
+    const data = await response.json();
+    const sports = data['cdn-live-tv'];
+    
+    loader.style.display = 'none';
+
+    const categories = ['Soccer', 'NBA', 'NFL', 'NHL'];
+    
+    categories.forEach(cat => {
+      if(sports[cat]) {
+        sports[cat].forEach((event, eventIdx) => {
+
+          
+   //new code  finished match not show       
+          if (!event.status) return;
+// new code finished match not show .. finished / ended match skip
+const status = event.status.toLowerCase();
+if (status.includes("finished") || status.includes("ended") || status.includes("ft")) {
+    return;
+}
+          
+          
+          if(event.channels && event.channels.length > 0) {
+            
+            let channelButtons = "";
+            event.channels.forEach(ch => {
+              const urlString = ch.url || "#";
+              let displayName = ch.channel_name || "Watch";
+
+              channelButtons += `
+                <button class="ch-btn" onclick="playStream('${urlString}', this.closest('.event-card'))">
+                  ${displayName}
+                </button>`;
+            });
+
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            const isLive = event.status.toLowerCase() === 'live';
+            
+            // কার্ডের ভেতরে যদি আলাদা তারিখ থাকে তা দেখানোর জন্য
+            const matchDateStr = event.date ? `<br><small>📅 ${event.date}</small>` : "";
+            
+            card.innerHTML = `
+              <div class="match-info">
+                <div class="team"><img src="${event.homeTeamIMG}" onerror="this.src='https://via.placeholder.com/40'"> ${event.homeTeam}</div>
+                <div class="vs">VS</div>
+                <div class="team"><img src="${event.awayTeamIMG}" onerror="this.src='https://via.placeholder.com/40'"> ${event.awayTeam}</div>
+              </div>
+              <div class="meta">
+                <span style="font-weight:bold;" class="team">
+                   <!-- ${event.tournament} (${event.time}) ${matchDateStr} -->
+                  
+                   
+${event.tournament} (${convertToLocalTime(event.time, event.date)}) ${matchDateStr}                   
+                </span>
+                ${isLive ? '<span class="status-live">LIVE</span>' : `<span>${event.status}</span>`}
+              </div>
+              <div style="margin-top: 10px; border-top: 1px dashed #ddd; padding-top: 8px; text-align:center;">
+                ${channelButtons}
+              </div>
+            `;
+            
+            container.appendChild(card);
+          }
+        });
+      }
+    });
+  } catch (error) {
+    document.getElementById('loader').innerHTML = "";
+  }
+}
+
+function playStream(url, cardElement) {
+  const player = document.getElementById('mainPlayer');
+  const overlay = document.getElementById('overlayMessage');
+  
+  document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active'));
+  cardElement.classList.add('active');
+  player.src = url;
+  
+    // message hide
+  overlay.style.display = "none";
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  
+}
+
+loadSports();
+  
+
+  
+  
+  function convertToLocalTime(timeStr, dateStr) {
+    try {
+        if (!timeStr) return "";
+
+        // UK time ধরে ISO format বানানো
+        let isoString;
+
+        if (dateStr) {
+            isoString = dateStr + "T" + timeStr;
+        } else {
+            const today = new Date().toISOString().split("T")[0];
+            isoString = today + "T" + timeStr;
+        }
+
+        // UK timezone (Europe/London) ধরে Date বানানো
+        const ukDate = new Date(isoString + "+01:00"); // BST (summer)
+        // NOTE: winter হলে +00:00 লাগবে
+
+        // User local time
+        return ukDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+
+    } catch (e) {
+        return timeStr;
+    }
+}
+  
+  
+</script>
