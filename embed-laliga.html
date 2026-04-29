@@ -1,0 +1,273 @@
+
+<html lang="bn">
+<head>
+<meta charset="UTF-8"></meta>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
+<title>willow</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+#video-wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: #000;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* server button style */
+.server-btn{
+    white-space: nowrap;   /* 🔥 এইটা যোগ করো */
+    background: #ffa805;
+    color: black;
+    border: 1px solid yellow;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+  
+}
+
+.server-btn.active{
+    background: black;
+    color: yellow;
+    font-weight: bold;
+}
+
+
+/* unmute message */
+#unmuteMsg {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    z-index:99999;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+#unmuteMsg.show {
+    bottom: 10px;
+    opacity: 1;
+}
+
+#unmuteMsg.hide {
+    bottom: -60px;
+    opacity: 0;
+}
+      
+#loding {
+    position: absolute;
+    pointer-events: none;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);  
+    text-align: center;
+    align-items: center;
+    color: white; 
+    background: rgba(0,0,0,0.0);
+    padding: 0px ;
+    margin: 0px;
+    z-index: 10;
+     /* font-size: 20px; */
+    display: none;
+    /* blink animation */
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<div id="video-wrapper">
+  
+ <div id="loding">Looding..</div>
+
+    <!-- server buttons -->
+   <!--  <div id="serverButtons" style="position:absolute; top:5px; left:10px; z-index:1000; display:flex; gap:5px;"></div> -->
+  
+    <div id="serverButtons" style="display: flex; gap: 5px; left: 50%; position: absolute; top: 5px; transform: translateX(-50%); z-index: 1000;">  </div> 
+  
+  
+    <!-- unmute message -->
+    <div id="unmuteMsg">Tap 4-5 times <br /> to Play/Unmute</div>
+
+    <!-- iframe -->
+    <iframe allow="autoplay; fullscreen; encrypted-media" autoplay="" id="player" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin" scrolling="no" src="" style="border: 0;"></iframe>
+  
+  
+<!-- 🔄 REFRESH inside video-->
+   <div class="refresh-btn" onclick="refreshVideo()" style="background: background:rgb(0, 0, 0, 0); border-radius: 5px; border: 0px solid yellow; color: yellow; cursor: pointer; font-size: 15px; font-weight: bold; padding: 1px 2px; position: absolute; right: 5px; top: 5px; z-index: 3;">
+      <svg onclick="refreshVideo()" style="cursor: pointer; fill: yellow; font-weight: bold; height: 24px; width: 24px;" viewbox="0 0 24 24">
+  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z">
+</path></svg> 
+  </div>
+  
+  
+  
+             <!-- 🔊 PHP volume hint icon fill: #9aff00;  style="fill: red; height: 32px;width: 32px;
+      <div class=" " style="bottom: 7px; cursor: pointer;  pointer-events: none; position: absolute; right: 98px; z-index: 1500;">
+  <svg style="fill: red; height: 22px;width: 22px; pointer-events: none;" viewbox="0 0 24 24">
+    <path d="M11 5L6 9H2V15H6L11 19V5Z" fill="red" stroke="red" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M15.5 8.5C16.8333 9.66667 17.5 11.1667 17.5 13C17.5 14.8333 16.8333 16.3333 15.5 17.5" stroke="red" stroke-width="2" stroke-linecap="round"/>
+        
+        </svg>
+</div>
+  -->
+
+</div>
+
+<script>
+const serverData = [
+  
+  
+    { name: '<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;">▶ </span> &nbsp; TV1', url: 
+    // "https://wwstream.click/self/dazn1de.php",   
+     "https://wwstream.click/obstream/dazn1de.php",   
+     countdown: 0 },
+  
+  { name: '<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;">▶ </span> &nbsp; 2', url: 
+"https://flixxlive.pro/tv/superlaliga_english.php",
+   countdown: 8 },
+  
+  { name: '<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;">▶ </span> &nbsp; 3', url: 
+   "https://capoplay.icu/embed/canal64.php", 
+   countdown: 8 },
+    
+  { name: '<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;">▶ </span> &nbsp; 4', url: "https://wwstream.click/self/bundes5.php",  countdown:8 },
+    
+ // { name: '<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;">▶ </span> &nbsp; 5', url: "https://flixxlive.pro/tv/daznlaliga_spain.php",  countdown:8 },
+   
+    
+
+  
+];
+
+let currentServerIndex = 0;
+
+const iframe = document.getElementById("player");
+const serverContainer = document.getElementById("serverButtons");
+const loader = document.getElementById("loding");
+const msg = document.getElementById("unmuteMsg");
+
+function renderServerButtons(){
+    serverContainer.innerHTML = "";
+
+    serverData.forEach((server, index)=>{
+        let btn = document.createElement("div");
+        btn.className = "server-btn";
+        btn.innerText = server.name;
+      
+        // ADD এখানে পরিবর্তন
+        btn.innerHTML = server.name;
+      
+        btn.onclick = () => switchServer(index);
+
+        serverContainer.appendChild(btn);
+    });
+
+    updateUI();
+}
+
+function switchServer(index){
+
+    currentServerIndex = index;
+
+    iframe.src = "about:blank";
+
+    updateUI();
+
+    const server = serverData[index];
+
+
+
+    setTimeout(()=>{
+        iframe.src = server.url + "?t=" + Date.now();
+        showUnmuteMessage();
+    if(server.countdown > 0){
+        showLoading(server.countdown);
+    } else {
+        hideLoading();
+    }
+      
+    }, 50);
+}
+
+function updateUI(){
+    document.querySelectorAll(".server-btn").forEach((btn,i)=>{
+        btn.classList.toggle("active", i === currentServerIndex);
+    });
+}
+
+let loadTimer = null;
+
+function showLoading(time){
+
+    loader.style.display = "block";
+    //loader.innerText = time + " Loding..";
+
+    // আগের timer clear
+    clearTimeout(loadTimer);
+
+    // auto hide after time
+    loadTimer = setTimeout(()=>{
+        loader.style.display = "none";
+    }, time * 1000);
+}
+
+function hideLoading(){
+    loader.style.display = "none";
+}
+
+function showUnmuteMessage(){
+    msg.classList.add("show");
+
+    setTimeout(()=>{
+        msg.classList.remove("show");
+    }, 3000);
+}
+
+window.onload = function(){
+    renderServerButtons();
+    switchServer(currentServerIndex);
+};
+  
+  
+  
+// Refresh Video
+function refreshVideo() {
+    let player = document.getElementById('player');
+    let currentSrc = player.src;
+    player.src = ''; // Reset the video source
+    player.src = currentSrc; // Reload the video
+}
+</script>
+  
+  
+  </body>
+</html>
