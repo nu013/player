@@ -1,0 +1,1001 @@
+
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>সময়সূচী and Live Football </title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background:#000;
+    color:#fff;
+    margin:0;
+    padding:0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* This will hide both horizontal and vertical scrollbars */
+}
+  
+
+#sports-wrapper {
+    display:flex;
+    flex-direction:row;
+    height:100vh;
+    width: 100vw;
+}
+  
+#bodyText {
+  z-index:0;
+  text-align: center;
+  position: absolute; 
+  top: 40%; 
+  right:-115px; 
+  background:rgba(0,0,0,0.0);
+  color:#fff;
+  font-size: ;
+  font-weight: bold;
+}  
+#bodyText #hend { font-size: 20px ; animation: blink 1s infinite; }
+  
+
+#player {
+    flex:3;
+    border:none;
+    background: transform;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+  
+#schedule-wrapper {
+    top: 10px;
+    left:0px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    background:transparent; /*#05232e;*/
+    border-left:0px solid #e00000;
+    z-index:10;
+    position:absolute;
+    width:200px;
+    height:100%;
+    overflow:visible; /* hidden*/
+    transition:0.3s;
+    padding:5px 0px 0px 15px ;
+  
+  }
+  
+  
+#btn{
+   left: -15px;   
+   top: -10px;
+    color:#fff;
+    padding:5px;
+    cursor:pointer;
+    font-weight:bold;
+    user-select:none;
+    pointer-events:auto; /* 🔥 button always clickable */
+    position:relative;
+    z-index:20;
+    width:150px;
+    border-radius: 24px;
+   
+  
+  
+   /*  background:#e00000;  color: #fff; padding:7px 15px; cursor:pointer; text-align:center; font-weight:bold; border-radius:5px; user-select:none; pointer-events:auto;  z-index:999;  top:0;  position: absolute; left:0px; margin-left:5px; display:none; transition:0.3s; */ /* btn show and hide */
+  
+}
+  
+#btn:hover{
+    color:#fff; /*transform:scale(1.05);*/
+}
+#schedule{
+    flex:1;
+    overflow:auto;
+}
+.date{
+    background:#222;font-size:0px;
+    padding:0px;color:yellow;text-align: center;
+    font-weight:bold;
+    border-bottom:1px solid #333;
+}
+.time-group{
+    background:#222;
+    padding:6px 10px;
+    border-left:3px solid #e00000;
+    margin-bottom:5px;
+    font-weight:bold;
+    color:yellow;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.match{
+    padding:5px 5px 5px 5px  ;
+    cursor:pointer;
+    border-bottom:1px solid yellow;/* 00FFFF  */
+    border-top:1px solid yellow;/*  00FFFF  */
+    border-left: 1px solid yellow;/*  00FFFF  */
+    border-radius: 10px 0px 0px 10px;
+   margin-bottom:6px;
+   background:#111;/*  #222  */
+ }
+.match:hover{
+   /*  background:#186f8c; */
+}
+.match.active{
+  background:#0d4a5e; /* #05232e;  #186f8c; rgb(60, 161, 195, 0.4); #3CA1C3; */
+  /* border-left:2px solid lime; 00FFFF  */
+ /*  color:#999;  */
+  /*font-weight:bold;  */
+   /* border-bottom:2px solid lime;/*   */
+    /* border-top:2px solid lime;#e00000;*/
+}
+#schedule-wrapper.closed{
+    pointer-events:none;
+}
+#schedule-wrapper.closed #schedule{
+    display:none;
+}
+#schedule-wrapper.closed #btn{
+    transform: translateX(0);
+}
+#schedule-wrapper.closed #close{
+    display:none;
+}
+#schedule-wrapper.closed #backColorList{
+    display:none;
+}
+  /* 
+@media (max-width: 500px){
+    #schedule-wrapper{ top:0; left:0;padding:0; width:130px; }
+    .match{ font-size:14px; }
+    .time-group{ font-size:14px; }
+} */
+.status-left {
+    min-width: 80px;
+    text-align:left;
+    margin-right:5px;
+    /* font-weight: bold; */
+    color: #FFD700;
+}
+.status-left  {  border-left:4px solid #00FFFF;  }
+.status-left .live { color: RED;font-size:14px; }
+.status-left .dot { font-size:9px; color: #ff0000; animation: blink 1s infinite; }
+@keyframes blink { 0% {opacity:1;} 50% {opacity:0.0;} 100% {opacity:1;} }
+#video-overlay { position:absolute; top:0; left:0; width:100%; height:100%; background:rgb(0, 0, 0, 0.0); z-index:5;  }
+#cowndown {
+    position: absolute;
+    top:55%;
+    left: 55%;
+    transform: translate(-50%, -55%);
+    color: #333;
+    font-size: 64px;
+    font-weight: bold;
+    pointer-events:none;
+    display:none;
+    z-index:9999;
+    text-align:center;
+}
+  
+#close{
+  font-size:20px;
+  position: absolute; 
+  top: 0px; 
+  right:-10px;
+  cursor: pointer;
+  /*pointer-events: none; */
+  z-index: 1500;
+  background:rgb(0, 0, 0, 0.9);  /*transparent;*/
+  color: #e00000;; /*#e00000;*/
+  padding:2px 8px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:50px;
+  border:2px solid #999;
+  }
+#lodingLis{
+  font-size:;
+  position: absolute; 
+  top: 20%; 
+  left: 20%;
+  cursor: pointer;
+  pointer-events: none; 
+  position: absolute;  
+  z-index: 100;
+  color: #fff;
+  text-align:center;
+  font-weight:bold;
+  }
+
+  
+  /*
+#unmuteMsg{
+  position:absolute;
+  top:45%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.7);
+  color:#fff;
+  padding:15px 25px;
+  font-size:18px;
+  border-radius:10px;
+  z-index:9999;
+  display:none;
+  pointer-events:none;
+  text-align:center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translate(-50%,-60%);}
+  to{opacity:1; transform:translate(-50%,-50%);}
+}
+  
+#unmuteMsg{
+  
+  */
+  
+#lodingMsg{
+  position:absolute;
+  pointer-events: none;
+  top: 60%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(0,0,0,0.0);
+  color:#fff;
+  padding:15px 25px;
+  font-size:18px;
+  border-radius:10px;
+  z-index:8;
+  display:none;
+  pointer-events:none;
+  text-align:center;
+  transition: all 0.4s ease;
+  animation: blink 1s infinite;
+}
+
+/* slide up effect */
+.slide-out{
+  opacity:0;
+  transform:translate(-50%, -70%);
+}
+
+.slide-in{
+  opacity:1;
+  transform:translate(-50%, -50%);
+}
+  
+.video-container {
+  position: relative;
+  display: inline-block;
+}
+
+#unmuteMsg {
+  position: absolute;
+  bottom: -60px; /* now hidden নিচে ... top */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  text-align: center;
+  z-index:9;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+/* show animation ... top*/
+#unmuteMsg.show {
+  bottom: 10px;
+  opacity: 1;
+}
+
+/* hide animation... top*/
+#unmuteMsg.hide {
+  bottom: -60px;
+  opacity: 0;
+}
+  
+  
+
+  
+  
+#linkContainer{
+  position:absolute;
+  top:5px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:4;
+  display:flex;
+  gap:5px;
+}
+
+.link-btn{
+    white-space: nowrap;   /* 🔥 এইটা যোগ করো */
+    background: #ffa805;
+    color: black;
+    border: 1px solid yellow;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.link-btn.active{
+    background: black;
+    color: yellow;
+    font-weight: bold;
+  
+  }
+  
+  
+#backColorList {
+    top: 0px;
+    left:0px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    background:#05232e; /*transparent;*/
+    border-left:0px solid #e00000;
+    z-index:11;
+    position:absolute;
+    width:100%;
+    height:100%;
+
+  
+  }
+  
+
+  
+</style>
+</head>
+<body>
+
+<div id="sports-wrapper">
+  
+  
+       <!--  <div id="btn"> ☲ </div> --->
+  
+         <!-- 🔊 PHP volume hint icon fill: #9aff00;-->
+<div class="phpVolumeHint" style="bottom: 4px; cursor: pointer; pointer-events: none; position: absolute; right: 92px; z-index: 1500;">
+    <!--    <svg style="fill: lime; height: 32px; pointer-events: none; width: 32px;" viewbox="0 0 24 24">
+      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"></path></svg>--->
+</div>
+  
+<!-- 🔄 REFRESH inside video-->
+   <div class="refresh-btn" onclick="refreshVideo()" style="background: background:rgb(0, 0, 0, 0); border-radius: 5px; border: 0px solid yellow; color: yellow; cursor: pointer; font-size: 15px; font-weight: bold; padding: 1px 2px; position: absolute; top: 5px; right: 5px;z-index: 3;">
+      <svg onclick="refreshVideo()" style="cursor: pointer; fill: yellow; font-weight: bold; height: 24px; width: 24px;" viewbox="0 0 24 24">
+  <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z">
+</path></svg> 
+    
+  </div>
+  
+         <div id="linkContainer"></div>
+
+  
+    <iframe allow="encrypted-media" allowfullscreen="" id="player" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms" scrolling="no" style="border: 0; cursor: pointer;"></iframe>
+  
+  
+    <div id="video-overlay"></div>
+    <div id="unmuteMsg">Tap 4-5 times <br /> to Play/Unmute</div>
+    <div id="lodingMsg">lodding...</div>
+    <div id="cowndown" style="pointer-events: none;"></div>
+  
+  
+    <div id="schedule-wrapper">
+        <!--  ---> <div id="btn"><span style="background: #3CA1C3; border-radius: 24px; display: none; padding: 5px 10px; text-align: center; width: 190px;"> Select Match ▼</span></div>
+      
+      
+      
+        <div id="backColorList"></div>      
+        <div id="schedule" style="z-index: 1000;"></div>      
+        <div id="lodingLis" style="z-index: 100;">List<br />LODGING...</div>
+        <div id="close"> x  </div>
+      
+      <!-- <div id="bodyText"> 
+          <span style="font-size:22px;color:#000; background:#777; padding:10px 10px 10px 15px; border-radius:25px;  "> ▶ </span>
+      <br>
+      Select a match<br>  <span id="hend">👈</span> and Watch </div>---> <!--  &nbsp; &nbsp;&nbsp; and Watch--->
+    </div>
+  
+  
+</div>
+
+<script>
+document.getElementById("close").onclick = function(){
+
+    let wrapper = document.getElementById("schedule-wrapper");
+    let overlay = document.getElementById("video-overlay");
+    let lodingLis = document.getElementById("lodingLis");
+
+
+    // close match list
+    wrapper.classList.add("closed");
+
+    // hide overlay
+    overlay.style.display = "none";
+  
+    lodingLis.style.display = "none";
+
+    // (optional) reset button text
+    document.getElementById("btn").innerHTML =
+        '<span style="background:#e00000; padding:7px 15px; border-radius:5px;">☲</span>';
+};
+// Toggle schedule
+document.getElementById("btn").onclick=function(){
+    let wrapper=document.getElementById("schedule-wrapper");
+    let overlay = document.getElementById("video-overlay");
+
+    if(wrapper.classList.contains("closed")){
+      
+        wrapper.classList.remove("closed");
+      
+        overlay.style.display = "block"; // ✅ show overlay
+      
+     // this.innerHTML="Select Match ▼";
+      this.innerHTML='<span style="display:none;text-align:center; background:#3CA1C3; padding:5px 25px; border-radius: 24px; width:150px;"> Select Match </span>'; 
+      
+       //   this.style.display = "none"; // 🔥 button hide when open
+      
+    } else {
+      
+        wrapper.classList.add("closed");
+      
+        overlay.style.display = "none"; // ✅ hide overlay
+      
+       this.innerHTML= '<span style="background:#e00000; padding:7px 15px; border-radius:5px;">☲</span>'; 
+       //  this.style.display = "inline-block"; // 🔥 show button when closed
+    }
+};
+document.getElementById("video-overlay").onclick=function(){
+    let wrapper = document.getElementById("schedule-wrapper");
+    let overlay = document.getElementById("video-overlay");
+    let lodingLis = document.getElementById("lodingLis");
+    let btn = document.getElementById("btn");
+
+    if (!wrapper.classList.contains("closed")) {
+        wrapper.classList.add("closed");
+        lodingLis.style.display = "none";
+
+        overlay.style.display = "none"; // ✅ NOW it will work
+ 
+      // document.getElementById("btn").innerHTML="☲ Open List ▲";
+       document.getElementById("btn").innerHTML= '<span style="background:#e00000; padding:7px 15px; border-radius:5px;">☲</span>'; 
+      
+      //   btn.style.display = "inline-block"; // 🔥 show button again
+    }
+};
+
+// Countdown function
+function showVideoCountdown(seconds=5){
+    const overlay=document.getElementById("cowndown");
+    overlay.style.display="flex";
+    overlay.innerText=seconds;
+    let counter=seconds;
+    const interval=setInterval(()=>{
+        counter--;
+        if(counter>0) overlay.innerText=counter;
+        else {overlay.style.display="none"; clearInterval(interval);}
+    },1000);
+}
+
+// Matches লোড
+var url="https://api.codetabs.com/v1/proxy?quest=https://sportsonline.st/prog.txt";
+var matchesList=[];
+
+fetch(url).then(r=>r.text()).then(data=>buildSchedule(data));
+
+function buildSchedule(data){
+    matchesList = [];
+    var container = document.getElementById("schedule");
+    container.innerHTML = "";
+    var lines = data.split("\n");
+    const days = ["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"];
+    let currentDay = "";
+
+    // একই ম্যাচের লিংকগুলো সংরক্ষণ করার অবজেক্ট
+    var matchesData = {};
+
+    function nextDay(day){ let i = days.indexOf(day); return days[(i+1)%7]; }
+
+    lines.forEach(function(line){
+        line = line.trim();
+        if(days.includes(line)){ currentDay = line; return; }
+
+        var t = line.match(/(\d{2}:\d{2})/);
+        var l = line.match(/https?:\/\/\S+/);
+        if(!t || !l) return;
+
+        var time = t[1];
+        var link = l[0];
+        var title = line.replace(time,"").split("|")[0].trim();
+
+        if(/(NBA|NHL|MotoGP|UFC|Tennis|Judo|Padel)/i.test(title)) return;
+        if(!title.includes(" x ")) return;
+
+        let hour = parseInt(time.split(":")[0]);
+        let dayName = currentDay; 
+        if(hour < 6) dayName = nextDay(currentDay);
+
+        // একই ম্যাচের লিংকগুলো গ্রুপ করা
+        if(!matchesData[title]){
+            matchesData[title] = { time: time, day: dayName, links: [] };
+        }
+        matchesData[title].links.push(link);
+    });
+
+    // HTML তৈরি
+    Object.keys(matchesData).forEach(title => {
+        var m = document.createElement("div");
+        m.className = "match";
+        m.innerHTML = `<span class="status-left"></span> <span style="font-size:14px;color:lime;"><u> ${title} </u>  </span> <br>`;
+
+        m.setAttribute("timeStr", matchesData[title].time);
+        m.setAttribute("dayName", matchesData[title].day);
+        container.appendChild(m);
+      
+      
+m.setAttribute("data-links", JSON.stringify(matchesData[title].links));
+
+// 👉 match click event ADD
+m.onclick = function(){
+   //showMatchLinks(this);
+   showMatchLinks(this, true); // 🔥 user click
+
+};
+      
+      
+
+        matchesList.push({ element: m, timeStr: matchesData[title].time, day: matchesData[title].day });
+    });
+
+    setInterval(updateLiveStatus, 1000);
+    updateLiveStatus();
+
+    // প্রথম ম্যাচের প্রথম লিংক অটো-প্লে
+setTimeout(() => {
+    let matches = document.querySelectorAll(".match");
+
+    for (let m of matches) {
+        if (m.style.display !== "none") {
+
+            // 👉 direct call
+            showMatchLinks(m);
+
+            break;
+        }
+    }
+}, 500);
+  
+// 🔥 schedule load শেষ → loading text hide
+let lodingLis = document.getElementById("lodingLis");
+lodingLis.style.opacity = "0";   // বা display = "none"
+  
+  
+}
+
+// Match click logic
+function matchClickLogic(matchEl, videoSrc){
+    matchEl.onclick=function(){
+        setActiveMatch(matchEl);
+      
+        document.getElementById("player").src=videoSrc;
+        showUnmuteMessage(); // 🔥 show Unmute Message
+        showLodingMsgMessage(); // 🔥 show Looding Message
+        //showVideoCountdown(5); // 🔥 show Countdown
+      
+        // 🔥click match name to close match list and leyer... 
+        let wrapper = document.getElementById("schedule-wrapper");
+        let overlay = document.getElementById("video-overlay");
+        let lodingLis = document.getElementById("lodingLis");
+        let bodyText = document.getElementById("bodyText");
+        wrapper.classList.add("closed");
+        overlay.style.display = "none";
+        document.getElementById("btn").innerHTML = '<span style="background:#e00000; padding:7px 15px; border-radius:5px;">☲</span>'; 
+        bodyText.style.display = "none";
+        lodingLis.style.display = "none"; 
+      
+    };
+}
+
+  
+// Auto click first match
+function autoClickFirstMatch(){
+    const firstMatch=document.querySelector(".match");
+    if(firstMatch) firstMatch.click();
+}
+
+  
+   //SHOW UNMUTE MESSAGE..
+//  function showUnmuteMessage(){
+//    let msag = document.getElementById("unmuteMsg");
+//    msag.style.display = "block";
+//    setTimeout(()=>{
+//      msag.style.display = "none";
+//   }, 9000); // 9 sec পরে hidefshowUnmuteMessage
+// }
+  
+let unmuteTimer1 = null;
+let unmuteTimer2 = null;
+
+function showUnmuteMessage(){
+  let msag = document.getElementById("unmuteMsg");
+  // 🔥 আগের সব timer clear
+  clearTimeout(unmuteTimer1);
+  clearTimeout(unmuteTimer2);
+  // 🔥 class reset (important)
+  msag.classList.remove("show","hide");
+  // 🔥 force reflow (animation restart করার জন্য)
+  void msag.offsetWidth;
+  // 🔥 display on
+  msag.style.display = "block";
+  // 🔥 5 sec delay
+  unmuteTimer1 = setTimeout(()=>{
+    msag.classList.add("show");
+    // 🔥 9 sec পরে hide
+    unmuteTimer2 = setTimeout(()=>{
+      msag.classList.remove("show");
+      msag.classList.add("hide");
+    }, 3000); //3 sec show 
+
+  }, 4000); // 4 sec পরে show
+}
+  
+  
+  
+function showLodingMsgMessage(){
+   // let msg = document.getElementById("unmuteMsg");
+    let msg = document.getElementById("lodingMsg");
+
+    // first text
+    msg.innerText = "Loading..";
+    msg.style.display = "block";
+    msg.classList.add("slide-in");
+
+       // after 3 sec → change text with slide
+   // setTimeout(()=>{
+      //  msg.classList.remove("slide-in");
+     //  msg.classList.add("slide-out");
+      //  setTimeout(()=>{
+                  // change text
+           // msg.innerText = " Loading..";
+         //   msg.classList.remove("slide-out");
+        //    msg.classList.add("slide-in");
+       // }, 400); // animation time
+   // }, 3000);
+
+    // final hide after 6 sec
+    setTimeout(()=>{
+        msg.style.display = "none";
+    }, 5000);
+}
+  
+  
+  
+// Live status update
+function updateLiveStatus(){
+    let now=londonNow();
+    const days=["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"];
+    matchesList.forEach(function(m){
+        let statusSpan=m.element.querySelector(".status-left");
+        let matchDayIndex=days.indexOf(m.day);
+        let todayIndex=now.getDay();
+        let dayDiff=matchDayIndex-todayIndex; if(dayDiff<0) dayDiff+=7;
+        let matchDate=new Date(now);
+        matchDate.setDate(now.getDate()+dayDiff);
+        let parts=m.timeStr.split(":");
+        matchDate.setHours(parts[0], parts[1], 0, 0);
+        let diff=(matchDate-now)/1000;
+
+        if(diff>0){
+            if(diff>(2*86400+5*3600)){ m.element.style.display="none"; return; }
+            let d=Math.floor(diff/86400);
+            let h=Math.floor((diff%86400)/3600);
+            let m1=Math.floor((diff%3600)/60);
+            let s=Math.floor(diff%60);
+            let text=""; if(d>0) text+=d+"d ";
+            //text+=h.toString().padStart(2,"0")+":"+m1.toString().padStart(2,"0")+":"+s.toString().padStart(2,"0");
+          //  statusSpan.innerHTML="⏳ "+text;
+          
+      // sec color red    
+let hh = h.toString().padStart(2,"0");
+let mm = m1.toString().padStart(2,"0");
+let ss = s.toString().padStart(2,"0");
+
+  //statusSpan.innerHTML = `⏰-${text}${hh}:${mm}:
+//statusSpan.innerHTML = ` | &nbsp; -${text}${hh}:${mm}:<span style="color:lime;">${ss}</span>  `;
+          
+//statusSpan.innerHTML = `⏳ (${m.timeStr}) ${hh}:${mm}:<span style="color:lime;">${ss}</span>`;
+          
+        //  <span style="font-size:11px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;"> ▶ </span>
+          
+let localTime = convertToLocalTime(m.timeStr);
+
+//statusSpan.innerHTML = ` &nbsp; ${localTime}<br> `; //show only lokal time
+
+statusSpan.innerHTML = ` <span style="font-size:13px;color:#ff7403;">(-${hh}:${mm}:${ss})</span>    `;
+          
+//statusSpan.innerHTML = `⏳ UK: ${m.timeStr} | Local: ${localTime} ${hh}:${mm}:<span style="color:lime;">${ss}</span>`;      
+          
+          
+            m.element.style.display="block";
+        }
+        else if(diff<=0 && diff>-7200){
+            statusSpan.innerHTML=' <span class="dot"> 🔴 </span> <span class="live">Live</span> '; //&nbsp; 
+          
+            m.element.style.display="block";
+        }
+        else{ m.element.style.display="none"; }
+    });
+}
+  
+  //<span style="font-size:11px;color:#e00000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;"> ▶ </span>
+
+// লন্ডনের সময়
+function londonNow(){
+    let now=new Date();
+    let utc=now.getTime()+(now.getTimezoneOffset()*60000);
+    let offset=0;
+    let year=now.getFullYear();
+    let lastSundayMarch=new Date(year,2,31);
+    lastSundayMarch.setDate(31-(lastSundayMarch.getDay()));
+    let lastSundayOct=new Date(year,9,31);
+    lastSundayOct.setDate(31-(lastSundayOct.getDay()));
+    if(now>=lastSundayMarch && now<lastSundayOct) offset=1;
+    return new Date(utc+(3600000*offset));
+}
+  
+  
+  
+// UK time → Local time converter
+function convertToLocalTime(timeStr, dateStr) {
+    try {
+        if (!timeStr) return "";
+
+        let isoString;
+
+        if (dateStr) {
+            isoString = dateStr + "T" + timeStr;
+        } else {
+            const today = new Date().toISOString().split("T")[0];
+            isoString = today + "T" + timeStr;
+        }
+
+        // UK time (BST +01:00)
+        const ukDate = new Date(isoString + "+01:00");
+
+        return ukDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            //hour12: true // ✅ 12-hour format
+          hour12: false   // ✅ 24-hour format
+        });
+
+    } catch (e) {
+        return timeStr;
+    }
+}
+  
+  
+// Play match function
+function playMatch(el) {
+    let link = el.getAttribute("data-link");
+
+    // Video play
+    document.getElementById("player").src = link;
+
+    // Disable all other buttons
+    document.querySelectorAll(".link-btn").forEach(b => {
+        b.classList.remove("active");
+        b.style.background = "lime";
+    });
+
+    // Mark the current button as active
+    el.classList.add("active");
+    el.style.background = "#74EDE1";
+    el.style.color = "#e00000";
+
+    // Mark the match as active
+    document.querySelectorAll(".match").forEach(m => m.classList.remove("active"));
+    el.closest(".match").classList.add("active");
+
+    // Show loading message
+    let loadingMsg = document.getElementById("lodingMsg");
+    loadingMsg.innerText = "Loading...";
+    loadingMsg.style.display = "block";
+
+    setTimeout(() => {
+        loadingMsg.style.display = "none";
+    }, 7000);
+
+    // Show unmute message
+    showUnmuteMessage();
+}
+  
+// Refresh Video
+function refreshVideo() {
+    let player = document.getElementById('player');
+    let currentSrc = player.src;
+    player.src = ''; // Reset the video source
+    player.src = currentSrc; // Reload the video
+}
+  
+  
+function createLinkButton(link, index) {
+    var btn = document.createElement("button");
+    btn.innerText = `Link ${index + 1}`;
+    btn.className = "link-btn";
+    btn.setAttribute("data-link", link);
+    btn.onclick = function () {
+        playMatch(this);
+    };
+    return btn;
+}
+  
+for (let i = 0; i < Math.min(3, matchLinks.length); i++) {
+    var btn = createLinkButton(matchLinks[i], i);
+    linkContainer.appendChild(btn);
+}
+
+function showMatchLinks(matchEl, isUserClick = false){
+
+//===========🔥 START code MATCH CLICK করলে list close হবে=====UNCOMENT BELOW===
+    /*
+    if(isUserClick){
+        let wrapper = document.getElementById("schedule-wrapper");
+        let overlay = document.getElementById("video-overlay");
+        let lodingLis = document.getElementById("lodingLis");
+        let btn = document.getElementById("btn");
+
+        wrapper.classList.add("closed");
+        overlay.style.display = "none";
+        lodingLis.style.display = "none";
+        btn.innerHTML = '<span style="background:#e00000; padding:7px 15px; border-radius:5px;">☲</span>';
+    }
+    */
+//======🔥 END code MATCH CLICK করলে list close হবে========
+
+  
+//function showMatchLinks(matchEl){  //old function code
+
+    let linkContainer = document.getElementById("linkContainer");
+    linkContainer.innerHTML = "";
+
+    let links = JSON.parse(matchEl.getAttribute("data-links"));
+  
+  // 👉 এইটা  function CALL for IF HAVE ONE BTN then display none....
+handleSingleLinkUI(links);
+
+    // active match set
+    setActiveMatch(matchEl);
+
+    let max = Math.min(3, links.length);
+
+    for(let i = 0; i < max; i++){
+
+        let btn = document.createElement("button");
+        btn.className = "link-btn";
+      
+       // btn.innerText = "Link " + (i+1);
+btn.innerHTML = `<span style="font-size:9px;color:#000; background:#fff; padding:2px 0px 2px 4px; border-radius:25px; margin-right:-3px;"> ▶ </span>  &nbsp; PLAY${i+1}`;
+      
+      
+
+        let link = links[i]; // IMPORTANT FIX
+
+        btn.onclick = function(){
+
+            // active button
+            document.querySelectorAll(".link-btn").forEach(b=>{
+                b.classList.remove("active");
+            });
+            this.classList.add("active");
+
+            // PLAY VIDEO (FIXED)
+            playMatchByLink(link);
+        };
+
+        linkContainer.appendChild(btn);
+    }
+
+    // auto play first link
+    if(links.length > 0){
+
+        let firstBtn = linkContainer.querySelector(".link-btn");
+        if(firstBtn){
+            firstBtn.classList.add("active");
+        }
+
+        playMatchByLink(links[0]);
+    }
+
+}
+  
+function playMatchDirect(link){
+
+    document.getElementById("player").src = link;
+
+    // 🔥 loading
+    let loadingMsg = document.getElementById("lodingMsg");
+    loadingMsg.innerText = "Loading...";
+    loadingMsg.style.display = "block";
+
+    setTimeout(()=>{
+        loadingMsg.style.display = "none";
+    },5000);
+
+    // 🔥 unmute (same animation)
+    let unmuteMsg = document.getElementById("unmuteMsg");
+
+    unmuteMsg.classList.remove("show","hide");
+    void unmuteMsg.offsetWidth;
+
+    unmuteMsg.style.display = "block";
+
+    setTimeout(()=>{
+        unmuteMsg.classList.add("show");
+
+        setTimeout(()=>{
+            unmuteMsg.classList.remove("show");
+            unmuteMsg.classList.add("hide");
+        },3000);
+
+    },2000);
+
+}
+  
+  
+function setActiveMatch(matchEl){
+    document.querySelectorAll(".match").forEach(m=>{
+        m.classList.remove("active");
+    });
+    matchEl.classList.add("active");
+}
+  
+  
+function playMatchByLink(link){
+
+    let player = document.getElementById("player");
+    player.src = link;
+
+    // loading message
+    let loadingMsg = document.getElementById("lodingMsg");
+    loadingMsg.innerText = "Loading...";
+    loadingMsg.style.display = "block";
+
+    setTimeout(()=>{
+        loadingMsg.style.display = "none";
+    }, 4000);
+
+    // unmute message
+    showUnmuteMessage();
+
+    // active match highlight already handled
+}
+  
+  
+  
+ function handleSingleLinkUI(links){   // 👉 এই  function  for IF HAVE ONE BTN then display none
+  
+    let linkContainer = document.getElementById("linkContainer");
+
+    if(links.length <= 1){
+        linkContainer.style.display = "none"; // hide
+    } else {
+        linkContainer.style.display = "block"; // show
+    }
+}
+  
+  
+  
+</script>
+</body>
+</html>
