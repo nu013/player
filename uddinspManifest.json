@@ -1,8 +1,8 @@
 {
-  "id": "/player/uddinspPWA",
-  "name": "UddinSp App",
-  "short_name": "UddinSp",
-  "start_url": "/player/uddinspPWA.html",
+  "id": "/player/UddinSports.html",
+  "name": "UddinSports",
+  "short_name": "Uddin",
+  "start_url": "/player/UddinSports.html",
   "scope": "/player/",
   "display": "standalone",
   "background_color": "#000000",
