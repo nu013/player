@@ -15,7 +15,7 @@ if (!sessionStorage.getItem("pwaReloaded")) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Cache-Control" content="no-cache">
 <link rel="manifest" href="/player/uddinspManifest.json"> 
-<title>Uddin Sports</title>
+<title>UddinSports</title>
 
 
   
@@ -154,11 +154,11 @@ if ('serviceWorker' in navigator) {
   </div>
 
   <!-- Message Text -->
-  <p id="popupMessage">Install UddinSports for Better Experience</p>
+  <p id="popupMessage">Add Home Page Shotcut UddinSports for Better Experience</p>
 
   <!-- Install Button -->
   <button onclick="handleInstallClick()" style="padding:12px 25px;background:#28a745;color:#fff;border:none;border-radius:6px;">
-    Install App
+    Add Now
   </button>
 </div>
 
@@ -196,7 +196,11 @@ return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 }
 
+function isDesktop(){
+  return !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
+  
 // ------------------- Messenger Detect -------------------
 
 function isMessengerBrowser(){
@@ -214,7 +218,7 @@ function showInstallPopup(){
 
 if(isIOS()) return;
 
-if(!isAndroid()) return;
+if(!isAndroid() && !isDesktop()) return;
 
 if(isPWAInstalled()) return;
 
