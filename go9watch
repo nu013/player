@@ -1,0 +1,738 @@
+
+<style>
+:root { --primary: #38bdf8; --bg-dark: #0f172a; --bg-player: #161e2e; --card-bg: #1e293b; --text-gray: #94a3b8; }
+
+#dynamic-movie-player { font-family: 'Inter', sans-serif; background: var(--bg-player); color: #fff; padding: 0px; border-radius: 12px; border: 1px solid #334155; 
+  margin: 20px auto;
+  max-width: 1000px; /* ডেস্কটপে এর চেয়ে বড় হবে না */
+  
+  }
+
+/* প্লেয়ার ফ্রেম ফিক্স */
+.player-wrapper { 
+  position: relative; 
+  width: 100%; 
+  background: #000; 
+  border-radius: 12px; 
+  border: 1px solid #334155; 
+  overflow: hidden;
+  
+  /* রেসপনসিভ হাইট ফিক্স */
+  height: auto;
+  aspect-ratio: 16 / 9; 
+  max-height: 75vh; /* স্ক্রিনের উচ্চতার ৭৫% এর বেশি হবে না */
+}
+
+/* আইফ্রেমকে ফ্রেমের সাথে লক করা */
+#dynamic-iframe { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; 
+  height: 100%; 
+  border: none;
+  display: block;
+}
+  
+  
+.server-selection { margin: 6px; }
+.server-selection p { font-weight: 600; color: var(--primary); margin-bottom: 12px; }
+
+.server-tabs {  
+  margin: 0px 10px;
+ display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+  gap: 10px; 
+  }
+  
+.btn-s { 
+  padding: 7px;
+  height:35px;
+  background: #1d6fa5;
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 5px;
+  color: #fff;
+  font-size: 11px;
+  transition: all 0.2s ease;
+  font-weight: 700; 
+  }
+.btn-s:hover {
+  background: #3498db;    /* হালকা ডার্ক ব্লু */
+  transform: translateY(-2px); /* হালকা লিফট ইফেক্ট */
+  }
+  
+.btn-s.active { 
+  color: yellow; 
+  border-color: yellow; 
+    font-weight: 700; 
+  }
+
+/* ১. মুভি ডাটা (Poster & Info) সেন্টারে আনার জন্য */
+.single-movie-data { 
+  display: flex; 
+  gap: 25px; 
+  margin: 30px auto; /* auto মার্জিন ডানে-বামে সেন্টারে রাখবে */
+  padding: 20px; 
+  background: rgba(255,255,255,0.03); 
+  border-radius: 12px;
+  max-width: 1000px; /* আপনার দেওয়া লিমিট */
+}
+#d-poster { width: 180px; height: 270px; object-fit: cover; border-radius: 8px; border: 1px solid #334155; }
+#d-title { font-size: 26px; margin: 0 0 10px 0; color: var(--primary); }
+#d-desc { line-height: 1.6; color: var(--text-gray); font-size: 14px; }
+
+/* ৩. মুভি গ্রিড (Suggestion Data) সেন্টারে রাখার জন্য */
+.movie-grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+  gap: 15px; 
+  margin-top: 20px;
+  justify-content: center; /* গ্রিড আইটেমগুলোকে মাঝখানে রাখবে */
+}
+.s-card { background: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid #334155; transition: 0.3s; }
+.s-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+.s-card img { width: 100%; height: 200px; object-fit: cover; }
+.s-card span { display: block; padding: 8px; font-size: 12px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 600px) {
+  #dynamic-movie-player {padding: 0; border-radius: 12px; border: 1px solid #334155; }
+  .player-wrapper { aspect-ratio: 17/10; }
+  
+  .single-movie-data { flex-direction: column; align-items: center; text-align: center; }
+  .server-tabs { grid-template-columns: repeat(2, 1fr);margin: 10px; }
+  .movie-grid { grid-template-columns: repeat(2, 1fr); }
+.btn-s { 
+  font-size: 13px;
+
+  }
+  
+}
+  
+  
+/* ২. সাজেস্টেড সেকশন পুরোটা সেন্টারে রাখার জন্য */
+.suggested-section {
+  max-width: 1000px;
+  margin: 50px auto; /* সেন্টারে আনার জন্য */
+  padding: 0 10px;
+}
+  
+/* ৪. টাইটেলের নিচের ইয়েলো বার সেন্টারে আনা */
+.title-line {
+  height: 3px; 
+  width: 100%; 
+  max-width: 1000px; 
+  background: yellow;
+  margin: 5px 0;
+}
+  
+/* ড্রপডাউন কন্ট্রোলস ডিজাইন */
+#tvControls {
+  position: absolute;
+  top: -1px;
+  right: 15px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+#tvControls.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#tvControls select {
+  padding: 6px;
+  background:  rgba(0, 0, 0, 0.8);/* #1d6fa5;*/
+  color: #38bdf8;
+  border: 0px solid  #000;
+  border-radius: 0px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* Next/Prev নেভিগেশন ডিজাইন */
+.nav-container {
+  display: flex;
+  justify-content:flex-end; /* এটি বাটনগুলোকে  center; নিয়ে যাবে */
+  gap: 0px 6px;
+  width: 100%;
+}
+.nav-btn {
+  padding: 5px 10px;
+  background: #222; /*  #1a1a1a  */
+  border: 1px solid #000;
+  border-radius: none;
+  color: lime;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+   margin: 0;
+}
+
+.nav-btn:hover {
+  background: #333; /* হোভার করলে হালকা কালার চেঞ্জ হবে */
+}
+  
+  
+/* Responsive Ad */
+.ad-container {
+    width: 100%;           /* মোবাইল স্ক্রিনের পুরো width */
+    max-width: 728px;      /* desktop এর max width */
+    margin: 0 auto;        /* centered */
+    height: 90px;         /* height fixed */
+    overflow: hidden;      /* যাতে iframe overflow না করে */
+}
+
+.ad-container iframe {
+    width: 100% !important;   /* container width অনুযায়ী */
+    height: 100% !important;  /* container height অনুযায়ী */
+    display: block;
+    border: 0;
+}
+  
+  
+  
+#delayed-ad {
+    display: none;
+    position: absolute;/* fixed */
+    top: 5px; /* সামান্য উপর থেকে নিচে */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%; /* স্ক্রিনের ৯০% জায়গা নেবে */
+    max-width: 330px; /* 740px330px; সর্বোচ্চ সাইজ বড় অ্যাডের সমান */
+    background: rgba(0, 0, 0, 0.0);/* rgba(0, 0, 0, 0.5); */
+    padding: 0px;
+    border-radius: 0px; /* 8px; */
+   text-align: center;
+   z-index: 30; /* যেন ভিডিওর উপরে থাকে */
+  
+}
+
+/* অ্যাড কন্টেইনার যা সব সাইজ অ্যাডকে ফিট করবে */
+.ad-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* যদি অ্যাডটি কন্টেইনারের চেয়ে বড় হয় তবে সেটি অটো ছোট হয়ে যাবে */
+.ad-wrapper iframe {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+
+
+/* বন্ধ করার (X) বাটন */
+#close-ad {
+    position: absolute;
+    /* top: 52px; */
+    bottom: 0px;/*-10px;*/
+    right: 10px;/* -10px; 30%*/
+    background: red ;/* transparent */
+    color: white;/* red */
+    border: 1px solid #777;/* white; none; */
+    border-radius: 50%;
+    width: ;/* 25px */
+    height: ;/* 25px */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 1px 4px;
+    line-height: ;/* 25px */
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    z-index: 35; /* যেন ভিডিওর উপরে থাকে */
+}
+</style>
+
+<div id="dynamic-movie-player">
+  
+  <div class="player-wrapper" id="playerArea">
+    
+    <div id="tvControls">
+      <select id="seasonSelect" onchange="fetchEpisodes()"></select>
+      <select id="episodeSelect" onchange="changeEpisode()"></select>
+    </div>
+    <iframe id="dynamic-iframe" allowfullscreen="true" src=""style="border: 0;"></iframe>   
+    
+  <!--    <iframe id="dynamic-iframe" allowfullscreen="true" src="" sandbox="allow-scripts allow-same-origin allow-forms" allow="encrypted-media" allowfullscreen="" referrerpolicy="no-referrer" scrolling="no" style="border: 0;"></iframe>  -->
+  
+  
+<div id="delayed-ad">
+    <button id="close-ad" onclick="hideAd()">X</button>
+    <div class="ad-container" style="height: 50px;">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+    </div>
+</div>  
+
+ 
+
+</div>
+
+  
+  <div id="episodeNav" style="display:none; margin-right:10px;">
+    <div class="nav-container">
+      <button class="nav-btn" id="prevEpBtn" onclick="prevEpisode()">⏮ Prev</button>
+      <button class="nav-btn" id="nextEpBtn" onclick="nextEpisode()">Next ⏭</button>
+    </div>
+  </div>
+  
+  
+  <div class="server-selection">
+    <div class="server-tabs">
+    <!-- 
+      <button class="btn-s" onclick="switchDynamicS(1)">Server 1 [VIP]</button>
+      <button class="btn-s" onclick="switchDynamicS(2)">Server 2 [AD-FREE]</button>
+      <button class="btn-s" onclick="switchDynamicS(3)">Server 3 [PLAYER]</button>
+      <button class="btn-s" onclick="switchDynamicS(4)">Server 4 [VID]</button>
+      <button class="btn-s" onclick="switchDynamicS(5)">Server 5 [CLUB]</button>
+      <button class="btn-s" onclick="switchDynamicS(6)">Server 6 [2EMBED]</button>
+      <button class="btn-s" onclick="switchDynamicS(7)">Server 7 [ICU]</button>
+      <button class="btn-s active" onclick="switchDynamicS(8)">This Only HINDI</button>
+      <button class="btn-s" onclick="switchDynamicS(9)">Server 9 [multiembed]</button>
+
+      -->
+      <button class="btn-s" onclick="switchDynamicS(1)">Server 1 [AUTO]</button>
+      <button class="btn-s" onclick="switchDynamicS(2)">Server 2 [PLAYER]</button>
+      <button class="btn-s" onclick="switchDynamicS(3)">Server 3 [MULTIE]</button>
+      <button class="btn-s" onclick="switchDynamicS(4)">Server 4 [HINDI]</button>
+
+ 
+    </div>
+
+  </div>
+</div>
+
+
+<div class="single-movie-data">
+  <img id="d-poster" src="" />
+  <div class="m-text">
+    <h1 id="d-title">Loading...</h1>
+    <p id="d-desc">Fetching content...</p>
+    <div id="d-meta"style=" font-size: 14px;"></div>
+  </div>
+</div>
+
+
+<div class="suggested-section">
+  <h2 style="color:#38bdf8; font-size: 20px;">Suggested Similar</h2>
+  <div class="title-line"></div> 
+  <div class="movie-grid" id="suggested-list"></div>
+</div>
+
+
+<script type='text/javascript'>
+//<![CDATA[
+const API_KEY = '844dba0bfd8f3a4f3799f6130ef9e335';
+const urlParams = new URLSearchParams(window.location.search);
+let currentId = urlParams.get('id');
+let type = urlParams.get('type') || 'movie';
+
+// যদি URL এ না থাকে, ক্লাস থেকে নেবে
+if (!currentId) {
+    const storeDiv = document.querySelector('.tmdb-id-store');
+    if (storeDiv) currentId = storeDiv.innerText.trim();
+}
+
+/* =====================================================
+   INITIAL DATA LOAD
+===================================================== */
+if (currentId) {
+    let fetchUrl = type === 'movie' 
+        ? `https://api.themoviedb.org/3/movie/${currentId}?api_key=${API_KEY}`
+        : `https://api.themoviedb.org/3/tv/${currentId}?api_key=${API_KEY}`;
+
+    fetch(fetchUrl)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('d-title').innerText = type === 'movie' ? data.title : data.name;
+            document.getElementById('d-desc').innerText = data.overview;
+            document.getElementById('d-poster').src = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+            document.getElementById('d-meta').innerHTML = `📅 ${type === 'movie' ? data.release_date : data.first_air_date} | ⭐ ${data.vote_average.toFixed(1)}`;
+
+      
+      document.getElementById('d-title').innerText = type === 'movie' ? data.title : data.name;
+document.getElementById('d-desc').innerText = data.overview;
+document.getElementById('d-poster').src = 'https://image.tmdb.org/t/p/w500' + data.poster_path;
+
+// অতিরিক্ত তথ্যগুলো বের করা
+const genres = data.genres.map(g => g.name).join(', ') || 'N/A';
+const originalLang = data.original_language ? data.original_language.toUpperCase() : 'N/A';
+const productionCountry = data.production_countries && data.production_countries.length > 0 
+    ? data.production_countries.map(c => c.name).join(', ') 
+    : 'N/A';
+
+// ডিরেক্টর বা ক্রিয়েটর বের করা
+let director = 'N/A';
+if (type === 'movie' && data.credits && data.credits.crew) {
+    const dirInfo = data.credits.crew.find(person => person.job === 'Director');
+    if (dirInfo) director = dirInfo.name;
+} else if (type === 'tv' && data.created_by && data.created_by.length > 0) {
+    director = data.created_by.map(c => c.name).join(', ');
+}
+
+// লাইন বাই লাইন ডাটা সেট করা
+document.getElementById('d-meta').innerHTML = `
+    <div class="info-line"><b>📅 Release:</b> ${type === 'movie' ? data.release_date : data.first_air_date}</div>
+    <div class="info-line"><b>⭐ Rating:</b> ${data.vote_average.toFixed(1)} / 10</div>
+    <div class="info-line"><b>🎬 Director:</b> ${director}</div>
+    <div class="info-line"><b>🎭 Genre:</b> ${genres}</div>
+    <div class="info-line"><b>🌐 Original Lang:</b> ${originalLang}</div>
+    <div class="info-line"><b>📍 Made In:</b> ${productionCountry}</div>
+    <div class="info-line"><b>⏱️ Runtime:</b> ${type === 'movie' ? data.runtime + ' min' : data.number_of_seasons + ' Seasons'}</div>
+`;
+      
+            if (type === 'movie') {
+                loadSimilarMovies(currentId);
+            } else {
+                loadSimilarTV(currentId);
+            }
+
+            // প্রথমবার লোড হওয়ার সময় সার্ভার ১ ডিফল্ট হিসেবে কল হবে
+            switchDynamicS(1);
+        });
+}
+
+/* =====================================================
+   SWITCH SERVER LOGIC (Main Function)
+===================================================== */
+async function switchDynamicS(n) {
+    // অ্যাক্টিভ বাটন স্টাইল পরিবর্তন
+    let btns = document.querySelectorAll('.btn-s');
+    btns.forEach((b, i) => b.classList.toggle('active', i === n - 1));
+
+    const tvControls = document.getElementById("tvControls");
+    const episodeNav = document.getElementById("episodeNav");
+
+    if (type === 'tv') {
+        if (tvControls) tvControls.style.display = "flex";
+        if (episodeNav) episodeNav.style.display = "flex";
+        showTVControls(); 
+
+        // সিজন লিস্ট খালি থাকলে ফেচ করবে, তারপর ভিডিও লোড করবে
+        if (document.getElementById("seasonSelect").innerHTML === "") {
+            await fetchSeasons(currentId);
+        } else {
+            generateFinalUrl(n);
+        }
+    } else {
+        // মুভি মোড
+        if (tvControls) tvControls.style.display = "none";
+        if (episodeNav) episodeNav.style.display = "none";
+        generateFinalUrl(n);
+    }
+  
+// ভিডিও পরিবর্তনের সাথে সাথে অ্যাড সাইকেল শুরু হবে
+    startAdCycle();  
+}
+
+/* =====================================================
+   URL GENERATOR (Movie & TV combined)
+===================================================== */
+function generateFinalUrl(n) {
+    let url = "";
+    const s = document.getElementById("seasonSelect") ? document.getElementById("seasonSelect").value : 1;
+    const e = document.getElementById("episodeSelect") ? document.getElementById("episodeSelect").value : 1;
+    /* 
+    if (type === 'movie') {
+        if (n === 1) url = `https://vidsrc.me/embed/movie/${currentId}`;
+        if (n === 2) url = `https://player.autoembed.cc/embed/movie/${currentId}`;           
+        if (n === 3) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1`;
+        if (n === 4) url = `https://vidsrc.cc/v2/embed/movie/${currentId}`;
+        if (n === 5) url = `https://moviesapi.club/movie/${currentId}`;
+        if (n === 6) url = `https://www.2embed.cc/embed/${currentId}`;
+        if (n === 7) url = `https://vidsrc.icu/embed/movie/${currentId}`;
+        if (n === 8) url = `https://player.autoembed.cc/embed/movie/${currentId}?server=15`;
+        if (n === 9) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1`;
+        if (n === 10) url = `https://autoembed.co/movie/tmdb/${currentId}`; 
+        if (n === 11) url = `https://vidsrc.vip/embed/movie/${currentId}`;
+        if (n === 12) url = `https://play.xpass.top/e/movie/${currentId}`;
+        if (n === 3) url = `https://vidsrc.vip/embed/movie/${currentId}`;
+        if (n === 1) url = `https://aman007power.blogspot.com/p/sendbox.html?url=https://vidsrc.cc/v2/embed/movie/${currentId}`;
+        if (n === 3) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1`;
+        
+        
+    } else {
+    
+    
+        // TV Series URLs
+        if (n === 1) url = `https://vidsrc.me/embed/tv?tmdb=${currentId}&sea=${s}&epi=${e}`;
+        if (n === 2) url = `https://player.autoembed.cc/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 3) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1&s=${s}&e=${e}`;
+        if (n === 4) url = `https://vidsrc.cc/v2/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 5) url = `https://moviesapi.club/tv/${currentId}-${s}-${e}`;
+        if (n === 6) url = `https://www.2embed.cc/embedtv/${currentId}&s=${s}&e=${e}`;
+        if (n === 7) url = `https://vidsrc.icu/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 8) url = `https://player.autoembed.cc/embed/tv/${currentId}/${s}/${e}?server=15`;
+        if (n === 9) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1&s=${s}&e=${e}`;
+        if (n === 10) url = `https://autoembed.co/tv/tmdb/${currentId}-${s}-${e}`;
+        if (n === 11) url = `https://vidsrc.vip/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 3) url = `https://vidsrc.vip/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 1) url = `https://aman007power.blogspot.com/p/sendbox.html?url=https://vidsrc.cc/v2/embed/tv/${currentId}/${s}/${e}`;
+        if (n === 3) url = `https://multiembed.mov/?video_id=${currentId}&tmdb=1&s=${s}&e=${e}`;
+        
+    }
+*/
+  
+    if (type === 'movie') {
+        if (n === 1) url = `https://autoembed.co/movie/tmdb/${currentId}`; 
+        if (n === 2) url = `https://player.videasy.net/movie/${currentId}`;
+        if (n === 3) url = `https://vidsrc.wtf/api/3/movie/?id=${currentId}`;
+        if (n === 4) url = `https://vidsrc.wtf/api/2/movie/?id=${currentId}`;
+      
+     } else {
+        // TV Series URLs
+        if (n === 1) url = `https://autoembed.co/tv/tmdb/${currentId}-${s}-${e}`;
+        if (n === 2) url = `https://player.videasy.net/tv/${currentId}/${s}/${e}`;
+        if (n === 3) url = `https://vidsrc.wtf/api/3/tv/?id=${currentId}&s=${s}&e=${e}`;
+        if (n === 4) url = `https://vidsrc.wtf/api/2/tv/?id=${currentId}&s=${s}&e=${e}`;
+     }
+  
+  
+    const iframe = document.getElementById('dynamic-iframe');
+    if (iframe) iframe.src = url;
+}
+
+/* =====================================================
+   TV DATA FETCHING
+===================================================== */
+async function fetchSeasons(id) {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`);
+    const data = await res.json();
+    const seasonSelect = document.getElementById("seasonSelect");
+    if (!seasonSelect) return;
+    
+    seasonSelect.innerHTML = "";
+    data.seasons.forEach(s => {
+        if (s.season_number > 0) {
+            let opt = document.createElement("option");
+            opt.value = s.season_number;
+            opt.innerText = `Season ${s.season_number}`;
+            seasonSelect.appendChild(opt);
+        }
+    });
+    fetchEpisodes();
+}
+
+async function fetchEpisodes() {
+    const sNum = document.getElementById("seasonSelect").value;
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${currentId}/season/${sNum}?api_key=${API_KEY}`);
+    const data = await res.json();
+    const epSelect = document.getElementById("episodeSelect");
+    if (!epSelect) return;
+    
+    epSelect.innerHTML = "";
+    data.episodes.forEach(e => {
+        let opt = document.createElement("option");
+        opt.value = e.episode_number;
+        opt.innerText = `Episode ${e.episode_number}`;
+        epSelect.appendChild(opt);
+    });
+    
+    // এপিসোড লিস্ট লোড হওয়ার পর ভিডিও সোর্স জেনারেট করা
+    let activeBtn = document.querySelector('.btn-s.active');
+    let n = activeBtn ? parseInt(activeBtn.innerText.match(/\d+/)[0]) : 1;
+    generateFinalUrl(n);
+}
+
+function changeEpisode() {
+    let activeBtn = document.querySelector('.btn-s.active');
+    let n = activeBtn ? parseInt(activeBtn.innerText.match(/\d+/)[0]) : 1;
+    generateFinalUrl(n);
+}
+
+/* =====================================================
+   CONTROLS & NAVIGATION
+===================================================== */
+function nextEpisode() {
+    const epSelect = document.getElementById("episodeSelect");
+    if (epSelect && epSelect.selectedIndex < epSelect.options.length - 1) {
+        epSelect.selectedIndex++;
+        changeEpisode();
+        showTVControls();
+    }
+}
+
+function prevEpisode() {
+    const epSelect = document.getElementById("episodeSelect");
+    if (epSelect && epSelect.selectedIndex > 0) {
+        epSelect.selectedIndex--;
+        changeEpisode();
+        showTVControls();
+    }
+}
+
+let tvHideTimer;
+function showTVControls() {
+    const tvControls = document.getElementById("tvControls");
+    if (!tvControls || type !== 'tv') return;
+
+    tvControls.classList.add("show");
+    clearTimeout(tvHideTimer);
+    tvHideTimer = setTimeout(() => {
+        if (!tvControls.matches(':hover')) {
+            tvControls.classList.remove("show");
+        }
+    }, 5000);
+}
+
+// Event Listeners for Controls
+const playerWrapper = document.querySelector(".player-wrapper");
+if (playerWrapper) {
+    playerWrapper.addEventListener("mousemove", showTVControls);
+    playerWrapper.addEventListener("touchstart", showTVControls);
+}
+
+/* =====================================================
+   SIMILAR MOVIES & TV
+===================================================== */
+function loadSimilarMovies(id) {
+    fetch(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`)
+        .then(res => res.json())
+        .then(res => renderSimilar(res.results, 'movie'));
+}
+
+function loadSimilarTV(id) {
+    fetch(`https://api.themoviedb.org/3/tv/${id}/similar?api_key=${API_KEY}`)
+        .then(res => res.json())
+        .then(res => renderSimilar(res.results, 'tv'));
+}
+
+function renderSimilar(data, mType) {
+    let html = '';
+    data.slice(0, 12).forEach(m => {
+        if (m.poster_path) {
+            html += `
+            <div class="s-card">
+                <a href="/p/watch.html?id=${m.id}&type=${mType}">
+                    <img src="https://image.tmdb.org/t/p/w342${m.poster_path}" alt="${m.title || m.name}"/>
+                    <span>${m.title || m.name}</span>
+                </a>
+            </div>`;
+        }
+    });
+    document.getElementById('suggested-list').innerHTML = html;
+}
+
+  
+  
+/* =========================================================
+   📱 MOBILEফুলস্ক্রিন auto কাজ করবে in mobile .. ching id .. dblclick  / mainVideo or mainIframe
+   ========================================================= */
+document.getElementById('tvControls').addEventListener('dblclick', function(e) {
+    e.preventDefault();
+    toggleFullscreen();
+});
+  
+  
+
+//]]>
+  
+  
+
+/* ==================
+অ্যাড ahow টাইমার সাইকেল শুরু
+==================== */
+
+var adTimer;
+
+// ১. অ্যাড সাইকেল শুরু করার ফাংশন
+function startAdCycle() {
+    // আগে যদি কোনো অ্যাড টাইমার থাকে তা বন্ধ করা
+    clearTimeout(adTimer);
+    document.getElementById('delayed-ad').style.display = 'none';
+
+    // ১ মিনিট (৬০,০০০ মিলি-সেকেন্ড) পর অ্যাড দেখাবে
+    // আপনি চাইলে সময় কমাতে বা বাড়াতে পারেন (যেমন: ১০ সেকেন্ড হলে ১০০০০)
+    adTimer = setTimeout(showAd, 1 * 60 * 1000);  // 2 * 60 * 1000 এর জায়গায় 5000 (৫ সেকেন্ড) দিয়ে পারেন 
+}
+
+// ২. অ্যাড দেখানোর ফাংশন
+function showAd() {
+    document.getElementById('delayed-ad').style.display = 'block';
+}
+
+// ৩. অ্যাড লুকানোর ফাংশন
+function hideAd() {
+    document.getElementById('delayed-ad').style.display = 'none';
+    
+    // অ্যাড বন্ধ করার ১০ মিনিট পর আবার দেখানোর জন্য টাইমার সেট করা
+    clearTimeout(adTimer);
+    adTimer = setTimeout(showAd, 10 * 60 * 1000); 
+}
+
+
+</script>
+
+<br>
+
+
+<!-- অ্যাড কন্টেইনার 
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+</div>
+
+  <br />
+-->
+
+
+<!-- অ্যাড কন্টেইনার 
+<div class="ad-container">
+<script>
+  atOptions = {
+    'key' : 'e51c312477a5b3e60221648ed4fea8ed',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/e51c312477a5b3e60221648ed4fea8ed/invoke.js"></script>
+</div>
+
+  <br />
+-->
+
+
+<!-- অ্যাড কন্টেইনার 
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+</div>
+-->
+
+
+
+  
+  
+
