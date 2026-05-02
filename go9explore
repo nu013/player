@@ -1,0 +1,558 @@
+
+<center>
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+</div>
+</center>
+
+<!-- TMDB RESULT -->
+<h2 id="result-header">Movies</h2>
+<!--===========================
+ befor i have id="tmdb-result"... i will ching this .. if any problem then ching again 
+ =========================-->
+<div id="tmdb-result-page" class="movie-grid"></div>
+
+<!-- BLOGGER POSTS -->
+<h2></h2>
+<div class="blogger-posts">
+  <b:section class='blog-posts' id='main'/>
+</div>
+
+
+
+<style>
+
+/* ===== LOAD MORE ===== */
+.load-more{
+  display:block;
+  padding:10px 5px;
+  background:#9b59b6;
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  font-weight:bold;
+}
+  
+#filter-container {
+    position: relative;     margin: 0px 0px 5px 0px;
+    display: flex;    
+    justify-content: flex-end;
+    top: 0px;
+    right: 0px;
+    gap: 6px;
+    background: rgba(0,0,0,0.0);
+    padding: 6px 10px;
+    border-radius: 20px;
+    z-index: 50;
+}
+
+#filter-container select {
+    padding: 4px 6px;
+    border-radius: 15px;
+    border: none;
+    font-size: 13px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+}
+  
+  
+/* Responsive Ad */
+.ad-container {
+    width: 100%;           /* মোবাইল স্ক্রিনের পুরো width */
+    max-width: 320px;      /* desktop এর max width */
+    margin: 0 auto;        /* centered */
+    height: 50px;         /* height fixed */
+    overflow: hidden;      /* যাতে iframe overflow না করে */
+    text-align: center;       /* কন্টেন্টকে সেন্টার করবে */
+}
+
+.ad-container iframe {
+    width: 100% !important;   /* container width অনুযায়ী */
+    height: 100% !important;  /* container height অনুযায়ী */
+    display: block;
+    border: 0;
+}
+
+  
+  
+  
+</style>
+
+
+
+
+
+<div style="text-align:center; margin:0; display:flex; justify-content:center; align-items:center; gap:0px 10px;">
+  <button id="prevBtn" class="load-more" style="display:none; padding:8px 15px; cursor:pointer;" onclick="changePage(-1)"> ⏮ Back </button>
+  <span id="pageText" style="color:#aaa; font-size:14px; display:none;">Page 1</span>
+  <button id="loadMoreBtn" class="load-more" style="display:none; padding:8px 15px; cursor:pointer;" onclick="changePage(1)"> ⏭ Load More </button>
+</div>
+
+<script type='text/javascript'>
+//<![CDATA[
+(function() {
+    const API_KEY = '844dba0bfd8f3a4f3799f6130ef9e335';
+    let currentPage = 1;
+
+    // ১. প্রয়োজনীয় এলিমেন্টগুলো ধরা
+    const box = document.getElementById('tmdb-result-page');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const pageText = document.getElementById('pageText');
+
+    window.fetchMovies = function(page = 1) {
+        currentPage = page;
+        const params = new URLSearchParams(window.location.search);
+        
+        // URL থেকে প্যারামিটার পড়া
+        const query = params.get('q');
+        const label = params.get('label');
+        const genre = params.get('with_genres');
+        const year = params.get('primary_release_year') || params.get('first_air_date_year');
+        const type = params.get('type') || 'movie';
+// --- নতুন ফিল্টারগুলো এখানে ধরা হলো ---
+        const dateGte = params.get('primary_release_date.gte');
+        const dateLte = params.get('primary_release_date.lte');
+      
+      
+        let tmdbURL = '';
+
+        // ২. স্পিনার ফ্রেম দেখানো (যতক্ষণ লোড হচ্ছে)
+        if(box) {
+            let loaderHtml = '';
+            for (let i = 0; i < 20; i++) {
+                loaderHtml += `
+                <div class="movie-card">
+                    <div class="loader-box" style="height:160px; display:flex; align-items:center; justify-content:center; background:#0f172a; border-radius:10px;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>`;
+            }
+            box.innerHTML = loaderHtml;
+        }
+
+// --- ৩. TMDB URL তৈরি করা (এডিট করা হয়েছে) ---
+// ৩. TMDB URL তৈরি করা (আপনার দেওয়া লজিক অনুযায়ী)
+const today = new Date().toISOString().split("T")[0];
+
+      //  if(query) {
+       //     tmdbURL = `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
+     //   } else if(label) {
+     //       let endpoint = (label === 'Trending') ? `trending/${type}/week` : `${type}/${label.toLowerCase()}`;
+      //      if(label === 'Latest') endpoint = (type === 'movie') ? 'movie/now_playing' : 'tv/airing_today';
+      //      tmdbURL = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&page=${page}`;
+      //  }
+if(query) {
+
+    tmdbURL = `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
+
+} else if(label) {
+
+    let endpoint;
+
+    // 🔥 IMPORTANT FIX: Popular + Trending কে discover এ নিয়ে আসা
+    if(label === 'Trending' || label === 'Popular') {
+        endpoint = `discover/${type}`;
+    } 
+    else if(label === 'Latest') {
+        endpoint = (type === 'movie') ? 'movie/now_playing' : 'tv/airing_today';
+    } 
+    else {
+        endpoint = `${type}/${label.toLowerCase()}`;
+    }
+
+    tmdbURL = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&page=${page}`;
+
+    // 🔥 filters always work now
+    const lang = params.get('with_original_language');
+
+    if(lang) {
+        tmdbURL += `&with_original_language=${lang}`;
+    }
+
+    if(year) {
+        tmdbURL += (type === 'movie') 
+            ? `&primary_release_year=${year}` 
+            : `&first_air_date_year=${year}`;
+    }
+
+    if(genre) {
+        tmdbURL += `&with_genres=${genre}`;
+    }
+
+    if(dateGte) {
+        tmdbURL += (type === 'movie') 
+            ? `&primary_release_date.gte=${dateGte}` 
+            : `&first_air_date.gte=${dateGte}`;
+    }
+
+    if(dateLte) {
+        tmdbURL += (type === 'movie') 
+            ? `&primary_release_date.lte=${dateLte}` 
+            : `&first_air_date.lte=${dateLte}`;
+    }
+}
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+        // ---- টপ রেটেড মুভি এবং টিভি শো ----
+else if(label === 'Top Rated') {
+    tmdbURL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${page}`;
+} 
+else if(label === 'Top Rated TV') {
+    tmdbURL = `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&page=${page}`;
+}
+      
+      else {
+    // ১. ইউআরএল থেকে সর্টিং প্যারামিটার ধরা (যদি লিঙ্কে না থাকে তবে পপুলারিটি দেখাবে)
+    let urlSort = params.get('sort_by') || 'popularity.desc';
+    
+    // ২. মুভি নাকি সিরিজ সেই অনুযায়ী ডেট ফিল্ড ঠিক করা
+    let dateField = (type === 'movie') ? 'primary_release_date' : 'first_air_date';
+
+    // ৩. যদি লিঙ্কে তারিখের সর্টিং থাকে (যেমন: New Release), তবে টিভি সিরিজের জন্য তারিখ প্যারামিটার ঠিক করা
+    if(type === 'tv' && urlSort.includes('primary_release_date')) {
+        urlSort = urlSort.replace('primary_release_date', 'first_air_date');
+    }
+
+    // ৪. ডিসকভার ইউআরএল তৈরি করা (আপনার আগের ফরম্যাট অনুযায়ী)
+    tmdbURL = `https://api.themoviedb.org/3/discover/${type}?api_key=${API_KEY}&page=${page}&sort_by=${urlSort}`;
+
+    // ৫. আজকের তারিখের ফিল্টার (ভবিষ্যতের মুভি লুকানোর জন্য)
+    tmdbURL += `&${dateField}.lte=${today}`;
+
+    // ৫. অন্যান্য ফিল্টারগুলো যোগ করা  
+    // যদি মেনু থেকে ভাষা (হিন্দি) সিলেক্ট করা থাকে
+    const lang = params.get('with_original_language');
+    if(lang) tmdbURL += `&with_original_language=${lang}`;
+  
+  
+  
+  
+  
+            
+            if(year) tmdbURL += (type === 'movie') ? `&primary_release_year=${year}` : `&first_air_date_year=${year}`;
+            if(genre) tmdbURL += `&with_genres=${genre}`;
+            
+            // হিন্দি মুভি ফিল্টার যোগ করা হলো
+            if(lang) tmdbURL += `&with_original_language=${lang}`;
+
+            // আজকের রিলিজ ফিল্টার যোগ করা হলো
+            if(dateGte) tmdbURL += (type === 'movie') ? `&primary_release_date.gte=${dateGte}` : `&first_air_date.gte=${dateGte}`;
+            if(dateLte) tmdbURL += (type === 'movie') ? `&primary_release_date.lte=${dateLte}` : `&first_air_date.lte=${dateLte}`;
+        }
+
+  
+        // ৪. ডাটা ফেচ করা
+        fetch(tmdbURL)
+        .then(r => r.json())
+        .then(d => {
+            let html = '';
+            if(d.results && d.results.length > 0) {
+              d.results.forEach(m => {
+ if(!m.poster_path) return; //return সেট করা FOR-- NO Image NO poster..
+                
+                /*----return OR BELOW SHOW ALL POSTER.....
+// এখানে return না করে Default Image সেট করা হয়েছে যাতে ২০টিই শো করে...
+                    const posterImg = m.poster_path ? `https://image.tmdb.org/t/p/w342${m.poster_path}` : 'https://placehold.co/342x513/000000/555555?text=NO+IMAGE';
+                ---*/
+                
+  const mType = m.title ? 'movie' : 'tv';
+  const mTitle = m.title || m.name;
+                
+// --- রেটিং এবং ডেট বের করা ---
+  const rating = m.vote_average ? m.vote_average.toFixed(1) : "N/A";
+const rawDate = m.release_date || m.first_air_date;
+const releaseYear = rawDate ? rawDate.split('-')[0] : "N/A";
+
+// TV episode fallback (safe)
+const episodeCount = m.number_of_episodes || m.episode_count || null;
+                
+  html += `
+  <div class="movie-card">
+    <a href="/player/go9watch.html?id=${m.id}&type=${mType}">
+    
+<div class="poster-top-bar" style="position:absolute; top: left:0; right:0; padding:0 2px; display:flex; justify-content:space-between; z-index:10; pointer-events:none;">
+        <span class="rating-label" style="background:rgba(0,0,0,0.0); color:#ffc107; font-size:11px; font-weight:bold; padding:2px 6px; border-radius:4px;">⭐ ${rating}</span>
+        <span class="date-label" id="ep-${m.id}"  style="background:rgba(255,255,255,0.0); color:#ffc107; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:4px;line-height:3;"> ${mType === 'tv' ? 'ALL EP' : releaseYear}</span>
+      </div>
+    
+<img src="https://image.tmdb.org/t/p/w185${m.poster_path}" alt="${mTitle}">
+      <span>${mTitle}</span>
+    </a>
+  </div>`;
+                
+// ✅ Fetch episode count for TV
+if (mType === 'tv') {
+  fetch(`https://api.themoviedb.org/3/tv/${m.id}?api_key=${API_KEY}`)
+    .then(r => r.json())
+    .then(tv => {
+      const ep = tv.number_of_episodes || "N/A";
+
+      const el = document.getElementById(`ep-${m.id}`);
+      if (el) {
+        el.innerText = `${ep} EP`;
+      }
+    })
+    .catch(() => {
+      const el = document.getElementById(`ep-${m.id}`);
+      if (el) {
+        el.innerText = "ALL EP";
+      }
+    });
+}
+                
+                
+                
+});
+
+            } else {
+                html = '<p style="color:#fff; text-align:center; width:100%;">No results found.</p>';
+            }
+
+            // --- ৫. আপনার রিকোয়েস্ট করা ৩ সেকেন্ডের টাইমার ---
+            setTimeout(function() {
+                if(!box) return; // ⭐ DOM আছে কিনা চেক
+
+                box.innerHTML = html;
+                
+                // বাটন ও পেজ টেক্সট আপডেট
+                if(pageText) {
+                    pageText.innerText = "Page " + d.page;
+                    pageText.style.display = "inline-block";
+                }
+                if(prevBtn) prevBtn.style.display = (d.page > 1) ? "inline-block" : "none";
+                if(loadMoreBtn) loadMoreBtn.style.display = (d.page < d.total_pages) ? "inline-block" : "none";
+
+                // উপরে স্ক্রল করা
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 50); // ---  ৩ সেকেন্ডের টাইমার ---
+        })
+        .catch(err => {
+            console.error("Error loading movies:", err);
+            box.innerHTML = '<p style="color:red; text-align:center; width:100%;">Failed to load data.</p>';
+        });
+    }
+
+    window.changePage = function(step) {
+        fetchMovies(currentPage + step);
+    }
+
+    // প্রথমবার পেজ লোড হলে ফাংশন কল করা
+    fetchMovies(1);
+})();
+//]]>
+
+
+  let today = new Date().toISOString().split('T')[0];
+
+  
+  
+  
+// ===== FILTER APPLY =====
+// ===== FILTER APPLY (FINAL) =====
+function applyFilters() {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const typeParam = params.get('type');
+    const query = params.get('q');
+
+    const isSearchPage = (typeParam === 'multi' && query);
+
+    // ===== SEARCH PAGE → ONLY TYPE =====
+    if (isSearchPage) {
+
+        const t = document.getElementById('type-filter')?.value || 'multi';
+        params.set('type', t);
+
+    } else {
+
+        const lang = document.getElementById('language-filter')?.value;
+        const year = document.getElementById('year-filter')?.value;
+
+        // LANGUAGE
+        if (lang) params.set('with_original_language', lang);
+        else params.delete('with_original_language');
+
+        // YEAR
+        params.delete('primary_release_year');
+        params.delete('first_air_date_year');
+
+        if (year) {
+            params.set('primary_release_year', year);
+        }
+    }
+
+    params.delete('page');
+    window.location.search = params.toString();
+}
+
+
+
+// ===== CREATE FILTER UI (FINAL) =====
+document.addEventListener('DOMContentLoaded', function () {
+
+    setTimeout(() => {
+
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get('type');
+        const query = params.get('q');
+
+        const isSearchPage = (type === 'multi' && query);
+
+        let html = `
+        <div id="filter-container" style="">
+        `;
+
+        // ===== SEARCH PAGE → TYPE ONLY =====
+        if (isSearchPage) {
+
+            html += `
+            <select id="type-filter" onchange="applyFilters()">
+                <option value="multi">All</option>
+                <option value="movie">Movie</option>
+                <option value="tv">Series</option>
+            </select>
+            `;
+
+        } else {
+
+            // ===== NORMAL PAGE → LANG + YEAR (ONE LINE) =====
+            html += `
+            <select id="language-filter" onchange="applyFilters()">
+                <option value="">All</option>
+                <option value="en">EN</option>
+                <option value="hi">HI</option>
+                <option value="ko">KO</option>
+            </select>
+
+            <select id="year-filter" onchange="applyFilters()">
+                <option value="">Year</option>
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+            </select>
+            `;
+        }
+
+        html += `</div>`;
+
+       // const grid = document.getElementById('tmdb-result-page');
+
+     //   if (grid && !document.getElementById('filter-container')) {
+      //      grid.style.position = "relative";
+      //     grid.insertAdjacentHTML("afterbegin", html);
+     //   }
+      
+const target = document.getElementById('result-header');
+
+if (target && !document.getElementById('filter-container')) {
+    target.insertAdjacentHTML("afterend", html);
+}
+      
+      
+      
+      
+      
+      
+
+        // ===== DEFAULT VALUE SET =====
+        if (isSearchPage) {
+
+            const t = params.get('type') || 'multi';
+            if (document.getElementById('type-filter')) {
+                document.getElementById('type-filter').value = t;
+            }
+
+        } else {
+
+            if (document.getElementById('language-filter')) {
+                document.getElementById('language-filter').value =
+                    params.get('with_original_language') || '';
+            }
+
+            if (document.getElementById('year-filter')) {
+                document.getElementById('year-filter').value =
+                    params.get('primary_release_year') ||
+                    params.get('first_air_date_year') || '';
+            }
+        }
+
+    }, 300); // wait for grid load
+
+});
+</script>
+
+
+<!-- অ্যাড কন্টেইনার
+<br>
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+</div>
+ -->
+
+
+<!-- অ্যাড কন্টেইনার
+  <br />
+<div class="ad-container">
+<script>
+  atOptions = {
+    'key' : 'e51c312477a5b3e60221648ed4fea8ed',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/e51c312477a5b3e60221648ed4fea8ed/invoke.js"></script>
+</div>
+ -->
+
+<!-- অ্যাড কন্টেইনার 
+  <br />
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : 'cb2b65b5869cf6c4120ddbaa37a22a68',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/cb2b65b5869cf6c4120ddbaa37a22a68/invoke.js"></script>
+</div>
+-->
+
+
+
+
