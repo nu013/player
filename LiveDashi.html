@@ -1,0 +1,1797 @@
+<html >
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Liveদেশী - Watch Live Bangladeshi TV Channels for free. SOMOY TV,EKHON TV,EKATTOR TV,JAMUNA TV,DBC NEWS,CHANNEL I,ATN NEWS,NTV LIVE,RTV LIVE,NEWS24 TV,DESH TV,INDEPENDENT,CHANNEL 24,AL JAZEERAA,ll bangla channel full free.The best PWA for live streaming.">
+<meta name="keywords" content="Liveদেশী , Live TV, Bangladesh TV,Live  Streaming, Bangla news, bangla tv , bangla channel, live bangla tv,SOMOY TV,EKHON TV,EKATTOR TV,JAMUNA TV,DBC NEWS,CHANNEL I,ATN NEWS,NTV LIVE,RTV LIVE,NEWS24 TV,DESH TV,INDEPENDENT,CHANNEL 24,AL JAZEERAA, PWA">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://livedashi.blogspot.com/" />
+  
+  
+  <title>Liveদেশী</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  
+  
+    <style>     /*( বিডিটিভি ড্যাশ/হাইফেন বিডি) */
+      
+      
+      
+        /* মূল বডি ডিজাইন */
+        body { 
+            background-color: #0f172a; 
+            color: #0f172a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            /*  font-family: 'Noto Sans Bengali', sans-serif;*/
+
+            margin: 0; 
+            padding: 5px; 
+        }
+
+      
+        /* 90% zoom out এটি শুধুমাত্র কম্পিউটার বা বড় স্ক্রিনের জন্য (PC) 
+                 html {
+                    zoom: 0.85;
+         }*/
+
+            /* ভিডিওর উপরের নির্দিষ্ট ডিভ - পিসিতে ৩০ পিক্সেল */
+        .top-gap {
+            text-align: center;
+            height: 20px;
+        }
+      
+        /* প্লেয়ার বক্স ডিজাইন */
+        .live-tv-container { 
+            max-width: 800px; 
+            margin: auto; 
+            background: rgba(0, 0, 0, 0.0) ;  /* #1e293b ; */
+            border-radius: 15px; 
+            overflow: hidden; 
+             /*box-shadow: 0 0 30px rgba(0, 255, 0, 0.2); */
+            border: 2px solid #1e293b;
+        }
+
+        /* হেডার বা শিরোনাম */
+        .header { 
+            text-align: center; 
+            padding: 15px; 
+            background: #1e293b; 
+        }
+        .header h2 { 
+             
+            margin: 0; 
+            color: #38bdf8; 
+            font-size: 20px; 
+            /* [Neon Glow Effect] - টেক্সট নিয়ন গ্লো 
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);*/
+        }
+
+        /* ভিডিও এরিয়া */
+        #video-app-container { 
+            position: relative; 
+            width: 100%; 
+            aspect-ratio: 16 / 9;
+            background: #000; 
+            margin-bottom: 6px;
+        }
+  /* ==================================================
+   iframe ভিডিও
+   ================================================== */
+      #main_frame { 
+          position: absolute; 
+          bottom: 0; 
+          left: 0;
+          width: 100%; 
+          height: 100%; 
+          outline: none; 
+          z-index: 1;
+          border: none;
+        /*   pointer-events: none;  */ /* iframe এ accidental click বন্ধ */
+          
+        }
+      
+      
+  /* ==================================================
+  .chan-grid { 
+display: grid; 
+grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+  ***auto-fit → যতটা জায়গা আছে ততগুলো column বানায় minmax(140px, 1fr) →প্রতিটা বাটন কমপক্ষে 140px জায়গা বেশি হলে নিজে নিজে বড় হয় 🧠 তাই ফলাফল হয়:
+Screen Size	Result
+বড় PC	5–6টা বাটন এক লাইনে, ছোট PC	3–4টা , tablet	2–3টা, Mobile	1–2টা
+   ================================================== */ 
+      /* বাটন গ্রিড - বাটন সুন্দরভাবে সাজানোর জন্য */
+        .chan-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 12px; 
+            padding: 20px; 
+            background: #0f172a; 
+        }
+
+        /* চ্যানেল বাটন ডিজাইন */
+        .chan-btn { 
+            background:green;/*  #334155;  */
+            color: #fff; 
+            border: 1px solid #000 ; /*  #475569;  */
+            padding: 9px 2px; 
+            cursor: pointer; 
+            border-radius: 12px; 
+            align-items: center; 
+            gap: 10px; 
+            transition: all 0.3s;
+            /* [3D Button Effect] - বাটনকে উচুঁ দেখানোর জন্য */
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+            margin-bottom: 4px;
+        }
+
+        /* লোগো অটো-ফিক্স সাইজ */
+        .chan-btn img {
+            width: 35px;
+            height: 35px; 
+            min-width: 35px;
+            border-radius: 6px; 
+            object-fit: cover; /* যে কোনো সাইজের লোগো অটো ফিট হবে */
+            background: #fff;
+        }
+
+        .chan-btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 0 #1e293b;
+            background: rgb(0, 128, 0, 0.4) !important; /*  #2563eb;  */
+            color: #fff; 
+        }
+
+        /* ক্লিক করা বাটন (Active Button) ডিজাইন */
+        .chan-btn.active { 
+            background: lime !important; /*  #1e40af */
+            border-color: red !important; /*  #2563eb;  */
+            /* [Neon Glow] - বাটনের চারপাশে নিয়ন আলো */
+            /*box-shadow: 0 0 15px rgba(37, 99, 235, 0.8) !important; */
+            box-shadow: 0 0 15px green !important;
+           /* transform: translateY(2px) !important; */
+           color: red !important;
+           font-weight: bold;
+        }
+
+       
+/* Responsive Ad */
+.ad-container {
+    width: 100%;           /* মোবাইল স্ক্রিনের পুরো width */
+    max-width: 728px;      /* desktop এর max width */
+    margin: 0 auto;        /* centered */
+    height: 90px;         /* height fixed */
+    overflow: hidden;      /* যাতে iframe overflow না করে */
+}
+
+.ad-container iframe {
+    width: 100% !important;   /* container width অনুযায়ী */
+    height: 100% !important;  /* container height অনুযায়ী */
+    display: block;
+    border: 0;
+}
+      
+      
+/* ==================================================
+   ভিডিওর  নিচে ডান পাশে“BD Tv” লোগো দেখানো
+   ================================================== */
+ .video-watermark {
+  position: absolute;
+  bottom: 8px;
+  right: 15px;
+  color: #38bdf8;  /* rgba(15, 23, 42, 0.9);নীল রঙ */
+  font-size: 30px;
+  font-weight: bold;
+   padding: 4px 20px 3px 20px;
+  /*opacity: 0.6; */
+  z-index: 99;
+  pointer-events: none;
+ background-color: #0f172a; /* rgba(15, 23, 42, 0.6);   */
+
+   
+}
+
+/* ==================================================
+   চ্যানেল নাম overlay
+   ================================================== */
+#channel-title-overlay {
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  z-index: 102;
+  font-weight: bold;
+  font-size: 14px;
+  opacity:  0; 
+  transition: opacity 0.5s ease; pointer-events: none;
+}
+
+.live-dot {
+  color: lime;
+  margin-right: 5px;
+}
+
+.chan-name {
+  color: lime;
+}
+
+/* ==================================================
+   UI layer (বাটন ইন্টারঅ্যাকশনের জন্য)
+   ================================================== */
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ==================================================
+   ক্লিক জোন (play / pause)
+   ================================================== */
+.click-zone {
+  position: absolute;
+  top : 0;/*bottom */
+  left: 0;
+  width: 100%;
+  height: 90%; /*85% */
+  cursor: pointer;
+  z-index: 101;
+  pointer-events: auto;
+}
+
+/* ==================================================
+   আগের / পরের চ্যানেল বাটন
+   ================================================== */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 15px 12px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 110;
+  pointer-events: auto;
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+
+  opacity: 1;/* 0 */
+  transition: opacity 0.5s ease;
+}
+
+.prev-btn { left: 5px; }
+.next-btn { right: 5px; }
+        .prev-btn:hover {color: lime; }
+        .next-btn:hover {color: lime; }
+
+      /* ==================================================
+   নিচের কন্ট্রোল বার
+   ================================================== */
+#bottom-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  width: 100%;
+  background: none; /* rgba(0, 0, 0, 0.8);*/
+
+  display: none; /* flex;none */
+  align-items: center;
+  padding: 12px 10px;
+  box-sizing: border-box;
+
+  z-index: 110;
+  pointer-events: auto;
+
+  opacity: 1; /* opacity: 0; */
+  transition: opacity 0.5s ease;
+}
+
+/* ==================================================
+   কন্ট্রোল btn দেখানোর অবস্থা
+   ================================================== */
+#play-pause-btn { opacity: 0; }
+#vol-bar { opacity: 0; }
+#mute-btn { opacity: 0; }
+#full-btn { opacity: 1;  transform:scale(1.3);}
+
+/* */
+.show-controls #channel-title-overlay,
+.show-controls #bottom-controls,
+.show-controls #play-pause-btn,
+.show-controls #vol-bar,
+.show-controls #mute-btn,
+.show-controls .nav-btn {
+  opacity: 1;
+}
+
+      
+      
+      
+/* ==================================================
+   কন্ট্রোল বাটন
+   ================================================== */
+.ctrl-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctrl-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #fff;
+}
+
+/* =========================
+   ভিডিও পোস্টার ডিজাইন
+========================== */
+#video-poster{
+  position: absolute;
+  inset: 0;
+  background: black;/*transparent  */
+  z-index: 120;               /* iframe-এর উপরে থাকবে */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* পোস্টার ইমেজ */
+#video-poster img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* মাঝখানের Play বাটন */
+#poster-play-btn{
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+#poster-play-btn:hover{
+  transform: scale(1.1);
+}
+      
+/* =========================
+   Center Play Button Container
+========================== */
+#center-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 109;
+  cursor: pointer;
+  pointer-events: auto;   /* Play button clickable হবে */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Play আইকন */
+#center-play-btn svg {
+  width: 70px;
+  height: 70px;
+  fill: white;
+  padding: 8px;
+  margin-left: 4px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 2px solid lime;  /*rgba(255,255,255,0.0);*/
+}
+
+/* ভিডিও চললে বাটন লুকাবে */
+#center-play-btn.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+      
+/* =========================
+   Center Text Overlay
+========================== */
+#center-play-text {
+  position: absolute;
+  top: 65%;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 35%;
+  font-size:90px;
+  color: #38bdf8; /* আপনার প্রিয় নীল রঙ */
+  background: #0f172a; /* rgba(0,0,0,0.9);*/
+  padding: 8px 16px;
+  white-space: nowrap;
+ /* যদি overflow হয় hide হবে */
+  overflow: hidden;
+}      
+      /* PC only */
+ 
+      
+          
+      
+      /* এটি শুধুমাত্র মোবাইলের জন্য  */
+    @media (max-width: 750px) {
+      .chan-btn {  font-size: 14px !important;    }
+
+                   .nav-btn {
+                     font-size: 18px;
+                     padding: 13px 8px;
+                     backdrop-filter: blur(4px);
+                      /*color: lime; */
+                      }
+
+      
+                  .ctrl-btn {
+                   /* min-width: 35px;
+                      min-height: 35px; */
+                    background: none;     /* background নাই */
+                    border: none;         /* border নাই */
+                    padding: 1px;
+                           }
+      
+                     #vol-bar {
+                      width: 50px;          /* ছোট লম্বা */
+                       height: 2px;          /* খুব চিকন */
+                       accent-color: #fff; /* সাদা রঙ */
+                              }
+
+           #center-play-text {font-size: 40px; }
+           #center-play-btn svg {width: 50px; height: 50px;}
+      
+                   
+
+       /* ===============================
+   FIX: Sticky works on mobile
+================================ 
+  .live-tv-container {
+    overflow: visible !important;
+  }
+    
+  #video-app-container {
+    position: sticky !important;  
+    top: 15px;                
+    z-index: 9999;
+    background: #000;
+  }*/
+  
+      
+    } 
+      
+      
+/* পুরো বক্সটিকে মাঝখানে আনার জন্য মেইন কন্টেইনার */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* এটি মাঝখানে আনবে */
+    gap: 10px; /* লোগো এবং টেক্সটের মাঝখানের গ্যাপ */
+    margin: 5px auto;
+    padding: 5px;
+    max-width: fit-content; /* কন্টেন্ট অনুযায়ী বক্সের সাইজ হবে */
+}
+      
+/* লোগো বক্স ডিজাইন */
+.logo-box {
+    width: 30px;
+    height: 30px;
+    background: #1e293b;/* */
+    border-radius: 6px;/* */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #334155; */
+}
+
+/* ইমেজ ফিটিং কোড */
+.logo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ইমেজ ফেটে যাবে না, ফিট হয়ে থাকবে *//* */
+}
+
+/* টেক্সট বা নামের ডিজাইন */
+.logo-name {
+     font-size: 24px;
+    font-weight: bold;
+    color: #38bdf8; /* আপনার প্রিয় নীল রঙ */
+    font-family: sans-serif;
+    letter-spacing: 0.5px;
+}
+/* =========================
+   Logo Text Wrapper
+========================== */
+.logo-text-wrap {
+  display: flex;
+  flex-direction: column;   /* লেখা উপর-নিচে */
+  line-height: 1.1;
+}
+
+
+/* নিচের ছোট টেক্সট */
+.logo-subtext {
+  font-size: 14px;          /* একটু ছোট */
+  color: #ffffff;           /* সাদা রঙ */
+  opacity: 0.85;
+}
+
+.repair-tool {
+    background: none;
+    border: none;
+    color: #ffff00; /* হলুদ রঙ */
+    cursor: pointer;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.repair-tool:active {
+    transform: rotate(180deg); /* ক্লিক করলে ঘুরবে */
+}
+
+/* যদি আপনার কন্ট্রোল বার ফ্লেক্সবক্স হয়, তবে এটি ঠিকমতো এলাইন হবে */
+.ctrl-btn svg {
+    display: block;
+}
+
+      
+      /* <div class='logo-text'> নিচে  টেক্সট  */
+/* <div class=" top-gap">  /* ভিডিওর উপরের ডিভ - ৩০ পিক্সেল gap if need */
+      
+ /* ইন-অ্যাপ মেসেজ পপআপ স্টাইল */
+#open-in-chrome {
+    display: none; /* শুরুতে লুকানো থাকবে */
+    position: fixed;
+    /* top: 5%; স্ক্রিনের একটু ওপর থেকে শুরু হবে */
+    left: 50%;
+    text-align:center;
+    transform: translateX(-50%);
+    width: 70%; /* আপনার চাহিদা মতো ৭৫% প্রস্থ */
+    background: #1a1a1a; /* গাঢ় কালো ব্যাকগ্রাউন্ড */
+    color: #ffffff;
+    padding: 10%;
+    border-radius: 15px; /* কোণাগুলো গোল হবে */
+    z-index: 100000;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7); /* নিচে ছায়া পড়বে */
+    border: 1px solid #333;
+    text-align: center;
+    cursor: pointer;
+}
+
+#msg-content {
+    text-decoration: none !important; /* কোনো আন্ডারলাইন থাকবে না */
+    display: block;
+}
+
+/* BD Tv এর লাইম কালার */
+.lime-text {
+    color: #32CD32; 
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* নিচের ছোট লাইনের স্টাইল */
+.small-text {
+    display: block;
+    font-size: 13px;
+    color: #bbb;
+    margin-top: 8px;
+}
+     
+
+/* scroll বাটনগুলো রাখার কন্টেইনার শুরুতে বাটনগুলো লুকানো থাকবে*/
+.scroll-controls {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* বাটনের মাঝখানের দূরত্ব */
+    z-index: 9999;
+}
+
+/* চারকোনা এবং গ্লসি বাটন ডিজাইন */
+.scroll-btn {
+    background: rgba(255, 255, 255, 0.1); /* স্বচ্ছ ব্যাকগ্রাউন্ড */
+    backdrop-filter: blur(15px); /* গ্লাস ইফেক্ট */
+    -webkit-backdrop-filter: blur(15px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+    border-radius: 4px; /* গোল নয়, চারকোনা রাখার জন্য খুব সামান্য রেডিয়াস */
+    cursor: pointer;
+    font-size: 18px;
+    display: none; /* শুরুতে হাইড থাকবে */
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3), 0 4px 15px rgba(0, 0, 0, 0.5); /* গ্লসি শ্যাডো */
+    transition: 0.3s;
+}
+
+.scroll-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+  color: #4ade80;
+    /* border-color: #4ade80; (হোভার করলে আপনার পছন্দের সবুজ গ্লো ) */
+}
+      
+      
+.chan-btn img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;   /* round */
+    object-fit: cover;
+}
+
+      
+      
+#loodingTxt{ 
+  color: #fff;/* 666666 */
+animation: blink 1s infinite; 
+}
+@keyframes blink { 
+  0% {opacity:1;} 
+  50% {opacity:0.0;} 
+  100% {opacity:1;} 
+} 
+      
+  
+  
+#delayed-ad {
+    display: none;
+    position: absolute;/* fixed */
+    top: 5px; /* সামান্য উপর থেকে নিচে */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%; /* স্ক্রিনের ৯০% জায়গা নেবে */
+    max-width: 330px; /* 740px330px; সর্বোচ্চ সাইজ বড় অ্যাডের সমান */
+    background: rgba(0, 0, 0, 0.0);/* rgba(0, 0, 0, 0.5); */
+    padding: 0px;
+    border-radius: 0px; /* 8px; */
+   text-align: center;
+   z-index: 2000; /* যেন ভিডিওর উপরে থাকে */
+  
+}
+
+/* অ্যাড কন্টেইনার যা সব সাইজ অ্যাডকে ফিট করবে */
+.ad-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* যদি অ্যাডটি কন্টেইনারের চেয়ে বড় হয় তবে সেটি অটো ছোট হয়ে যাবে */
+.ad-wrapper iframe {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+
+
+/* বন্ধ করার (X) বাটন */
+#close-ad {
+    position: absolute;
+    /* top: 52px; */
+    bottom: 0px;/*-10px;*/
+    right: 10px;/* -10px; 30%*/
+    background: red ;/* transparent */
+    color: white;/* red */
+    border: 1px solid #777;/* white; none; */
+    border-radius: 50%;
+    width: ;/* 25px */
+    height: ;/* 25px */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 1px 4px;
+    line-height: ;/* 25px */
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    z-index: 2200; /* যেন ভিডিওর উপরে থাকে */
+}
+  
+      
+      
+</style>
+</head>
+<body>
+
+  
+  
+
+  
+  
+<div class='logo-container'>
+   <a href="https://livedashi.blogspot.com/" style="text-decoration: none;">
+    <div class='logo-box'>
+        <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwyQsQkkHouJnPMy8trLMmeWAoAiPFvKEA9J5Qunl8IIgQFLNVtaq5_miNIXb9q9NgJC188xPE7aXRQjIOZv92Lk3-8R-CEKi7W979g_FywGhG-0R4hHJwr-yGwKQEk1HpHkiKRLVxTY7ShDoTZr_Xk5MMyUNaLt7PUeXRDOXdRA84rpa5ccaK88AqcF0/s1600/Live%20Dashi%20200.png' alt='Logo'/>
+    </div>
+   </a>
+    
+   <a href="https://livedashi.blogspot.com/" style="text-decoration: none;">
+    <div class="logo-text-wrap">
+  <span class="logo-name">Live দেশী   </span>
+  <span class="logo-subtext">liveDashi.blogspot.com</span>
+    </div>
+   </a>
+     
+</div>
+
+   <div class="scroll-controls">
+             <button id="upBtn" onclick="scrollToTop()" class="scroll-btn"> ︿ </button>
+             <button id="downBtn" onclick="scrollToBottom()" class="scroll-btn"> ﹀ </button>
+   </div>
+  
+  
+  
+<div class="live-tv-container">
+
+ 
+  <div id="video-app-container" class="show-controls">
+    <div id="channel-title-overlay">
+      <span class="live-dot">🔴 LIVE:</span> <span id="display-name" class="chan-name">lodding..</span>
+    </div>
+    
+<!-- ========= REFRASH বাটন ======== background: yellow; fill:black;-->
+<button onclick="refreshFrame()" style="position: absolute; z-index: 99999; background: rgba(0,0,0,0.0);; top: 5px; right: 5px; border: none; padding: 1px 2px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: bold; color: yellow; box-shadow: 0 2px 5px rgba(0,0,0,0.5);">
+    <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:yellow;">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+    </svg>
+</button>
+    
+<!-- ========= FAICK PLAY বাটন ======== -->
+<div id="center-play-overlay" style=" position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 70px; color: rgba(255, 255, 255, 0.8); z-index: 100;  pointer-events: none; display: none;  text-shadow: 0 0 20px rgba(0,0,0,0.5);">▶</div>
+    
+<div onclick="toggleFull()"  style="position: absolute; bottom : 5px; right: 5px; z-index:999;cursor: pointer;font-weight: bold;">
+  <svg viewBox="0 0 24 24" style="font-weight: bold; width:32px; height:32px; fill:lime; cursor: pointer;">
+    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+  </svg>
+</div>
+    
+    <iframe id="main_frame" src="" allow="autoplay; fullscreen; encrypted-media" autoplay ></iframe>
+  
+  
+<div id="delayed-ad">
+    <button id="close-ad" onclick="hideAd()">X</button>
+    <div class="ad-container" style="height: 50px;">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4f857bd0bdff7e27f3d41b352af4bef8',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/4f857bd0bdff7e27f3d41b352af4bef8/invoke.js"></script>
+    </div>
+</div> 
+  
+  
+<!-- ========= 3 SEC LOODING TXT WHEN CLICK BTN ======== -->
+<div id="loodingTxt" style=" position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#fff;font-size:22px; z-index:119;"></div>
+    
+
+  <!-- =========================
+<div class="video-watermark">BD Tv</div>
+========================== -->
+    <div id="ui-layer">
+      <button class="nav-btn prev-btn" onclick="prevVid()">❮</button>
+      <button class="nav-btn next-btn" onclick="nextVid()">❯</button>
+      
+
+      <div class="click-zone" onclick="handleInteraction()" ondblclick="toggleFull()"></div>
+      
+      
+
+      
+
+      <div id="bottom-controls">
+        <button id="play-pause-btn" class="ctrl-btn" onclick="togglePlay()"style="background:rgb(0, 0, 0, 0.4);">
+           <svg id="play-icon" viewBox="0 0 24 24" style="display:none;"><path d="M8 5v14l11-7z"/></svg>
+           <svg id="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        
+        <div style="display: flex; align-items: center; margin-left: 15px;">
+          <button id="mute-btn" onclick="toggleMute()" style="background:none;font-size: 16px;  border:none; color:white;  cursor:pointer;">🔊</button>
+          <input type="range" id="vol-bar" min="0" max="100" value="100" oninput="manualVolume(this.value)" style=" width: 60px; height: 5px; margin-left: 5px; cursor: pointer;color:white; ">
+        </div>
+
+           <!--   
+        <button class="ctrl-btn" id="full-btn" onclick="toggleFull()" style="margin-left: auto; background:none;  ">
+          <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+        </button>
+        -->  
+        
+      </div>
+    </div>
+  </div>
+
+  <!--btn auto show from jason.... 
+ <div class="chan-grid" id="button-list"></div>-->
+  
+   <!--  Button add by name or link 
+  <button onclick="playByName('Somoy')">Play Somoy</button>
+<button onclick="playByUrl('https://yourlink.com')">Play Direct</button>
+  -->
+    
+<div style="display: block; text-align: center; ">
+  
+<button class="chan-btn" onclick="playByName('Somoy TV', this)">
+ <img src="https://i.imgur.com/i54AQic.png">
+  <div>সময়</div>
+  </button>
+  
+
+
+<button class="chan-btn" onclick="playByName('CHANNEL I', this)">
+ <img src="https://i.imgur.com/X0JJlOX.png">
+  <div>চ্যানেল i</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('EKHON TV', this)">
+ <img src="https://i.imgur.com/tRrDh6z.png">
+  <div>Ekhon</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('EKATTOR TV', this)">
+ <img src="https://i.imgur.com/zoLwwUK.png">
+  <div>একাত্তর</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('JAMUNA TV', this)">
+ <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjRowLkYHhWys7BjaSkd22U4Gn0ZU7iyRMU8bvNOyFc63Irkz4adbUMB1romnJ-DcUwyoSwQcW152GAPCbiWGhVy_I0d_iaCIs3ZWrbnd1RA9oVExAMI2R2IbXYRLQEiAeToKqMDZQOBz_K47eLlbbxOoGnTGeTk-9g4U0lAuLaHL2VXQiT2zLyXE2h6GQ/s1600/jamuna%20tv.png">
+  <div>Jamuna</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('DBC NEWS', this)">
+ <img src="https://placehold.co/60x60/orange/000?text=DBC">
+  <div>DBC</div>
+</button>
+
+  
+<button class="chan-btn" onclick="playByName('ATN NEWS', this)">
+ <img src="https://i.imgur.com/4qZQKjo.png">
+  <div>ATN</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('NTV BANGLA', this)">
+ <img src="https://ntvbd.com/sites/all/themes/sloth/logo.png">
+  <div>NTV</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('RTV BANGLA', this)">
+ <img src="https://i.imgur.com/yu8ugqt.png">
+  <div>RTV</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('NEWS24 BANGLA', this)">
+ <img src="https://placehold.co/60x60/555/red?text=24">
+  <div>নিউজ24</div>
+</button>
+  
+
+<button class="chan-btn" onclick="playByName('DESH TV', this)">
+ <img src="https://placehold.co/60x60/1e40af/lime?text=DESH%0ATV">
+  <div>দেশ TV</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('INDEPENDENT', this)">
+ <img src="https://i.imgur.com/POXFhGN.png">
+  <div>INDEP</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('CHANNEL 24', this)">
+ <img src="https://i.imgur.com/4JLkaF7.png">
+  <div>CHAN24</div>
+</button>
+
+  
+<!--
+<button class="chan-btn" onclick="playByName('bdradio', this)">
+ <img src="https://upload.wikimedia.org/wikipedia/bn/thumb/2/2d/%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B6_%E0%A6%AC%E0%A7%87%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.jpg/250px-%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B6_%E0%A6%AC%E0%A7%87%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A7%87%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.jpg">
+  <div>বেতার</div>
+</button>
+-->
+<!--  -->
+<button class="chan-btn" onclick="playByName('radiopadma', this)">
+ <img src="https://radiopadma.com/wp-content/uploads/2022/07/default.png">
+  <div>পদ্মা</div>
+</button>
+
+
+  
+<button class="chan-btn" onclick="playByName('bhumi', this)">
+ <img src="https://upload.wikimedia.org/wikipedia/bn/thumb/4/48/%E0%A6%B0%E0%A7%87%E0%A6%A1%E0%A6%BF%E0%A6%93_%E0%A6%AD%E0%A7%82%E0%A6%AE%E0%A6%BF%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.png/250px-%E0%A6%B0%E0%A7%87%E0%A6%A1%E0%A6%BF%E0%A6%93_%E0%A6%AD%E0%A7%82%E0%A6%AE%E0%A6%BF%E0%A6%B0_%E0%A6%B2%E0%A7%8B%E0%A6%97%E0%A7%8B.png">
+  <div>RADIO</div>
+</button>
+  
+<!---->
+<button class="chan-btn" onclick="playByName('radiotoday', this)">
+ <img src="https://i.imgur.com/UDyxgXf.png">
+  <div>রেডিও</div>
+</button>
+  
+<!-- 
+<button class="chan-btn" onclick="playByName('radiotoday', this)">
+ <img src="https://i.imgur.com/UDyxgXf.png">
+  <div>রেডিও</div>
+</button>
+ -->
+  
+  
+<!--
+<button class="chan-btn" onclick="playByName('zee 24 bangla', this)">
+ <img src="https://placehold.co/60x60/fff/999?text=24">
+  <div>24ঘন্টা</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('CARTOON', this)">
+ <img src="https://images-3.rakuten.tv/storage/global-live-channel/translation/artwork/3227c06e-333b-4b1b-b657-3e3ab99ebd06-width200-quality90.jpeg">
+  <div>কার্টুন</div>
+</button>
+  -->
+
+<button class="chan-btn" onclick="playByName('ANIMALLS', this)">
+ <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhIyKJjmYus9iTdowuIlxR4iUh-TKZgDKs3OGVu-9hZ1HEzecR6SxOu8Bo8P6L45IpgV-3q4Rn-ZeBfr6Se6-2CDthVxymikXQDUTZDOYhpp0BNu7KYK6FhSx19uPuT-hkDCVxluMJjyWs3jiIzb3WIX5-CwVS7hlzeFYnpZFA1j_vL-CmR3h-JS4EhIyA/s1600/WILD.PNG">
+  <div>Animal</div>
+</button>
+  
+<!-- <img src="https://i.imgur.com/hnMv1bZ.png">-->
+<button class="chan-btn" onclick="playByName('WILD LIVE', this)">
+ <img src="https://placehold.co/60x60/fff/green?text=WILD">
+  <div>WILD</div>
+</button>
+
+<!--
+<button class="chan-btn" onclick="playByName('TOMJERRY', this)">
+ <img src="https://gia.tv/streams/pptv/208314.jpg?1750373428">
+  <div>টমজেরি</div>
+</button>
+-->
+
+<button class="chan-btn" onclick="playByName('ZEE BANGLA', this)">
+  <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgVcYGAanYPzqhyphenhyphensi_3Xob1D5cH6rSis_e75Hfr7BtnlleuMntSw1R8F05UjuUXu55BSV60X_0MLEGpZgfP4o84L2xUGQ7tzOiUto5e7LH40s0AsHk2VQ38jEMO3N_CM6m74RHFx1Jw1c9T90UdEapYdJjm7RREv0f4Ip9TFJVZoR-1kRJgC5YvmhXQJuk/s1600/zee%20bangla.png">
+  <div>Zee</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('10 BANGLA', this)">
+ <img src="https://placehold.co/60x60/8b0000/fff?text=10">
+  <div>10বাংলা</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('Movie+', this)">
+ <img src="https://www.jagobd.com/wp-content/uploads/2016/02/moviebangla.jpg?x50681">
+  <div>Movie+</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('Bang Movies', this)">
+ <img src="https://jiotvimages.cdn.jio.com/dare_images/images/Amaar_Bangla.png">
+  <div>সিনেমা</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('Sangeet', this)">
+ <img src="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_SANGEET_BANGLA/images/LOGO_HD/LOGO_HD_image.png">
+  <div>Sangeet</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('9x Music', this)">
+ <img src="https://xstreamcp-assets-msp.streamready.in/assets/LIVETV/LIVECHANNEL/LIVETV_LIVETVCHANNEL_9XM/images/LOGO_HD/image.png">
+  <div>9x</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('b4u Music', this)">
+ <img src="https://jiotvimages.cdn.jio.com/dare_images/images/B4U_Music.png">
+  <div>Music</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('flix', this)">
+ <img src="https://i.imgur.com/5CtiQ45.png">
+  <div>flix</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('&Pictures', this)">
+ <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgmBEYjilAQJ466p2QLn-76J1VH1lMjqQlkKp5n7weDkjqtJSIk-7qqWFGAJAFpw7p1mgQ8NuVhZHXCi3vDTX6dmGKnEsNy4ZkRx5X2rEqEc8z5jYo38XHQGMDfhz1fUu1mdSyZD9U8fOseYouxFxGH2NmrUoG9JMw0t-htGHPuEap8PFOQng9HarH4uh8/s1600/AND%20pictures.png">
+  <div>&Picture</div>
+</button>
+
+<button class="chan-btn" onclick="playByName('Mix', this)">
+ <img src="https://i.imgur.com/1ENdbZn.png">
+  <div>Mix</div>
+</button>
+  
+<button class="chan-btn" onclick="playByName('AL JAZEERA', this)">
+ <img src="https://i.imgur.com/vMzCr8O.png">
+  <div>Jazeera</div>
+</button>
+
+</div>
+  
+</div>
+  
+  
+<div style="margin: 10px auto; text-align: center; width: 200px;">
+  <!-- Reload -->
+    <a href="https://livedashi.blogspot.com/" style="color: #9aff00; text-decoration: none;">
+     <div style="background: rgba(0,0,0,0.8); border-radius: 15px; border: 1px solid yellow; color: #9aff00; cursor: pointer; font-size: 18px; margin-bottom: 0px;padding: 4px;">
+      <svg onclick="refreshVideo()" style="cursor: pointer; fill: #9aff00; height: 18px; width: 18px;" viewbox="0 0 24 24">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path>
+      </svg>
+      Reload app
+      </div>
+     </a>
+</div>
+
+<script>
+  
+      
+// Manual links
+const manualLinks = [
+  { name: "ZEE BANGLA", url: "https://uddinsp.blogspot.com/p/embed-bangla-2.html" },
+  { name: "Somoy tv", url: "https://www.youtube.com/embed/Tmd0TGNM3U8" },
+  { name: "Movie+", url: "https://livedashi.blogspot.com/p/embed-movie-plus.html" },
+  { name: "Bang Movies", url: "https://livedashi.blogspot.com/p/embed-bangla-movies.html" },
+  { name: "Sangeet", url: "https://livedashi.blogspot.com/p/embed-sangeet-bangla.html" },
+  { name: "&Pictures", url: "https://uddinsp.blogspot.com/p/embed-hindi-1.html" },
+  { name: "flix", url: "https://livedashi.blogspot.com/p/embed-flix-hindi.html" },
+  { name: "Mix", url: "https://livedashi.blogspot.com/p/embed-mix-english.html" },
+  { name: "9x Music", url: "https://livedashi.blogspot.com/p/embed-9x-music.html" },
+  //{ name: "b4u Music", url: "https://livedashi.blogspot.com/p/embed-b4u-music.html" },
+  { name: "10 BANGLA", url: "https://livedashi.blogspot.com/p/embed-10-bangla-m3u8.html" },
+  { name: "b4u Music", url: "https://nu013.github.io/player/player.html?url=https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01412-xiaomiasia-yrfmusic-xiaomi/playlist.m3u8" },
+ // { name: "10 BANGLA", url: "https://nu013.github.io/player/player.html?url=https://live-bangla.akamaized.net/liveabr/pub-iobanglakp3sff/live_720p/chunks.m3u8" },
+  { name: "bdradio", url: "https://livedashi.blogspot.com/p/embed-bdradio.html" },
+  { name: "bhumi", url: "https://livedashi.blogspot.com/p/embed-radio-bhumi.html" },
+  { name: "radiopadma", url: "https://livedashi.blogspot.com/p/embed-radio-padma.html" },
+  { name: "radiotoday", url: "https://livedashi.blogspot.com/p/embed-radio-today.html" },
+
+  
+  
+  
+  { name: "example TV", url: "https://example.com/ekhon-embed" },
+  { name: "example-name", url: "https://example.com/jamuna-embed" }
+];
+  
+  
+  
+  
+  /* =========================
+      গ্লোবাল ভ্যারিয়েবলসমূহ
+  ========================== */
+
+  let vids = [];            // সব ভিডিওর লিস্ট
+  let curIdx = 0;           // বর্তমান ভিডিও ইনডেক্স
+  let isPlaying = false;    // ভিডিও চলছে কিনা
+  let isMuted = false;      
+  let currentVolume = 100;  
+  let hideTimeout;          
+  let clickTimer = null;    
+
+
+  
+
+  const container = document.getElementById('video-app-container'); // পুরো ভিডিও অ্যাপ
+
+  const frame = document.getElementById('main_frame');              // iframe (YouTube Player)
+
+  const volBar = document.getElementById('vol-bar');                // ভলিউম স্লাইডার
+
+  const muteBtn = document.getElementById('mute-btn');              // মিউট বাটন
+
+  const playIcon = document.getElementById('play-icon');            // প্লে আইকন
+
+  const pauseIcon = document.getElementById('pause-icon');          // পজ আইকন
+
+  const displayName = document.getElementById('display-name');      // চ্যানেলের নাম দেখানোর জায়গা
+
+  const btnArea = document.getElementById('button-list');           // চ্যানেল বাটন লিস্ট
+  
+  
+
+
+  // মাউস নড়াচড়া করলে কন্ট্রোল দেখাবে
+
+  container.addEventListener('mousemove', resetTimer);
+
+
+
+  /* =========================
+      চ্যানেল লোড করা (JSON)
+  ========================== */
+
+/* =========================================
+   শুরুতে প্রথম চ্যানেলটি অটোমেটিক প্লে করার জন্য
+========================================= */
+async function loadChannels() {
+    const jsonUrl = 'https://raw.githubusercontent.com/asmaakther/live-tv-links/main/links.json';
+    
+    try {
+        const res = await fetch(jsonUrl); 
+        vids = await res.json();  
+        
+        if (vids && vids.length > 0) {
+            // setupInitialState এর বদলে সরাসরি প্রথম বাটনটি ক্লিক করান
+            autoSelectFirstButton();
+        }
+    } catch (e) {
+        if(displayName) displayName.innerText = "Please Refresh.";    
+       // JSON ফেল করলে ম্যানুয়াল বাটন ট্রাই করবে
+        autoSelectFirstButton();
+    }
+}
+
+function autoSelectFirstButton() {
+    const firstBtn = document.querySelector('.chan-btn');
+    if (firstBtn) {
+        firstBtn.click(); // এটি সরাসরি প্রথম ম্যানুয়াল বাটনটি প্লে করবে
+    }
+}
+
+
+ 
+function jumpTo(idx) {
+    if (!vids[idx]) return;
+    
+    // ভিডিও লোড হওয়ার আগে টেক্সট আপডেট
+    const item = vids[idx];
+    displayName.innerText = item.name;
+    curIdx = idx;
+
+    // ফাস্ট লোডিং URL (অপ্রয়োজনীয় প্যারামিটার বাদ দিয়ে)
+    const separator = item.url.includes('?') ? '&' : '?';
+    frame.src = item.url + separator + "enablejsapi=1&autoplay=1&mute=0&playsinline=1";
+
+resetVolumeUI(); // 👈
+  
+    // বাটন একটিভ করা
+    document.querySelectorAll('.chan-btn').forEach((b, i) => {
+        b.classList.toggle('active', i === idx);
+    });
+
+    isPlaying = true;
+    updatePlayIcons();
+    scrollActiveButtonIntoView();
+  
+// 👇 এটা BottomControls show call
+frame.onload = updateBottomControls;
+  
+}
+  
+  
+  /* =========================
+
+     পরের / আগের ভিডিও
+
+  ========================== */
+function nextVid() {
+    const allBtns = document.querySelectorAll('.chan-btn');
+    if (allBtns.length === 0) return;
+    curIdx = (curIdx + 1) % allBtns.length;
+    allBtns[curIdx].click(); // সরাসরি ক্লিক ইভেন্ট ট্রিগার
+  }
+
+  function prevVid() {
+    const allBtns = document.querySelectorAll('.chan-btn');
+    if (allBtns.length === 0) return;
+    curIdx = (curIdx - 1 + allBtns.length) % allBtns.length;
+    allBtns[curIdx].click(); 
+  }
+  /* =========================
+
+     সিঙ্গেল ক্লিক হ্যান্ডলিং
+
+  ========================== */
+
+
+
+  function handleInteraction() {
+
+    if (clickTimer === null) {
+
+      clickTimer = setTimeout(() => {
+
+        togglePlay();       // প্লে / পজ টগল
+
+        clickTimer = null;
+
+      }, 300);
+
+    } else {
+
+      clearTimeout(clickTimer);
+
+      clickTimer = null;
+
+    }
+
+    resetTimer();
+
+  }
+
+
+
+ 
+
+/* =========================
+
+   প্লে / পজ টগল
+
+========================== */
+
+function togglePlay() {
+    if (!frame.src || frame.src === "") return;
+
+    // চেক করছি এটা কি ইউটিউব লিঙ্ক নাকি অন্য কিছু
+    const isYouTube = frame.src.includes('youtube.com') || frame.src.includes('youtu.be');
+
+    if (isPlaying) {
+        // --- ভিডিও পজ করার লজিক ---
+        if (isYouTube) {
+            sendCmd("pauseVideo", "");
+        } else {
+            // ইউটিউব না হলে src সরিয়ে ভিডিও পুরোপুরি স্টপ করে দেওয়া
+            // আমরা বর্তমান লিঙ্কটি একটি অ্যাট্রিবিউটে সেভ করে রাখছি যাতে পরে আবার প্লে করা যায়
+            frame.setAttribute('data-last-src', frame.src);
+            frame.src = "about:blank"; 
+        }
+        isPlaying = false;
+    } else {
+        // --- ভিডিও প্লে করার লজিক ---
+        if (isYouTube) {
+            sendCmd("playVideo", "");
+        } else {
+            // যদি আগে স্টপ করা থাকে, তবে সেভ করা লিঙ্কটি আবার লোড করা
+            const lastSrc = frame.getAttribute('data-last-src');
+            if (lastSrc) {
+                frame.src = lastSrc;
+            }
+        }
+        isPlaying = true;
+    }
+    
+    // আইকন আপডেট করা
+    updatePlayIcons();
+}
+
+
+
+
+ 
+
+
+  /* =========================
+
+     মিউট / আনমিউট
+
+  ========================== */
+
+
+
+function toggleMute() {
+        isMuted = !isMuted;
+        sendCmd(isMuted ? "mute" : "unMute", "");
+        sendCmd("setVolume", isMuted ? 0 : currentVolume);
+        updateUI();
+    }
+
+  // ভলিউম স্লাইডার দিয়ে সেট
+
+function manualVolume(v) {
+    currentVolume = v;
+    sendCmd("setVolume", v); // সরাসরি ইউটিউবে ভলিউম পাঠাবে
+    isMuted = (v == 0);
+    updateUI();
+}
+
+    function updateUI() {
+        document.getElementById('play-icon').style.display = isPlaying ? "none" : "block";
+        document.getElementById('pause-icon').style.display = isPlaying ? "block" : "none";
+        muteBtn.innerText = isMuted ? "🔇" : "🔊";
+        volBar.value = isMuted ? 0 : currentVolume;
+       // centerPlayBtn.classList.toggle('hide', isPlaying);
+    }
+  
+function resetVolumeUI() {
+    currentVolume = 100;
+    isMuted = false;
+
+    volBar.value = 100;   // slider 100
+    muteBtn.innerText = "🔊"; // icon normal
+}
+  
+  /* =========================
+
+     YouTube Player কমান্ড
+
+  ========================== */
+
+
+
+function sendCmd(func, args) {
+    if (frame.contentWindow) {
+      frame.contentWindow.postMessage(JSON.stringify({"event": "command", "func": func, "args": [args]}), '*');
+    }
+  }
+
+
+
+  /* =========================
+
+     ফুলস্ক্রিন মোড
+
+  ========================== */
+
+
+
+  function toggleFull() {
+
+    const el = document.getElementById("video-app-container");
+
+
+
+    if (!document.fullscreenElement) {
+
+      if (el.requestFullscreen) el.requestFullscreen();
+
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+
+    } else {
+
+      document.exitFullscreen();
+
+    }
+
+  }
+
+
+
+
+
+/* =========================================
+   Swipe (বামে/ডানে) টেনে চ্যানেল পরিবর্তন
+========================================= */
+let touchstartX = 0;
+let touchendX = 0;
+
+// ভিডিও এরিয়া বা কন্টেইনারটি ধরুন
+const swipeArea = document.getElementById('video-app-container');
+
+swipeArea.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+}, {passive: true});
+
+swipeArea.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, {passive: true});
+
+function handleSwipe() {
+    const swipeDistance = 70; // কতটুকু টানলে কাজ করবে
+    
+    if (touchendX < touchstartX - swipeDistance) {
+        // বামে সোয়াইপ (Next Channel)
+        console.log("Swiped Left: Next Channel");
+        nextVid(); 
+    }
+    
+    if (touchendX > touchstartX + swipeDistance) {
+        // ডানে সোয়াইপ (Previous Channel)
+        console.log("Swiped Right: Previous Channel");
+        prevVid(); 
+    }
+}
+
+
+  
+  /* =========================
+      সহায়ক ফাংশনসমূহ
+  ========================== */
+function updatePlayIcons() {
+    const centerIcon = document.getElementById('center-play-overlay');
+
+    if (isPlaying) {
+        // ভিডিও চললে আইকন লুকাবে
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "block";
+        if (centerIcon) centerIcon.style.display = "none";
+    } else {
+        // ভিডিও পজ হলে আইকন দেখাবে
+        playIcon.style.display = "block";
+        pauseIcon.style.display = "none";
+        if (centerIcon) centerIcon.style.display = "block";
+    }
+}
+
+  function sendCmd(func, args) {
+    if (frame.contentWindow) {
+      frame.contentWindow.postMessage(JSON.stringify({"event": "command", "func": func, "args": [args]}), '*');
+    }
+  }
+
+  function resetTimer() {
+    container.classList.add('show-controls'); 
+    clearTimeout(hideTimeout);                
+    hideTimeout = setTimeout(() => {
+      container.classList.remove('show-controls');
+    }, 5000);
+  }
+
+
+
+  loadChannels();
+  
+
+  
+  
+  
+// ১. প্রতি ক্লিকে কতটুকু নিচে বা উপরে যাবে (৩০০ পিক্সেল সেট করা হয়েছে)
+const scrollAmount = 300; 
+
+// ২. বাটনগুলো সিলেক্ট করা
+const upBtn = document.querySelector('.scroll-btn:first-child');
+const downBtn = document.querySelector('.scroll-btn:last-child');
+
+// ৩. অল্প অল্প করে উপরে যাওয়ার জন্য
+function scrollToTop() {
+    window.scrollBy({
+        top: -scrollAmount, 
+        behavior: 'smooth'
+    });
+}
+
+// ৪. অল্প অল্প করে নিচে যাওয়ার জন্য
+function scrollToBottom() {
+    window.scrollBy({
+        top: scrollAmount, 
+        behavior: 'smooth'
+    });
+}
+
+// ৫. বাটন দেখানো বা লুকানোর লজিক
+window.onscroll = function() {
+    controlScrollButtons();
+};
+
+function controlScrollButtons() {
+    let scrolled = window.scrollY;
+    let totalHeight = document.body.scrollHeight;
+    let windowHeight = window.innerHeight;
+
+    // যদি পেজ ৫০ পিক্সেল নিচে নামে, তবে UP বাটন দেখাও
+    if (scrolled > 50) {
+        upBtn.style.display = "flex";
+    } else {
+        upBtn.style.display = "none";
+    }
+
+    // যদি নিচে আরও কন্টেন্ট থাকে, তবে DOWN বাটন দেখাও
+    if (scrolled + windowHeight < totalHeight - 50) {
+        downBtn.style.display = "flex";
+    } else {
+        downBtn.style.display = "none";
+    }
+}
+
+// ৬. পেজ লোড হওয়ার সময় বাটন চেক করা
+controlScrollButtons();
+  
+ 
+  
+  
+// Countdown function
+function showVideoCountdown(seconds=3){
+    const overlay=document.getElementById("loodingTxt");
+    overlay.style.display="flex";
+    overlay.innerText='Looding..';
+    let counter=seconds;
+    const interval=setInterval(()=>{
+        counter--;
+        if(counter>0) overlay.innerText='Looding..';
+        else {overlay.style.display="none"; clearInterval(interval);}
+    },1000);
+}
+    
+    
+
+function playByName(name, el) {
+  
+  // প্রতিবার ভিডিও পরিবর্তনের সময় অ্যাড সাইকেল কল হবে
+    startAdCycle();
+  
+    const allBtns = Array.from(document.querySelectorAll('.chan-btn'));
+  
+    // ১. ইনডেক্স সিঙ্ক (Next/Prev ঠিক রাখার জন্য)
+    if (el) {
+        curIdx = allBtns.indexOf(el);
+    }
+
+    const searchName = name.toLowerCase().trim();
+    let found = null;
+
+    // ২. প্রথমে ম্যানুয়াল লিঙ্কে (Manual Links) খুঁজবে (FAST SEARCH)
+    if (typeof manualLinks !== 'undefined') {
+        found = manualLinks.find(v => v.name.toLowerCase().trim() === searchName);
+    }
+
+    // ৩. ম্যানুয়াল লিস্টে না পেলে JSON লিস্টে (vids) খুঁজবে
+    if (!found && vids && vids.length > 0) {
+        found = vids.find(v => v.name.toLowerCase().trim() === searchName);
+    }
+
+    // ৪. যদি কোনো লিস্টেই পাওয়া যায়, তবে ভিডিও লোড করবে
+    if (found) {
+        loadVideoSource(found.url, found.name);
+    } else {
+        console.log("Channel not found in Manual or JSON list.");
+        if(displayName) displayName.innerText = "Channel Not Found";
+    }
+
+    // ৫. বাটন স্টাইল আপডেট (Active Color)
+    allBtns.forEach(b => b.classList.remove('active'));
+    if (el) {
+        el.classList.add('active');
+        // বাটনটি স্ক্রিনের মাঝখানে আনবে (যদি অনেক বাটন থাকে)
+     //el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      
+    }
+
+}
+
+//let isPlaying = false; // প্রথমে ভিডিও পজ থাকবে
+let isPageLoadHandled = false; // পেজ লোডের পর পজ একবার কাজ করবে
+
+  
+  function loadVideoSource(url, name) {
+    if (!url) return;
+    
+    // লোডিং টেক্সট দেখানো
+    showVideoCountdown(3); 
+    
+    const separator = url.includes('?') ? '&' : '?';
+    // enablejsapi=1 এবং playsinline=1 দ্রুত লোড ও কন্ট্রোলে সাহায্য করে
+    frame.src = url + separator + "enablejsapi=1&autoplay=1&mute=0&controls=0&playsinline=1";
+    
+    displayName.innerText = name;
+    isPlaying = true;
+    updatePlayIcons();
+    
+resetVolumeUI(); // 👈 এটা বসাও
+
+    
+    // পেজ লোড হওয়ার পর ১ সেকেন্ড পর পজ করার ফাংশন
+    if (!isPageLoadHandled) {
+        setTimeout(() => {
+          
+            sendCmd("pauseVideo", ""); // ইউটিউব ভিডিও পজ করবে
+
+            isPlaying = false; // পজ হয়ে গেছে
+            updatePlayIcons(); // প্লে/পজ আইকন বাটন আপডেট করবে
+          
+            isPageLoadHandled = true; // পেজ লোডের পর পজ একবারই হবে
+          
+        }, 3000); // ১ সেকেন্ড পর
+    }
+    
+   // 👇 এটা BottomControls show call 
+frame.onload = updateBottomControls;
+    
+}
+
+// ইউটিউব ভিডিও কমান্ড FOR পেজ লোড হওয়ার 3 সেকেন্ড পর পজ করার ফাংশন
+function sendCmd(func, args) {
+    if (frame.contentWindow) {
+        frame.contentWindow.postMessage(JSON.stringify({"event": "command", "func": func, "args": [args]}), '*');
+    }
+}
+  
+ function playByUrl(url) {
+
+  if (!url) return;
+
+  showVideoCountdown(3);
+
+  const embedUrl = url + (url.includes('?') ? '&' : '?') +
+                   "autoplay=1&mute=0&controls=0";
+
+  frame.src = embedUrl;
+
+resetVolumeUI(); // 👈
+   
+   
+  isPlaying = true;
+  updatePlayIcons();
+   
+  // 👇 এটা BottomControls show call 
+frame.onload = updateBottomControls;
+   
+}
+  
+  
+  
+
+  
+  // ১. রিফ্রেশ ফাংশন
+function refreshFrame() {
+    if (!frame.src || frame.src === "about:blank") {
+        // যদি পজ করা থাকে তবে জমানো লিঙ্ক থেকে রিফ্রেশ করবে
+        const lastSrc = frame.getAttribute('data-last-src');
+        if (lastSrc) frame.src = lastSrc;
+    } else {
+        // বর্তমান লিঙ্কটি রিফ্রেশ করবে
+        const currentSrc = frame.src;
+        frame.src = "";
+        setTimeout(() => {
+            frame.src = currentSrc;
+        }, 100);
+    }
+    isPlaying = true;
+    updatePlayIcons();
+}
+
+  // ১. bottom-controls show ফাংশন only in youtube
+const bottomControls = document.getElementById('bottom-controls');
+function updateBottomControls() {
+    const src = frame.src || "";
+
+    const isYouTube = src.includes("youtube.com") || src.includes("youtu.be");
+
+    if (isYouTube) {
+        bottomControls.style.display = "flex";
+    } else {
+        bottomControls.style.display = "none";
+    }
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+// --- অ্যাড কন্ট্রোল ফাংশন ---
+
+var adTimer;
+
+// ১. অ্যাড সাইকেল শুরু করার ফাংশন
+function startAdCycle() {
+    // আগে যদি কোনো অ্যাড টাইমার থাকে তা বন্ধ করা
+    clearTimeout(adTimer);
+    document.getElementById('delayed-ad').style.display = 'none';
+
+    // ১ মিনিট (৬০,০০০ মিলি-সেকেন্ড) পর অ্যাড দেখাবে
+    // আপনি চাইলে সময় কমাতে বা বাড়াতে পারেন (যেমন: ১০ সেকেন্ড হলে ১০০০০)
+    adTimer = setTimeout(showAd, 30000);  // 1 * 60 * 1000 এর জায়গায় 5000 (৫ সেকেন্ড) দিয়ে পারেন 
+}
+
+// ২. অ্যাড দেখানোর ফাংশন
+function showAd() {
+    document.getElementById('delayed-ad').style.display = 'block';
+}
+
+// ৩. অ্যাড লুকানোর ফাংশন
+function hideAd() {
+    document.getElementById('delayed-ad').style.display = 'none';
+    
+    // অ্যাড বন্ধ করার ১০ মিনিট পর আবার দেখানোর জন্য টাইমার সেট করা
+    clearTimeout(adTimer);
+    adTimer = setTimeout(showAd, 10 * 60 * 1000); 
+}
+  
+</script>
+
+
+
+  
+
+ <!-- // অ্যাড বা বিজ্ঞাপনের জন্য ------->
+  <br /> 
+
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : '4f857bd0bdff7e27f3d41b352af4bef8',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/4f857bd0bdff7e27f3d41b352af4bef8/invoke.js"></script>
+  </div>
+  
+  <br />
+  
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container">
+<script>
+  atOptions = {
+    'key' : 'e51c312477a5b3e60221648ed4fea8ed',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/e51c312477a5b3e60221648ed4fea8ed/invoke.js"></script>
+</div>
+  
+  <br />
+  
+<!-- অ্যাড কন্টেইনার -->
+<div class="ad-container" style="height: 50px;">
+<script>
+  atOptions = {
+    'key' : '4f857bd0bdff7e27f3d41b352af4bef8',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/4f857bd0bdff7e27f3d41b352af4bef8/invoke.js"></script>
+  </div>
+
+  
+<br/><br/>
+    <div style='color: orange; margin: 20px;  text-align: center; '>
+      <span style="color: orange;font-size: 12px; ">
+           <a href="https://livedashi.blogspot.com/" style="color: yellow; text-decoration: none;">Livedashi</a> Disclaimer :- Full free watch online in livedashi comjust index those links which are already available in internet and youtube. All img, link or contents hosted on third party websites. Livedashi does not host any files on it's servers. We does not accept responsibility for contents hosted on third party websites.
+      </span>
+
+<br/>
+<a href='https://livedashi.blogspot.com/' style='color: yellow; '>
+<h3 style='color: yellow; '> <u>www.livedashi.blogspot.com</u>
+  </h3>
+</a>
+      <br/>
+  </div>
+  
+  
+</body>
+</html>
+
+
+
+
+
+
+
