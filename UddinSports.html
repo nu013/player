@@ -196,11 +196,7 @@ return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 }
 
-function isDesktop(){
-  return !/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
 
-  
 // ------------------- Messenger Detect -------------------
 
 function isMessengerBrowser(){
@@ -218,7 +214,7 @@ function showInstallPopup(){
 
 if(isIOS()) return;
 
-if(!isAndroid() && !isDesktop()) return;
+if(!isAndroid()) return;
 
 if(isPWAInstalled()) return;
 
