@@ -83,22 +83,125 @@
 }
 
   
-#d-poster { width: 180px; height: 270px; object-fit: cover; border-radius: 8px; border: 1px solid #334155; }
-#d-title { font-size: 26px; margin: 0 0 10px 0; color: var(--primary); }
-#d-desc { line-height: 1.6; color: var(--text-gray); font-size: 14px; }
-
-/* ৩. মুভি গ্রিড (Suggestion Data) সেন্টারে রাখার জন্য */
-.movie-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
-  gap: 15px; 
-  margin-top: 20px;
-  justify-content: center; /* গ্রিড আইটেমগুলোকে মাঝখানে রাখবে */
+  
+  .home-title{
+  padding: 0;
+  font-size:18px;
+  font-weight:700;
+  color:#38bdf8;
+  
 }
-.s-card { background: var(--card-bg); border-radius: 8px; overflow: hidden; border: 1px solid #334155; transition: 0.3s; }
-.s-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-.s-card img { width: 100%; height: 200px; object-fit: cover; }
-.s-card span { display: block; padding: 8px; font-size: 12px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.movie-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap:12px;
+  padding:1px 15px 15px;
+}
+
+.movie-card{
+position: relative;
+  background:#020617;
+  border-radius:10px;
+  overflow:hidden;
+
+
+  opacity: 0;
+  animation: posterScaleIn 0.45s ease-out forwards;
+}
+@keyframes posterScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.movie-card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+
+.movie-card span{
+  display:block;
+  padding:6px;
+  font-size:13px;
+  text-align:center;
+}
+.movie-card:hover{
+  transform:scale(1.05);
+  transition:.2s ease;
+}
+.movie-card span{
+  display: block;
+  height: 34px;           /* exact 2 line height */
+  overflow: hidden;       /* পুরোটা hide */
+
+  font-size: 13px;
+  line-height: 17px;      /* 17px × 2 = 34px */
+  color: #e5e7eb;
+  padding: 6px 6px 0;
+}
+/* মেইন কন্টেইনার যা রেটিং ও ডেটকে ধরে রাখবে */
+.poster-top-bar {
+  position: absolute;
+  bottom:20px;
+  color: yellow ;
+  left: 0;
+  right: 0;
+  padding: 0 ; /* দুই পাশ থেকে ৮ পিক্সেল গ্যাপ রাখবে */
+  display: flex;
+  justify-content: space-between; /* এটিই রেটিংকে বামে এবং ডেটকে ডানে পাঠাবে */
+  align-items: center;
+  z-index: 10;
+}
+/* ডেট স্টাইল */
+.date-label {
+  background: rgba(255, 255, 255, 0.0);
+  color: yellow !important;
+  font-size: 11px !important;
+  /*font-weight: bold;*/
+  padding: 0px 0px 0px 6px;
+  border-radius: 4px;
+}
+
+/* রেটিং স্টাইল */
+.rating-label {
+  background: rgba(0, 0, 0, 0.0);
+  color: #ffc107 !important;
+  font-size: 12px !important;
+  font-weight: bold;
+  padding: 0px 6px 0px 0px ;
+  border-radius: 4px;
+}
+/* রেটিং স্টাইল for hubar with postar */
+.rating-label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+.movie-card:hover .rating-label {
+    opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ডেট onle show in hover in poster ..... 
+.poster-top-bar {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.movie-card:hover .poster-top-bar {
+  opacity: 1;
+  visibility: visible;
+}
+*/
 
   
 </style>
