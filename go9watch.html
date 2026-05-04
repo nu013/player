@@ -247,7 +247,259 @@
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
     z-index: 35; /* যেন ভিডিওর উপরে থাকে */
 }
+
+
+
+
+
+  
+  .go9-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #0b1220;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: white;
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li {
+  position: relative;
+  cursor: pointer;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Dropdown Menu */
+.dropdown {
+  display: none;
+  position: absolute;
+  background: #111827;
+  padding: 10px;
+  top: 30px;
+  left: 0;
+  min-width: 180px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.drop:hover .dropdown {
+  display: block;
+}
+.dropdown a {
+  display: block;   /* 👉 এক লাইনে এক লিংক */
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+.right {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.right input {
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+}
+
+.right button {
+  padding: 6px 10px;
+  border: none;
+  background: #38bdf8;
+  cursor: pointer;
+}
+.left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+/* মোবাইল সাপোর্ট: মেনু */
+@media (max-width: 768px) {
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #111827;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 10px 0;
+    z-index: 998;
+  }
+
+  .menu li {
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  .menu li a {
+    color: white;
+  }
+
+  .menu li .dropdown {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .right {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .right input {
+    flex: 1;   /* 👉 input বড় হবে */
+  }
+
+  .right button {
+    width: auto;  /* 👉 button ছোট থাকবে */
+  }
+
+
+  .logo {
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  /* মোবাইল হ্যামবার্গার মেনু */
+  .hamburger-menu {
+    display: block;
+    cursor: pointer;
+    width: 30px;
+    height: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hamburger-menu div {
+    height: 4px;
+    background-color: white;
+    border-radius: 2px;
+  }
+
+}
+
+/* যখন মোবাইল হ্যামবার্গার মেনু একটিভ */
+@media (max-width: 768px) {
+  .menu.open {
+    display: flex;
+  }
+}
+
+/* Dropdown stay visible */
+.menu li:hover .dropdown {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+  
 </style>
+
+
+
+
+  
+<header class="go9-header">
+  <!-- বাম দিকের লোগো + মেনু -->
+  <div class="left">
+    <div class="logo">
+      <span style=' color:#38bdf8;'> 🎬 GO9</span> MOViE
+    </div>
+    
+    <!-- মোবাইলের জন্য হ্যামবার্গার মেনু -->
+    <div id="hamburgerBtn" class="hamburger-menu">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <nav id="mainNav">
+      <ul class="menu">
+        <li><a href="https://nu013.github.io/player/go9home.html"> Home</a></li>
+        <li class="drop">
+          Movies
+          <div class="dropdown">
+            <a href="https://nu013.github.io/player/go9explore.html?type=tv&with_genres=16"> animi</a>
+            <a href="https://nu013.github.io/player/go9explore.html?type=movie&sort_by=primary_release_date.desc"> new</a>
+            <a href="https://nu013.github.io/player/go9explore.html?label=Popular"> Popular</a>
+            <a href="https://nu013.github.io/player/go9explore.html?label=Trending"> tranding</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_genres=878">সাই-ফাই</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_genres=10752"> wer</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_genres=28"> Action</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_original_language=hi">Hindi Popular</a>
+          </div>
+        </li>
+        <li class="drop">
+          TV Series
+          <div class="dropdown">
+            <a href="https://nu013.github.io/player/go9explore.html?type=tv&label=Popular"> Popular</a>
+            <a href="https://nu013.github.io/player/go9explore.html?type=tv&label=Trending"> tranding</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_genres=10765">সাই-ফাই</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_genres=10759"> Action</a>
+            <a href="https://nu013.github.io/player/go9explore.html?with_original_language=hi">Hindi Popular</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ডান দিকে সার্চ -->
+  <div class="right">
+    <input id="searchInput" type="text" placeholder="সার্চ করুন...">
+    <button onclick="goSearch()">🔍</button>
+  </div>
+</header>
+
+
+
+
+
+
+
+
+
+
 
 <div id="dynamic-movie-player">
   
@@ -733,6 +985,26 @@ function hideAd() {
 
 
 
-  
-  
+
+<script>
+// মোবাইল হ্যামবার্গার মেনু টগল
+document.getElementById("hamburgerBtn").addEventListener("click", function() {
+  const menu = document.querySelector(".menu");
+  menu.classList.toggle("open");
+});
+
+// সার্চ ফাংশন
+function goSearch(){
+  const q = document.getElementById("searchInput").value.trim();
+  if(!q) return;
+  window.location.href = "https://nu013.github.io/player/go9explore.html?type=multi&q=" + encodeURIComponent(q);
+}
+
+// এন্টার কিপে সার্চ
+document.addEventListener("keydown", function(e) {
+  if(e.key === "Enter") {
+    goSearch();
+  }
+});
+</script>
 
